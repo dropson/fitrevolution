@@ -21,6 +21,14 @@ export default {
     plugins: [
         require("flyonui"),
         require("flyonui/plugin"),
-        forms
+        forms,
     ],
+    resolve: {
+        alias: {
+            'notyf': '/node_modules/notyf',
+        },
+    },
+    flyonui: {
+        themes: ["light", "dark"]
+    },
 };
