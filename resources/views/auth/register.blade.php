@@ -8,10 +8,16 @@
 
         <div class="flex w-full items-start gap-3 mb-5 ">
             {{-- Gender --}}
-            <x-forms.radio-group label="Male" name="gender" value="male" checked class="icon-[tabler--gender-male]" />
-            <x-forms.radio-group label="Female" name="gender" value="female" class="icon-[tabler--gender-female]" />
+            {{-- {{ dd($genders) }} --}}
+            @foreach ($genders as $index => $gender)
+                <x-forms.radio-group label="{{ $gender->name }}" name="gender" value="{{ $gender->value }}"
+                    :checked="old('gender') ? old('gender') === $gender->value : $index === 0" class="icon-[tabler--gender-{{ $gender->value }}]" />
+            @endforeach
+            {{-- <x-forms.radio-group label="Male" name="gender" value="male" checked class="icon-[tabler--gender-male]" />
+            <x-forms.radio-group label="Female" name="gender" value="female" class="icon-[tabler--gender-female]" /> --}}
 
         </div>
+
 
         <div class="flex w-full items-start gap-3 mb-5 flex-wrap sm:flex-nowrap">
             {{-- First Name --}}

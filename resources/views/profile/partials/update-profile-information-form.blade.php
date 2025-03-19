@@ -10,16 +10,20 @@
 
         <div class="flex w-full items-start gap-3 mb-5 flex-wrap sm:flex-nowrap">
             {{-- First Name --}}
-            <x-forms.input-group label="First Name" name="name" value="{{ old('name', $user->name) }}"
+            <x-forms.input-group label="First Name" name="first_name" value="{{ old('first_name', $user->first_name) }}"
                 :errors="$errors" />
             {{-- Last Name --}}
-            <x-forms.input-group label="Last Name" name="last_name" :errors="$errors" />
+            <x-forms.input-group label="Last Name" name="last_name" value="{{ old('last_name', $user->last_name) }}" :errors="$errors" />
             {{-- Gender --}}
             <div class="relative w-36">
-                <select class="select select-lg select-filled  bg-white" id="selectFilledLarge"
+                <select class="select select-lg select-filled  bg-white" name="gender"
                     aria-label="Filled select">
-                    <option>Male</option>
-                    <option>Female</option>
+                    @foreach ($genders as $index => $gender)
+                    <option value="{{ $gender->value }}"
+                        {{ old('gender', $user->gender?->value ?? $genders[0]->value) === $gender->value ? 'selected' : '' }}>
+                        {{ $gender->name }}
+                    </option>
+                @endforeach
                 </select>
                 <span class="select-filled-focused"></span>
                 <label class="select-filled-label" for="selectFilledLarge">Gender</label>

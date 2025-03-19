@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\UserGenderEnum;
+use App\Enums\UserRoleEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RegistrationClientRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -19,32 +22,27 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+
+        $genders = UserGenderEnum::cases();
+        return view('auth.register', compact('genders'));
     }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function store(Request $request): RedirectResponse
+    public function registerClient(RegistrationClientRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        $request->validated();
 
         $user = User::create([
-            'name' => $request->name,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'gender' => UserGenderEnum::from($request->gender),
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
+        $user->assignRole(UserRoleEnum::Client->value);
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('client.home', absolute: false))->with('success','Registration Successful');
     }
 }
