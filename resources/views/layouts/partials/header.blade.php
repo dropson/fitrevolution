@@ -11,7 +11,7 @@
         <div class="navbar-center max-md:hidden">
             
             <ul class="menu menu-horizontal gap-2 p-0 text-base rtl:ml-20">
-                <li><a href="#">Home</a></li>
+                <li><a href="{{ route('client.home') }}">Home</a></li>
                 <li><a href="#">My workouts</a></li>
                 <li><a href="#">Calendar</a></li>
                 <li><a href="#">Progress</a></li>
@@ -37,7 +37,7 @@
                         <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60" role="menu"
                             aria-orientation="vertical" aria-labelledby="dropdown-avatar">
                             <li>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ route('profile.edit') }}">
                                     <span class="icon-[tabler--user]"></span>
                                     My Profile
                                 </a>
