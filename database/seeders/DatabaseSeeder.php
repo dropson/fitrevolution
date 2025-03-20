@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserGenderEnum;
+use App\Enums\UserRoleEnum;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,12 +17,19 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $user = User::factory()->create([
+            'first_name' => 'Paul',
+            'last_name' => 'Jillinhal',
+            'gender' => UserGenderEnum::Male->value,
+            'email' => 'test@example.com',
+        ]);
 
-        $this->call(RolesAndPermissionSeeder::class);
+        $user->assignRole(UserRoleEnum::Client->value);
+
+        $this->call([
+            RolesAndPermissionSeeder::class,
+            ExerciseSeeder::class,
+        ]);
 
     }
 }
