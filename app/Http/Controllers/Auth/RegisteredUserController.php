@@ -43,6 +43,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('client.home', absolute: false))->with('success','Registration Successful');
+        return redirect(route('clients.home', absolute: false))->with('success','Registration Successful');
     }
 }
