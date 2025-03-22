@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\EquipmentEnum;
 use App\Enums\MuscleGroupEnum;
+use App\Filters\QueryFilter;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,7 +24,7 @@ class Exercise extends Model
 
     protected $casts = [
         'muscle_group' => MuscleGroupEnum::class,
-        'equiooment' => EquipmentEnum::class,
+        'equipment' => EquipmentEnum::class,
     ];
 
     public function user(): BelongsTo
@@ -38,6 +39,11 @@ class Exercise extends Model
     public function scopeForUser(Builder $query, User $user): Builder
     {
         return $query->where('user_id', $user->id);
+    }
+
+    public function scopeFilter(Builder $builder, QueryFilter $filters): Builder
+    {
+        return $filters->apply($builder);
     }
 
     public function getShortInstructionAttribute(): string

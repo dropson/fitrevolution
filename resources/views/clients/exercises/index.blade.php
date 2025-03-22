@@ -204,12 +204,15 @@
 
                     </div>
                     <div id="tabs-basic-2" role="tabpanel" aria-labelledby="tabs-basic-item-2">
+                        <form method="GET" action{{ route('clients.exercises.index') }}>
+                            <div class="flex justify-between mb-5">
+                                <div class="flex gap-3 items-center">
 
-                        <div class="flex justify-between mb-5">
-                            <div class="flex gap-3 ju items-center">
-                                <div class="w-60">
-                                    <select
-                                        data-select='{
+                                    <input type="text" name="title" value="{{ request('title')}}" placeholder="Write title..." class="input w-40" />
+
+                                    <div class="w-50">
+                                        <select name="muscle_group"
+                                            data-select='{
                                       "placeholder": "<span class=\"inline-flex items-center\"><span class=\"icon-[tabler--filter] flex-shrink-0 size-4 me-2\"></span> Muscle group</span>",
                                       "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
                                       "toggleClasses": "advance-select-toggle",
@@ -218,17 +221,19 @@
                                       "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"icon-[tabler--check] flex-shrink-0 size-4 text-primary hidden selected:block \"></span></div>",
                                       "extraMarkup": "<span class=\"icon-[tabler--caret-up-down] flex-shrink-0 size-4 text-base-content absolute top-1/2 end-3 -translate-y-1/2 \"></span>"
                                     }'
-                                        class="hidden">
-                                        <option value="">Choose</option>
-                                        <option value="name">Full Name</option>
-                                        <option value="email">Email Address</option>
-                                        <option value="description">Project Description</option>
-                                        <option value="user_id">User Identification Number</option>
-                                    </select>
-                                </div>
-                                <div class="w-60">
-                                    <select
-                                        data-select='{
+                                            class="hidden">
+                                            <option value="">All</option>
+                                            @foreach ($muscleGroups as $item)
+                                                <option value="{{ $item->value }}"
+                                                    {{ request('muscle_group') === $item->value ? 'selected' : '' }}>
+                                                    {{ $item->name }}</option>
+                                            @endforeach
+
+                                        </select>
+                                    </div>
+                                    <div class="w-55">
+                                        <select name="equipment"
+                                            data-select='{
                                       "placeholder": "<span class=\"inline-flex items-center\"><span class=\"icon-[tabler--filter] flex-shrink-0 size-4 me-2\"></span> Equipment </span>",
                                       "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
                                       "toggleClasses": "advance-select-toggle",
@@ -237,33 +242,34 @@
                                       "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"icon-[tabler--check] flex-shrink-0 size-4 text-primary hidden selected:block \"></span></div>",
                                       "extraMarkup": "<span class=\"icon-[tabler--caret-up-down] flex-shrink-0 size-4 text-base-content absolute top-1/2 end-3 -translate-y-1/2 \"></span>"
                                     }'
-                                        class="hidden">
-                                        <option value="">Choose</option>
-                                        <option value="name">Full Name</option>
-                                        <option value="email">Email Address</option>
-                                        <option value="description">Project Description</option>
-                                        <option value="user_id">User Identification Number</option>
-                                    </select>
-                                </div>
-                                <button class="btn btn-primary">Apply Filter</button>
-
-                                <p>12 exercises found</p>
-                            </div>
-                            <button class="btn btn-error">Clear Filter</button>
-                        </div>
-
-                        <div class="grid grid-cols-3 gap-7">
-
-                            @foreach ($publicExercises as $exercise)
-                                <x-exercise-card :$exercise />
-                            @endforeach
-
-                        </div>
-
+                                            class="hidden">
+                                            <option value="">Choose</option>
+                                            @foreach ($equipments as $item)
+                                                <option value="{{ $item->value }}"
+                                                    {{ request('equipment') === $item->value ? 'selected' : '' }}>
+                                                    {{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <button class="btn btn-primary">Apply Filter</button>
+                                    <p>{{ $exerciseCount }} <span class="font-bold">exercises</span> </p>
+                        </form>
                     </div>
+                    <a href="{{ route('clients.exercises.index') }}" class="btn btn-error">Clear Filter</a>
+
                 </div>
+                <div class="grid grid-cols-3 gap-7">
+                    @forelse ($publicExercises as $exercise)
+                        <x-exercise-card :$exercise />
+                    @empty
+                        No Exercies
+                    @endforelse
+                </div>
+
             </div>
         </div>
+    </div>
+    </div>
 
 
     </div>
