@@ -20,10 +20,9 @@
         <x-auth-session-status class="mb-4" :status="session('status')" />
         @include('layouts.partials.header')
 
-        <main class="flex-grow p-12 overflow-auto ">
+        <main class="flex-grow p-12 ">
             {{ $slot }}
         </main>
-       
         @include('layouts.partials.footer')
     </div>
 </body>
