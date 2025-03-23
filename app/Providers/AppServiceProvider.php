@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\View\Composers\ExerciseViewComposer;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        View::composer('clients.exercises.*', ExerciseViewComposer::class);
+        View::composer('clients.workouts.create', ExerciseViewComposer::class);
     }
 }

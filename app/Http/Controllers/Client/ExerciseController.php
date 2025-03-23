@@ -6,57 +6,39 @@ use App\Enums\EquipmentEnum;
 use App\Enums\MuscleGroupEnum;
 use App\Filters\ExerciseFilter;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Client\UpsertExerciseRequest;
 use App\Models\Exercise;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ExerciseController extends Controller
 {
-
     public function index(ExerciseFilter $filters)
     {
-
-
         $user = Auth::user();
         $publicExercises = Exercise::query()
             ->public()
             ->filter($filters)
             ->get();
-
         $personalExercises = Exercise::query()
             ->forUser($user)
             ->get();
 
         return view("clients.exercises.index", [
             'publicExercises' => $publicExercises,
-            'personalExercises' => $personalExercises,
-            'muscleGroups' => MuscleGroupEnum::cases(),
-            'equipments' => EquipmentEnum::cases(),
+            'personalExercises' => $personalExercises
         ]);
     }
 
     public function create()
     {
-        return view("clients.exercises.create", [
-            'muscleGroups' => MuscleGroupEnum::cases(),
-            'equipments' => EquipmentEnum::cases(),
-        ]);
+        return view("clients.exercises.create");
     }
 
-    public function store(Request $request)
+    public function store(UpsertExerciseRequest $request)
     {
-        //  TODO
-        //  policy, action or service , request
-        $request->validate([
-            'title' => ['required', 'string'],
-            'muscle_group' => ['required', 'in:' . implode(',', MuscleGroupEnum::values())],
-            'equipment' => ['required', 'in:' . implode(',', EquipmentEnum::values())],
-            'instruction' => ['required', 'string'],
-        ]);
-
         $user = Auth::user();
-        $user->exercises()->create($request->all());
-
+        $user->exercises()->create($request->validated());
         return to_route('clients.exercises.index')->with('success', 'Exercise was created');
 
     }
@@ -64,30 +46,20 @@ class ExerciseController extends Controller
     public function edit(Exercise $exercise)
     {
         $this->authorize('update', $exercise);
-
         return view('clients.exercises.edit', [
-            'exercise' => $exercise,
-            'muscleGroups' => MuscleGroupEnum::cases(),
-            'equipments' => EquipmentEnum::cases(),
+            'exercise' => $exercise
         ]);
     }
-    public function update(Request $request, Exercise $exercise)
+
+    public function update(UpsertExerciseRequest $request, Exercise $exercise)
     {
         $this->authorize('update', $exercise);
-
-        $request->validate([
-            'title' => ['required', 'string'],
-            'muscle_group' => ['required', 'in:' . implode(',', MuscleGroupEnum::values())],
-            'equipment' => ['required', 'in:' . implode(',', EquipmentEnum::values())],
-            'instruction' => ['required', 'string'],
-        ]);
-        $exercise->update($request->all());
+        $exercise->update($request->validated());
         return to_route('clients.exercises.edit', $exercise)->with('success', 'Exercise was updated');
     }
+
     public function destroy(Exercise $exercise)
     {
-        //  TODO
-        //   another method ?
         $this->authorize('delete', $exercise);
         $exercise->delete();
         return to_route('clients.exercises.index')->with('success', 'Exercise was deleted');

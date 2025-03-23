@@ -10,14 +10,7 @@
 
         <div class="navbar-center max-md:hidden">
             
-            <ul class="menu menu-horizontal gap-2 p-0 text-base rtl:ml-20">
-                <li><a href="{{ route('clients.home') }}">Home</a></li>
-                <li><a href="#">My workouts</a></li>
-                <li><a href="#">Calendar</a></li>
-                <li><a href="#">Progress</a></li>
-                {{-- <li><a href="#">Workouts</a></li> --}}
-                <li><a href="{{ route('clients.exercises.index') }}">Exercies</a></li>
-            </ul>
+            @include('layouts.partials.navigation')
         </div>
 
         <div class="navbar-end items-center gap-4">
