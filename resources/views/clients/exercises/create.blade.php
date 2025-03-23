@@ -48,10 +48,14 @@
                         <div class="flex w-full items-start gap-3 mb-5 flex-wrap sm:flex-nowrap">
                             {{-- Instruction --}}
                             <div class="relative w-full">
-                                <textarea class="textarea textarea-filled peer bg-transparent" placeholder="" name="instruction" id="instruction"></textarea>
+                                <textarea class="textarea textarea-filled peer bg-transparent" placeholder="" name="instruction" id="instruction">{{ old('instruction') }}</textarea>
                                 <label class="textarea-filled-label" for="instruction">Write your instruction</label>
                                 <span class="textarea-filled-focused"></span>
+                                @error('instruction')
+                                <span class="text-red-500">{{ $message }}</span>
+                            @enderror
                             </div>
+                           
                         </div>
 
 
