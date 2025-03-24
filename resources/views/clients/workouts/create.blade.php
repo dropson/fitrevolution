@@ -1,5 +1,4 @@
 <x-layout>
-
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
         <div class="flex items-center justify-between">
             <a href="{{ route('clients.workouts.index') }}" class="btn btn-warning">Back</a>
@@ -72,8 +71,9 @@
 
                                 </div>
                             </div>
-                            
-                            <div class="flex w-full items-center justify-center gap-3 mb-5 mt-10 flex-wrap sm:flex-nowrap">
+
+                            <div
+                                class="flex w-full items-center justify-center gap-3 mb-5 mt-10 flex-wrap sm:flex-nowrap">
                                 <button type="submit" class="btn btn-primary btn-lg ">Create workout</button>
                             </div>
                         </form>
@@ -135,22 +135,7 @@
                         <div class="flex overflow-y-auto h-[590px] p-2">
                             <div>
                                 @foreach ($exercises as $exercise)
-                                    <div class="flex  gap-3 mb-3 shadow rounded-md p-3 transition hover:bg-gray-100">
-                                        <div>
-                                            <img class="w-12 border rounded-full"
-                                                src="{{ asset($exercise->muscle_group_icon) }}" alt="">
-                                        </div>
-                                        <div class="grow">
-                                            <h4 class="font-bold text-black"> {{ $exercise->title }}</h4>
-                                            <span>{{ $exercise->muscle_group }}</span>
-                                        </div>
-                                        <button>
-                                            <div
-                                                class="border rounded-full flex items-center justify-center p-1 border-gray-600 transition hover:bg-gray-100 ">
-                                                <span class="icon-[tabler--plus]"></span>
-                                            </div>
-                                        </button>
-                                    </div>
+                                    <x-exercise-list-item :$exercise />
                                 @endforeach
                             </div>
                         </div>
