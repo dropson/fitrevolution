@@ -23,5 +23,6 @@ class AppServiceProvider extends ServiceProvider
     {
         View::composer('clients.exercises.*', ExerciseViewComposer::class);
         View::composer('clients.workouts.create', ExerciseViewComposer::class);
+        View::composer('clients.workouts.edit', ExerciseViewComposer::class);
     }
 }

@@ -35,9 +35,9 @@ class Exercise extends Model
     {
         return $query->where('user_id', null);
     }
-    public function scopeForUser(Builder $query, User $user): Builder
+    public function scopeForUser(Builder $query, $id): Builder
     {
-        return $query->where('user_id', $user->id);
+        return $query->where('user_id', $id);
     }
 
     public function scopeFilter(Builder $builder, QueryFilter $filters): Builder

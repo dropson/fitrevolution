@@ -19,9 +19,11 @@ class ExerciseController extends Controller
         $publicExercises = Exercise::query()
             ->public()
             ->filter($filters)
+            ->latest()
             ->get();
         $personalExercises = Exercise::query()
-            ->forUser($user)
+            ->forUser($user->id)
+            ->latest()
             ->get();
 
         return view("clients.exercises.index", [

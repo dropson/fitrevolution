@@ -2,7 +2,7 @@
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
         <div class="flex items-center justify-between">
             <a href="{{ route('clients.workouts.index') }}" class="btn btn-warning">Back</a>
-            <h3 class="font-bold text-black text-lg">Create Your Workout</h3>
+            <h3 class="font-bold text-black text-lg">Edit Your Workout</h3>
         </div>
 
         <div class="flex gap-5 mt-5">
@@ -10,18 +10,19 @@
                 <div class="card min-h-screen">
                     <div class="card-body flex">
 
-                        <form method="POST" action="{{ route('clients.workouts.store') }}">
+                        <form method="POST" action="{{ route('clients.workouts.update', $workout) }}">
+                            @method('PATCH')
                             @csrf
                             <div class="flex w-full items-start gap-3 mb-5 flex-wrap sm:flex-nowrap">
                                 {{-- First Name --}}
                                 <x-forms.input-group label="Title" class="w-full" name="title"
-                                    value="{{ old('title') }}" :errors="$errors" required minlength="5" />
+                                    value="{{ $workout->title }}" :errors="$errors" required minlength="5" />
                             </div>
 
                             <div class="flex w-full items-start gap-3 mb-5 flex-wrap sm:flex-nowrap">
                                 {{-- Instruction --}}
                                 <div class="relative w-full">
-                                    <textarea class="textarea textarea-filled peer bg-transparent" placeholder="" name="instruction" id="instruction">{{ old('instruction') }}</textarea>
+                                    <textarea class="textarea textarea-filled peer bg-transparent" placeholder="" name="instruction" id="instruction">{{ $workout->instruction }}</textarea>
                                     <label class="textarea-filled-label" for="instruction">Write your
                                         instruction</label>
                                     <span class="textarea-filled-focused"></span>
@@ -35,11 +36,74 @@
                                 @error('exercises')
                                     <span class="text-red-500">{{ $message }}</span>
                                 @enderror
+                                @forelse ($workout->templateWorkoutExercises as $exerciseIndex =>  $templateExercise)
+                                    <div class="card mb-4">
+                                        <div class="card-body p-3">
+                                            <div class="flex gap-3">
+                                                <span class="icon-[tabler--grid-dots] cursor-pointer p-2 mt-1.5"></span>
+                                                <div class="flex flex-col flex-grow">
+                                                    <div class="flex justify-between items-center mb-3">
+                                                        <input type="hidden" name="exercises[{{ $exerciseIndex }}][id]"
+                                                            value="{{ $templateExercise->exercise_id }}">
+                                                        <input type="hidden"
+                                                            name="exercises[{{ $exerciseIndex }}][template_workout_exercise_id]"
+                                                            value="{{ $templateExercise->id }}">
+                                                        <input type="hidden"
+                                                            name="exercises[{{ $exerciseIndex }}][deleted]"
+                                                            value="0" class="exercise-deleted">
+                                                        <h5 class="card-title text-base flex items-center">
+                                                            {{ $templateExercise->exercise->title }}
+                                                            <span
+                                                                class="badge badge-outline badge-info badge-sm ml-3 text-xs">{{ $templateExercise->exercise->muscle_group }}</span>
+                                                        </h5>
+                                                        <button type="button" class="remove-exercise">
+                                                            <span class="icon-[tabler--trash] size-4"></span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="reps-list">
+                                                        @forelse ($templateExercise->templateSets as $set)
+                                                            <div class="flex gap-5 justify-end me-10">
+                                                                <div class="flex items-center">
+                                                                    <span class="font-bold text-sm mr-2">Sets</span>
+                                                                    <input type="text"
+                                                                        name="exercises[{{ $exerciseIndex }}][sets][0][sets_number]"
+                                                                        value="{{ $set->sets_number }}"
+                                                                        class="input input-sm w-14 text-center font-bold text-black">
+                                                                </div>
+                                                                <div class="flex items-center">
+                                                                    <span class="font-bold text-sm mr-2">Reps</span>
+                                                                    <input type="text"
+                                                                        name="exercises[{{ $exerciseIndex }}][sets][0][repetitions]"
+                                                                        value="{{ $set->repetitions }}"
+                                                                        class="input input-sm w-14 text-center font-bold text-black">
+                                                                </div>
+                                                                <div class="flex items-center">
+                                                                    <span class="font-bold text-sm mr-2">Weight
+                                                                        (kg)
+                                                                    </span>
+                                                                    <input type="text"
+                                                                        name="exercises[{{ $exerciseIndex }}][sets][0][weight]"
+                                                                        value="{{ $set->weight }}"
+                                                                        class="input input-sm w-20 text-center font-bold text-black">
+                                                                </div>
+                                                            </div>
+                                                        @empty
+                                                        @endforelse
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @empty
+                                    empty
+                                @endforelse
                             </div>
 
                             <div
                                 class="flex w-full items-center justify-center gap-3 mb-5 mt-10 flex-wrap sm:flex-nowrap">
-                                <button type="submit" class="btn btn-primary btn-lg ">Create workout</button>
+                                <button type="submit" class="btn btn-primary btn-lg ">Update workout</button>
                             </div>
                         </form>
 
