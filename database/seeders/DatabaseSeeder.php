@@ -17,6 +17,11 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        $this->call([
+            RolesAndPermissionSeeder::class,
+            ExerciseSeeder::class,
+        ]);
+
         $user = User::factory()->create([
             'first_name' => 'Paul',
             'last_name' => 'Jillinhal',
@@ -25,11 +30,5 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $user->assignRole(UserRoleEnum::Client->value);
-
-        $this->call([
-            RolesAndPermissionSeeder::class,
-            ExerciseSeeder::class,
-        ]);
-
     }
 }

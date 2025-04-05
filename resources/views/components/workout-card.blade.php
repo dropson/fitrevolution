@@ -1,34 +1,37 @@
-@props([])
+@props(['workout'])
 
 <div class="card w-full h-48">
     <div class="card-body flex p-0">
-        <div
-            class="p-3 h-full relative rounded-md bg-indigo-600 text-white transition hover:bg-indigo-700">
+        <div class="p-3 h-full relative rounded-md bg-indigo-600 text-white transition hover:bg-indigo-700">
             <div>
-                <h3 class="font-black text-xl">Upper Body & Core Attack</h3>
+                {{-- {{ dd($workout->muscle_groups) }} --}}
+                <h3 class="font-black text-xl">{{ $workout->title }}</h3>
                 <div class="text-xs">
-                    60 min · Abs, Arms, Chest
+                    60 min ·
+                    {{-- TODO --}}
+                    @foreach ($workout->muscle_groups as $group)
+                        {{ $group }}
+                        @if (!$loop->last)
+                            ,
+                        @endif
+                    @endforeach
                 </div>
                 <div class="absolute left-3 bottom-1 font-semibold">
 
                     <div class="tooltip mr-2">
-                        <a href="/" class="tooltip-toggle flex" aria-label="Tooltip">
+                        <button type="button" data-workout="{{ $workout->id }}" class="tooltip-toggle flex preview-workout" aria-label="Tooltip">
                             <span class="icon-[tabler--eye] size-7"></span>
-                        </a>
-                        <span
-                            class="tooltip-content tooltip-shown:opacity-100 tooltip-shown:visible"
-                            role="tooltip">
+                        </и>
+                        <span class="tooltip-content tooltip-shown:opacity-100 tooltip-shown:visible" role="tooltip">
                             <span class="tooltip-body">Preview</span>
                         </span>
                     </div>
 
                     <div class="tooltip mr-2">
-                        <a href="/" class="tooltip-toggle flex" aria-label="Tooltip">
+                        <a href="{{ route('clients.workouts.edit', $workout) }}" class="tooltip-toggle flex" aria-label="Tooltip">
                             <span class="icon-[tabler--pencil-minus] size-7"></span>
                         </a>
-                        <span
-                            class="tooltip-content tooltip-shown:opacity-100 tooltip-shown:visible"
-                            role="tooltip">
+                        <span class="tooltip-content tooltip-shown:opacity-100 tooltip-shown:visible" role="tooltip">
                             <span class="tooltip-body">Edit</span>
                         </span>
                     </div>
@@ -38,9 +41,7 @@
 
                             <span class="icon-[tabler--copy] size-7"></span>
                         </a>
-                        <span
-                            class="tooltip-content tooltip-shown:opacity-100 tooltip-shown:visible"
-                            role="tooltip">
+                        <span class="tooltip-content tooltip-shown:opacity-100 tooltip-shown:visible" role="tooltip">
                             <span class="tooltip-body">Copy to new workout</span>
                         </span>
                     </div>
@@ -48,14 +49,17 @@
 
                 <div class="absolute right-3 bottom-1">
                     <div class="tooltip mr-2">
-                        <a href="/" class="tooltip-toggle flex" aria-label="Tooltip">
-                            <span class="icon-[tabler--trash] size-7"></span>
-                        </a>
-                        <span
-                            class="tooltip-content tooltip-shown:opacity-100 tooltip-shown:visible"
-                            role="tooltip">
-                            <span class="tooltip-body">Delete</span>
-                        </span>
+                        <form method="POST" action="{{ route('clients.workouts.destroy', $workout) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="tooltip-toggle flex" aria-label="Tooltip" onclick="return confirm('Are you sure?')">
+                                <span class="icon-[tabler--trash] size-7"></span>
+                            </button>
+                            <span class="tooltip-content tooltip-shown:opacity-100 tooltip-shown:visible"
+                                role="tooltip">
+                                <span class="tooltip-body">Delete</span>
+                            </span>
+                        </form>
                     </div>
                 </div>
             </div>

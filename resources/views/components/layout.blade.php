@@ -24,6 +24,7 @@
             {{ $slot }}
         </main>
         @include('layouts.partials.footer')
+        @include('layouts.modals.workout-preview')
     </div>
 </body>
 

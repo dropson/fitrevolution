@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Client\ExerciseController;
 use App\Http\Controllers\Client\HomeController;
-use App\Http\Controllers\Client\WorkoutController;
+use App\Http\Controllers\Client\TemplateWorkoutController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
@@ -22,8 +22,13 @@ Route::middleware('auth')->group(function () {
 
         Route::prefix('workouts')->name('workouts.')->group(function() {
             // TODO Resource
-            Route::get('/', [WorkoutController::class, 'index'])->name('index');
-            Route::get('/create', [WorkoutController::class, 'create'])->name('create');
+            Route::get('/', [TemplateWorkoutController::class, 'index'])->name('index');
+            Route::get('/create', [TemplateWorkoutController::class, 'createTemplate'])->name('create');
+            Route::post('/', [TemplateWorkoutController::class, 'storeTemplate'])->name('store');
+            Route::get('/{template}', [TemplateWorkoutController::class, 'editTemplate'])->name('edit');
+            Route::patch('/{template}', [TemplateWorkoutController::class, 'updateTemplate'])->name('update');
+            Route::get('/{templateWorkout}/preview',[TemplateWorkoutController::class, 'getTempateWorkout']);
+            Route::delete('/{template}', [TemplateWorkoutController::class, 'destroyTemplate'])->name('destroy');
         });
 
     });

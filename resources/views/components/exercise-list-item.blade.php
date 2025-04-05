@@ -1,6 +1,6 @@
 @props(['exercise'])
 
-<div class="flex  gap-3 mb-3 shadow rounded-md p-3 transition hover:bg-gray-100">
+<div class="exercise-item flex gap-3 mb-3 shadow rounded-md p-3 transition hover:bg-gray-100">
     <div>
         <img class="w-12 border rounded-full"
             src="{{ asset($exercise->muscle_group_icon) }}" alt="">
@@ -15,7 +15,7 @@
             @endif
         </span>
     </div>
-    <button>
+    <button data-exercise="{{ $exercise->id }}">
         <div
             class="border rounded-full flex items-center justify-center p-1 border-gray-600 transition hover:bg-gray-100 ">
             <span class="icon-[tabler--plus]"></span>
