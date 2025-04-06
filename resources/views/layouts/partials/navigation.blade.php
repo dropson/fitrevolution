@@ -3,7 +3,7 @@
     $menuItems = [
         ['route' => 'clients.home', 'label' => 'Home'],
         ['route' => 'clients.workouts.index', 'label' => 'My workouts'],
-        ['route' => '', 'label' => 'Calendar'],
+        ['route' => 'clients.calendar.index', 'label' => 'Calendar'],
         ['route' => '', 'label' => 'Progress'],
         ['route' => 'clients.exercises.index', 'label' => 'Exercies'],
     ];

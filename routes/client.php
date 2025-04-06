@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Client\CalendarController;
 use App\Http\Controllers\Client\ExerciseController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\TemplateWorkoutController;
@@ -30,6 +31,9 @@ Route::middleware('auth')->group(function () {
             Route::get('/{templateWorkout}/preview',[TemplateWorkoutController::class, 'getTempateWorkout']);
             Route::delete('/{template}', [TemplateWorkoutController::class, 'destroyTemplate'])->name('destroy');
         });
+        
+
+        Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar.index');
 
     });
 });
