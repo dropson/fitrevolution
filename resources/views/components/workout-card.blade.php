@@ -37,12 +37,12 @@
                     </div>
 
                     <div class="tooltip mr-2">
-                        <a href="/" class="tooltip-toggle flex" aria-label="Tooltip">
+                        <button type="button"  data-id="{{ $workout->id }}" data-title="{{ $workout->title }}" class="tooltip-toggle flex preview-assign-date" aria-label="Tooltip">
 
-                            <span class="icon-[tabler--copy] size-7"></span>
-                        </a>
+                            <span class="icon-[tabler--square-rounded-plus-2] size-7"></span>
+                        </button>
                         <span class="tooltip-content tooltip-shown:opacity-100 tooltip-shown:visible" role="tooltip">
-                            <span class="tooltip-body">Copy to new workout</span>
+                            <span class="tooltip-body">Assign date</span>
                         </span>
                     </div>
                 </div>

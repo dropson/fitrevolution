@@ -3,6 +3,7 @@
 use App\Http\Controllers\Client\CalendarController;
 use App\Http\Controllers\Client\ExerciseController;
 use App\Http\Controllers\Client\HomeController;
+use App\Http\Controllers\Client\ScheduleWorkoutController;
 use App\Http\Controllers\Client\TemplateWorkoutController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,8 +33,11 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{template}', [TemplateWorkoutController::class, 'destroyTemplate'])->name('destroy');
         });
         
+        Route::prefix('calendar')->name('calendar.')->group(function () {
+            Route::get('/', [CalendarController::class, 'index'])->name('index');
+            Route::post('/schedule', [ScheduleWorkoutController::class, 'schedule'])->name('schedule');
+        });
 
-        Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar.index');
 
     });
 });

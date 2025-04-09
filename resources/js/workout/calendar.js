@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const calendarContainer = document.querySelector(`#${'calendar-container'}`);
     if (!calendarContainer) {
-        console.error(`Container with ID ${containerId} not found.`);
         return;
     }
 
