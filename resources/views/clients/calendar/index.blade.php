@@ -12,7 +12,7 @@
                     Exercise Databese
                 </button>
             </nav> --}}
-            <span></span>
+            <span> <span class="icon-[tabler--line-dotted]"></span></span>
             <h3 class="font-bold text-black text-lg">Your calendar</h3>
         </div>
 

@@ -2,6 +2,7 @@
 
 namespace App\Models\Workouts;
 
+use App\Enums\WorkoutScheduleStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -11,14 +12,17 @@ class WorkoutSchedule extends Model
         'user_id',
         'workout_id',
         'scheduled_date',
-        'completed',
+        'status',
         'complated_at'
     ];
     protected $casts = [
         'scheduled_date' => 'date',
-        'completed' => 'boolean'
+        'status' => WorkoutScheduleStatusEnum::class
     ];
-
+    public function getFormattedScheduledDateAttribute()
+    {
+        return $this->scheduled_date ? $this->scheduled_date->format('Y-m-d') : null;
+    }
     public function workout():BelongsTo
     {
         return $this->belongsTo(Workout::class);

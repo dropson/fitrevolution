@@ -4,7 +4,7 @@ window.addEventListener("load", function () {
     // Basic
     flatpickr("#scheduled_date", {
         monthSelectorType: "static",
-        minDate: "today",
+        // minDate: "today",
         altInput: true,
         altFormat: "l, j F",
     });

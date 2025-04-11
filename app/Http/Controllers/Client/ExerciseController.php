@@ -15,6 +15,7 @@ class ExerciseController extends Controller
 {
     public function index(ExerciseFilter $filters)
     {
+        // TODO
         $user = Auth::user();
         $publicExercises = Exercise::query()
             ->public()
@@ -39,6 +40,7 @@ class ExerciseController extends Controller
 
     public function store(UpsertExerciseRequest $request)
     {
+        // TODO
         $user = Auth::user();
         $user->exercises()->create($request->validated());
         return to_route('clients.exercises.index')->with('success', 'Exercise was created');

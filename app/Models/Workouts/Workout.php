@@ -20,9 +20,9 @@ class Workout extends Model
         'template_workout_id'
     ];
 
-    public function schedules():HasMany
+    public function schedule()
     {
-        return $this->hasMany(WorkoutSchedule::class);
+        return $this->hasOne(WorkoutSchedule::class);
     }
     public function exercises(): BelongsToMany
     {

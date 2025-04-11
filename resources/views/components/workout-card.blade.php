@@ -28,7 +28,7 @@
                     </div>
 
                     <div class="tooltip mr-2">
-                        <a href="{{ route('clients.workouts.edit', $workout) }}" class="tooltip-toggle flex" aria-label="Tooltip">
+                        <a href="{{ route('clients.workout_templates.edit', $workout) }}" class="tooltip-toggle flex" aria-label="Tooltip">
                             <span class="icon-[tabler--pencil-minus] size-7"></span>
                         </a>
                         <span class="tooltip-content tooltip-shown:opacity-100 tooltip-shown:visible" role="tooltip">
@@ -49,7 +49,7 @@
 
                 <div class="absolute right-3 bottom-1">
                     <div class="tooltip mr-2">
-                        <form method="POST" action="{{ route('clients.workouts.destroy', $workout) }}">
+                        <form method="POST" action="{{ route('clients.workout_templates.destroy', $workout) }}">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="tooltip-toggle flex" aria-label="Tooltip" onclick="return confirm('Are you sure?')">

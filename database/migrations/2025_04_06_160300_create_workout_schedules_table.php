@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\WorkoutScheduleStatusEnum;
 use App\Models\User;
 use App\Models\Workouts\Workout;
 use Illuminate\Database\Migrations\Migration;
@@ -18,7 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(Workout::class)->constrained()->onDelete('cascade');
             $table->foreignIdFor(User::class)->constrained('users')->onDelete('cascade');
             $table->date('scheduled_date');
-            $table->boolean('completed')->default(false);
+            $table->enum('status', [WorkoutScheduleStatusEnum::values()]);
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
         });

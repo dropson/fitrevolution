@@ -2,7 +2,7 @@
 
     $menuItems = [
         ['route' => 'clients.home', 'label' => 'Home'],
-        ['route' => 'clients.workouts.index', 'label' => 'My workouts'],
+        ['route' => 'clients.workout_templates.index', 'label' => 'My workouts'],
         ['route' => 'clients.calendar.index', 'label' => 'Calendar'],
         ['route' => '', 'label' => 'Progress'],
         ['route' => 'clients.exercises.index', 'label' => 'Exercies'],

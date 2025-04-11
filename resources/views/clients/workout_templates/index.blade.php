@@ -3,7 +3,7 @@
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
         <div class="flex items-center justify-between">
             <span></span>
-            <a href="{{ route('clients.workouts.create') }}" class="btn btn-primary">+ Create Workout</a>
+            <a href="{{ route('clients.workout_templates.create') }}" class="btn btn-primary">+ Create Workout</a>
         </div>
 
 
