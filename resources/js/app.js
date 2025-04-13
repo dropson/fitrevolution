@@ -2,6 +2,7 @@ import "./bootstrap";
 import "flyonui/flyonui";
 import initNotyf from './notyf';
 import './workout/previewWorkout'
+import './workout/previewTempalate'
 import './workout/previewAssignDate'
 import './workout/ScheduledDatePicker'
 import './workout/addExercise'

@@ -19,7 +19,7 @@
                 <div class="absolute left-3 bottom-1 font-semibold">
 
                     <div class="tooltip mr-2">
-                        <button type="button" data-workout="{{ $workout->id }}" class="tooltip-toggle flex preview-workout" aria-label="Tooltip">
+                        <button type="button" data-workout="{{ $workout->id }}" class="tooltip-toggle flex preview-template" aria-label="Tooltip">
                             <span class="icon-[tabler--eye] size-7"></span>
                         </и>
                         <span class="tooltip-content tooltip-shown:opacity-100 tooltip-shown:visible" role="tooltip">

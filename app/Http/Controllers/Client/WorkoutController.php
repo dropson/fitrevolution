@@ -6,6 +6,7 @@ use App\Actions\Workouts\UpdateWorkoutAction;
 use App\Filters\ExerciseFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\UpdateWorkoutRequst;
+use App\Http\Resources\WorkoutResource;
 use App\Models\Exercise;
 use App\Models\Workouts\Workout;
 use Illuminate\Support\Facades\Auth;
@@ -39,5 +40,10 @@ class WorkoutController extends Controller
         $action->handle($request, $workout);
 
         return to_route('clients.calendar.index')->with('success', 'Workout was updated');
+    }
+
+    public function getWorkout(Workout $workout): WorkoutResource
+    {
+        return new WorkoutResource($workout);
     }
 }

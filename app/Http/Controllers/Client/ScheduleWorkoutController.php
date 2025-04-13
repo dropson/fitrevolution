@@ -10,6 +10,7 @@ use App\Models\Workouts\WorkoutSchedule;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class ScheduleWorkoutController extends Controller
 {
@@ -25,7 +26,7 @@ class ScheduleWorkoutController extends Controller
         }
     }
 
-    public function markAsDone(WorkoutSchedule $schedule): JsonResponse
+    public function markAsDone(Request $request, WorkoutSchedule $schedule): JsonResponse|RedirectResponse
     {
         $now = now()->toDateString();
         $eventDate = $schedule->scheduled_date->toDateString();
@@ -33,10 +34,14 @@ class ScheduleWorkoutController extends Controller
             return response()->json(['message' => 'Cannot mark future workouts as done']);
         }
         $schedule->update(['status' => WorkoutScheduleStatusEnum::Done->value]);
+        if ($request->has('home_page')) {
+            return to_route('clients.home')->with('success', 'Workout marked as done');
+        }
+        
         return response()->json(['message' => 'Workout marked as done']);
 
     }
-    public function markAsSkipped(WorkoutSchedule $schedule): JsonResponse
+    public function markAsSkipped(Request $request, WorkoutSchedule $schedule): JsonResponse|RedirectResponse
     {
         $now = now()->toDateString();
         $eventDate = $schedule->scheduled_date->toDateString();
@@ -44,17 +49,22 @@ class ScheduleWorkoutController extends Controller
             return response()->json(['message' => 'Cannot mark future workouts as skipped']);
         }
         $schedule->update(['status' => WorkoutScheduleStatusEnum::Skipped->value]);
+        if ($request->has('home_page')) {
+            return to_route('clients.home')->with('success', 'Workout marked as skipped');
+        }
         return response()->json(['message' => 'Workout marked as done']);
 
     }
 
-    public function destroySchedule(WorkoutSchedule $schedule): JsonResponse
+    public function destroySchedule(Request $request, WorkoutSchedule $schedule): JsonResponse|RedirectResponse
     {
         $this->authorize('delete', $schedule);
         $schedule->workout()->delete();
         $schedule->delete();
-        return response()->json(['message' => 'Workout was deleted']);
+        if ($request->has('home_page')) {
+            return to_route('clients.home')->with('success', 'Workout was deleted from schedule');
+        }
+        return response()->json(['message' => 'Workout was deleted from schedule']);
     }
-
 
 }

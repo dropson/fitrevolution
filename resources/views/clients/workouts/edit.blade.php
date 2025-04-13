@@ -1,7 +1,7 @@
 <x-layout>
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
         <div class="flex items-center justify-between">
-            <a href="{{ route('clients.calendar.index') }}" class="btn btn-warning">Back</a>
+            <a href="{{ URL::previous() }}" class="btn btn-warning">Back</a>
             <h3 class="font-bold text-black text-lg">Edit Your Workout</h3>
         </div>
 

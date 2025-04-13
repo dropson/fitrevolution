@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/{workout}', [WorkoutController::class, 'editWorkout'])->name('edit');
             Route::patch('/{workout}', [WorkoutController::class, 'updateWorkout'])->name('update');
             // Route::delete('/{workout}', [WorkoutController::class, 'destroyWorkout'])->name('destroy');
+            Route::get('/{workout}/preview',[WorkoutController::class, 'getWorkout']);
         });
 
         Route::prefix('calendar')->name('calendar.')->group(function () {
