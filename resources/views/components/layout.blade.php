@@ -25,6 +25,7 @@
         </main>
         @include('layouts.partials.footer')
         @include('layouts.modals.workout-preview')
+        @include('layouts.modals.assign-date-preview')
     </div>
 </body>
 

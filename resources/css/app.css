@@ -1,4 +1,54 @@
 @import 'notyf/notyf.min.css';
+@import 'flatpickr/dist/flatpickr.min.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+/* @import '@fullcalendar/core/main.css';
+@import '@fullcalendar/daygrid/main.css';
+@import '@fullcalendar/timegrid/main.css';
+@import '@fullcalendar/list/main.css'; */
+/* @import "flyonui/src/vendor/fullcalendar.css"; */
+
+/* .fc .fc-daygrid-event  */
+.fc-daygrid-day-events {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.fc-daygrid-event {
+    z-index: auto !important;
+}
+.workout-event {
+    width: 100%;
+    padding: 2px 4px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: rgba(115, 103, 240, 0.1); /* Синій фон за замовчуванням (pending) */
+    border: 1px solid #7367f0; /* Синя рамка */
+}
+
+.workout-event.done {
+    background-color: rgba(34, 197, 94, 0.1); /* Зелений фон */
+    border: 1px solid #22c55e; /* Зелена рамка */
+}
+
+.workout-event.skipped {
+    background-color: rgba(239, 68, 68, 0.1); /* Червоний фон */
+    border: 1px solid #ef4444; /* Червона рамка */
+}
+
+.workout-event .actions {
+    display: flex;
+    gap: 4px;
+}
+
+.workout-event .actions button {
+    font-size: 12px;
+    line-height: 1;
+}

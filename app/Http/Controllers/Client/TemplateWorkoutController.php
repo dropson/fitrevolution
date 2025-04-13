@@ -17,16 +17,18 @@ use Illuminate\Support\Facades\Auth;
 class TemplateWorkoutController extends Controller
 {
     public static function index()
-    {
+    {   
+        // TODO
         $user = Auth::user();
         $workouts = $user->templateWorkouts->load('exercises');
 
-        return view('clients.workouts.index', [
+        return view('clients.workout_templates.index', [
             'workouts' => $workouts,
         ]);
     }
     public function createTemplate(ExerciseFilter $filters)
     {
+        // TODO
         $user = Auth::user();
         $personalExercises = Exercise::query()
             ->forUser($user->id)
@@ -41,7 +43,7 @@ class TemplateWorkoutController extends Controller
             ->get();
 
         $exercises = $personalExercises->concat($publicExercises);
-        return view('clients.workouts.create', [
+        return view('clients.workout_templates.create', [
             'exercises' => $exercises
         ]);
     }
@@ -50,7 +52,7 @@ class TemplateWorkoutController extends Controller
     {
         $action->handle($request);
 
-        return to_route('clients.workouts.index')->with('success', 'Workout was created');
+        return to_route('clients.workout_templates.index')->with('success', 'Workout was created');
     }
 
     public function editTemplate(TemplateWorkout $template, ExerciseFilter $filters)
@@ -64,7 +66,7 @@ class TemplateWorkoutController extends Controller
                 $query->select('template_workout_exercise_id', 'sets_number', 'repetitions', 'weight');
             },
         ]);
-
+        // TODO
         $user = Auth::user();
         $exercises = Exercise::query()
             ->where(function ($query) use ($user, $filters) {
@@ -78,7 +80,7 @@ class TemplateWorkoutController extends Controller
             ->distinct()
             ->latest()
             ->get();
-        return view('clients.workouts.edit', [
+        return view('clients.workout_templates.edit', [
             'workout' => $template,
             'exercises' => $exercises
         ]);

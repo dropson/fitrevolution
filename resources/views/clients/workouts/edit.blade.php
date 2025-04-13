@@ -1,7 +1,7 @@
 <x-layout>
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
         <div class="flex items-center justify-between">
-            <a href="{{ route('clients.workouts.index') }}" class="btn btn-warning">Back</a>
+            <a href="{{ URL::previous() }}" class="btn btn-warning">Back</a>
             <h3 class="font-bold text-black text-lg">Edit Your Workout</h3>
         </div>
 
@@ -13,6 +13,18 @@
                         <form method="POST" action="{{ route('clients.workouts.update', $workout) }}">
                             @method('PATCH')
                             @csrf
+
+                            <div class="flex w-full items-start gap-3 mb-5 flex-wrap sm:flex-nowrap">
+                                {{-- First Name --}}
+                                @php
+                                   $today = \Carbon\Carbon::today()->format('Y-m-d');
+                                   $scheduledDate = $workout->schedule ? $workout->schedule->formatted_scheduled_date : null;
+                                   $isPastDate = $scheduledDate && $scheduledDate < $today;
+                                @endphp
+                                <x-forms.input-group label="Training day" :disabled="$isPastDate" class="w-full" type="date" name="scheduled_date" id="scheduled_date"
+                                value="{{ $workout->schedule->formatted_scheduled_date }}" :errors="$errors" minlength="5" />
+                            </div>
+
                             <div class="flex w-full items-start gap-3 mb-5 flex-wrap sm:flex-nowrap">
                                 {{-- First Name --}}
                                 <x-forms.input-group label="Title" class="w-full" name="title"
@@ -32,7 +44,7 @@
                                 </div>
                             </div>
 
-                            <div class="exercise-list">
+                            {{-- <div class="exercise-list">
                                 @error('exercises')
                                     <span class="text-red-500">{{ $message }}</span>
                                 @enderror
@@ -99,7 +111,7 @@
                                 @empty
                                     empty
                                 @endforelse
-                            </div>
+                            </div> --}}
 
                             <div
                                 class="flex w-full items-center justify-center gap-3 mb-5 mt-10 flex-wrap sm:flex-nowrap">

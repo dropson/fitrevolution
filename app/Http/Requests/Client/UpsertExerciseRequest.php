@@ -20,6 +20,8 @@ class UpsertExerciseRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'min:10', 'max:120'],
             'muscle_group' => ['required', 'in:' . implode(',', MuscleGroupEnum::values())],
+            // TODO
+            // 'sdsa' [Rule::enum(MuscleGroupEnum::class)],
             'equipment' => ['required', 'in:' . implode(',', EquipmentEnum::values())],
             'instruction' => ['required', 'string', 'min:10', 'max:500'],
         ];

@@ -22,7 +22,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         View::composer('clients.exercises.*', ExerciseViewComposer::class);
-        View::composer('clients.workouts.create', ExerciseViewComposer::class);
+        View::composer('clients.workout_templates.create', ExerciseViewComposer::class);
+        View::composer('clients.workout_templates.edit', ExerciseViewComposer::class);
         View::composer('clients.workouts.edit', ExerciseViewComposer::class);
     }
 }

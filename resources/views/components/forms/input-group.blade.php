@@ -1,4 +1,4 @@
-@props(['label', 'name', 'class' => '', 'type' => 'text', 'value' => null, 'attributes' => [], 'errors' => null])
+@props(['label', 'name', 'class' => '', 'type' => 'text', 'value' => null, 'disabled' => false, 'attributes' => [], 'errors' => null])
 
 @php
     $hasErrors = $errors ? $errors->get($name) : [];
@@ -9,6 +9,9 @@
         'class' => 'input input-filled input-lg peer bg-white ' . ($hasErrors ? 'is-invalid' : ''),
         'value' => old($name) ?? $value,
     ];
+    if($disabled) {
+        $defaults['disabled'] = true;
+    }
     $divClasses = \Illuminate\Support\Arr::toCssClasses([$class]);
 @endphp
 
