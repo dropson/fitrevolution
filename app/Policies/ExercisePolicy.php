@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Exercise;
 use App\Models\User;
 
-class ExercisePolicy
+final class ExercisePolicy
 {
     public function update(User $user, Exercise $exercise): bool
     {

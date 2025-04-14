@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Enums\EquipmentEnum;
 use App\Enums\MuscleGroupEnum;
 use App\Models\User;

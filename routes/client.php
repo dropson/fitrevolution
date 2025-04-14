@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\Client\CalendarController;
 use App\Http\Controllers\Client\ExerciseController;
 use App\Http\Controllers\Client\HomeController;

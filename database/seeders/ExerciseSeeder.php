@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Enums\EquipmentEnum;
@@ -7,7 +9,7 @@ use App\Enums\MuscleGroupEnum;
 use App\Models\Exercise;
 use Illuminate\Database\Seeder;
 
-class ExerciseSeeder extends Seeder
+final class ExerciseSeeder extends Seeder
 {
     /**
      * Run the database seeds.

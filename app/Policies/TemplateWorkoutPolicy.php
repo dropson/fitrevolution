@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\User;
 use App\Models\Workouts\TemplateWorkout;
 
-class TemplateWorkoutPolicy
+final class TemplateWorkoutPolicy
 {
     public function view(User $user, TemplateWorkout $templateWorkout): bool
     {

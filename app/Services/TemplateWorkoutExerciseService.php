@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Models\Workouts\TemplateSet;
 use App\Models\Workouts\TemplateWorkout;
 use App\Models\Workouts\TemplateWorkoutExercise;
+use Exception;
 
-class TemplateWorkoutExerciseService
+final class TemplateWorkoutExerciseService
 {
     public function addExerciseWithSets(TemplateWorkout $templateWorkout, array $exerciseData, int $index): TemplateWorkoutExercise
     {
@@ -19,7 +22,7 @@ class TemplateWorkoutExerciseService
             ->first();
 
         if (! $templateWorkoutExercise) {
-            throw new \Exception('Failed to create TemplateWorkoutExercise for exercise ID: '.$exerciseData['id']);
+            throw new Exception('Failed to create TemplateWorkoutExercise for exercise ID: '.$exerciseData['id']);
         }
 
         $this->createSets($templateWorkoutExercise, $exerciseData['sets'] ?? []);

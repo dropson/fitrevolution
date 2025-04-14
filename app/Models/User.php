@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -14,7 +16,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+final class User extends Authenticatable
 {
     use HasFactory, HasRoles, Notifiable;
 
@@ -41,18 +43,14 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    public static function withWorkoutCounts()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'gender' => UserGenderEnum::class,
-        ];
+        return self::withCount([
+            'workoutSchedules as workout_total_count',
+            'workoutSchedules as workout_completed_count' => function ($query): void {
+                $query->where('status', WorkoutScheduleStatusEnum::Done->value);
+            },
+        ]);
     }
 
     public function exercises(): HasMany
@@ -75,16 +73,6 @@ class User extends Authenticatable
         return $this->hasMany(WorkoutSchedule::class);
     }
 
-    public static function withWorkoutCounts()
-    {
-        return static::withCount([
-            'workoutSchedules as workout_total_count',
-            'workoutSchedules as workout_completed_count' => function ($query): void {
-                $query->where('status', WorkoutScheduleStatusEnum::Done->value);
-            },
-        ]);
-    }
-
     public function getWorkoutCompletedCountAttribute()
     {
         return $this->attributes['workout_completed_count'] ?? $this->workoutSchedules()
@@ -95,5 +83,19 @@ class User extends Authenticatable
     public function getWorkoutTotalCountAttribute()
     {
         return $this->attributes['workout_total_count'] ?? $this->workoutSchedules()->count();
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+            'gender' => UserGenderEnum::class,
+        ];
     }
 }

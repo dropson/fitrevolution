@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Schedule;
 
 use App\Enums\WorkoutScheduleStatusEnum;
@@ -10,7 +12,7 @@ use App\Models\Workouts\WorkoutSchedule;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-class CreateScheduleWorkoutAction
+final class CreateScheduleWorkoutAction
 {
     private const MAX_WORKOUTS_PER_DAY = 1;
 

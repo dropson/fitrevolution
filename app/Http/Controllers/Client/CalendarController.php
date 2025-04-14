@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Workouts\TemplateWorkout;
 use Illuminate\Support\Facades\Auth;
 
-class CalendarController extends Controller
+final class CalendarController extends Controller
 {
     public function index()
     {
@@ -18,7 +20,7 @@ class CalendarController extends Controller
         $user = Auth::user();
         $schedules = $user->workoutSchedules->load('workout');
 
-        $events = $schedules->map(fn($schedule): array => [
+        $events = $schedules->map(fn ($schedule): array => [
             'id' => $schedule->id,
             'title' => $schedule->workout->title,
             'start' => $schedule->scheduled_date,

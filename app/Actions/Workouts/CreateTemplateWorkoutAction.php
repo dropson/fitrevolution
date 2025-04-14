@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Workouts;
 
 use App\Http\Requests\Client\StoreTempaleteWorkoutRequest;
@@ -8,11 +10,9 @@ use App\Services\TemplateWorkoutExerciseService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class CreateTemplateWorkoutAction
+final class CreateTemplateWorkoutAction
 {
-    public function __construct(protected TemplateWorkoutExerciseService $exerciseService)
-    {
-    }
+    public function __construct(protected TemplateWorkoutExerciseService $exerciseService) {}
 
     public function handle(StoreTempaleteWorkoutRequest $request): TemplateWorkout
     {

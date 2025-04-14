@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Client;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreTempaleteWorkoutRequest extends FormRequest
+final class StoreTempaleteWorkoutRequest extends FormRequest
 {
     public function authorize(): bool
     {

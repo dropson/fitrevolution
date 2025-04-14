@@ -1,21 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
-class QueryFilter
+abstract class QueryFilter
 {
-    protected $builder;
+    public $builder;
 
     protected $filterable = [];
 
-    public function __construct(protected Request $request)
-    {
-    }
+    public function __construct(protected Request $request) {}
 
-    public function apply(Builder $builder): Builder
+    final public function apply(Builder $builder): Builder
     {
         $this->builder = $builder;
         foreach ($this->request->all() as $key => $value) {
@@ -30,12 +30,12 @@ class QueryFilter
         return $builder;
     }
 
-    protected function isFilterable($key): bool
+    private function isFilterable($key): bool
     {
         return in_array($key, $this->filterable) || array_key_exists($key, $this->filterable);
     }
 
-    protected function getFilterMethod($key): string
+    private function getFilterMethod($key): string
     {
         if (array_key_exists($key, $this->filterable) && is_string($this->filterable[$key])) {
             return $this->filterable[$key];

@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filters;
 
-class ExerciseFilter extends QueryFilter
+final class ExerciseFilter extends QueryFilter
 {
     protected $filterable = [
         'equipment',
         'muscle_group' => 'muscleGroup',
-        'title',
+        'title' => 'title',
     ];
 
     public function title(string $value)

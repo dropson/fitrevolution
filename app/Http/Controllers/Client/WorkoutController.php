@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Client;
 
 use App\Actions\Workouts\UpdateWorkoutAction;
@@ -11,7 +13,7 @@ use App\Models\Exercise;
 use App\Models\Workouts\Workout;
 use Illuminate\Support\Facades\Auth;
 
-class WorkoutController extends Controller
+final class WorkoutController extends Controller
 {
     public function editWorkout(Workout $workout, ExerciseFilter $filters)
     {
