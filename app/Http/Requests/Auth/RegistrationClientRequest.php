@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Auth;
 
 use App\Enums\UserGenderEnum;
@@ -7,7 +9,7 @@ use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
-class RegistrationClientRequest extends FormRequest
+final class RegistrationClientRequest extends FormRequest
 {
     public function authorize(): bool
     {

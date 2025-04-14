@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\Workouts;
 
 use App\Enums\WorkoutScheduleStatusEnum;
@@ -7,7 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class WorkoutSchedule extends Model
+final class WorkoutSchedule extends Model
 {
     protected $fillable = [
         'user_id',

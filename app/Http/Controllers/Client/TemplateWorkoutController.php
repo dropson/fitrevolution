@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Client;
 
 use App\Actions\Workouts\CreateTemplateWorkoutAction;
@@ -13,7 +15,7 @@ use App\Models\Exercise;
 use App\Models\Workouts\TemplateWorkout;
 use Illuminate\Support\Facades\Auth;
 
-class TemplateWorkoutController extends Controller
+final class TemplateWorkoutController extends Controller
 {
     public static function index()
     {
@@ -104,7 +106,7 @@ class TemplateWorkoutController extends Controller
         return back()->with('success', 'Exercise was deleted');
     }
 
-    public function getTempateWorkout(TemplateWorkout $templateWorkout): \App\Http\Resources\TemplateWorkoutReource
+    public function getTempateWorkout(TemplateWorkout $templateWorkout): TemplateWorkoutReource
     {
         $templateWorkout->load('templateWorkoutExercises.exercise', 'templateWorkoutExercises.templateSets');
 

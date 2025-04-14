@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Client;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreScheduleWorkoutRequst extends FormRequest
+final class StoreScheduleWorkoutRequst extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

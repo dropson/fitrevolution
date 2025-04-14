@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models\Workouts;
 
 use App\Models\Exercise;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class TemplateWorkoutExercise extends Model
+final class TemplateWorkoutExercise extends Model
 {
     protected $fillable = [
         'template_workout_id',

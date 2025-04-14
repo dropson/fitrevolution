@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Client;
 
 use App\Enums\EquipmentEnum;
@@ -7,7 +9,7 @@ use App\Enums\MuscleGroupEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpsertExerciseRequest extends FormRequest
+final class UpsertExerciseRequest extends FormRequest
 {
     public function authorize(): bool
     {

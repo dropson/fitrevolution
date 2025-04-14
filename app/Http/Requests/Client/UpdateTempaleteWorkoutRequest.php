@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Client;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateTempaleteWorkoutRequest extends FormRequest
+final class UpdateTempaleteWorkoutRequest extends FormRequest
 {
     public function authorize(): bool
     {

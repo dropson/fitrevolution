@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Client;
 
 use App\Filters\ExerciseFilter;
@@ -8,7 +10,7 @@ use App\Http\Requests\Client\UpsertExerciseRequest;
 use App\Models\Exercise;
 use Illuminate\Support\Facades\Auth;
 
-class ExerciseController extends Controller
+final class ExerciseController extends Controller
 {
     public function index(ExerciseFilter $filters)
     {

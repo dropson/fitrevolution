@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Client;
 
 use App\Actions\Schedule\CreateScheduleWorkoutAction;
@@ -12,7 +14,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-class ScheduleWorkoutController extends Controller
+final class ScheduleWorkoutController extends Controller
 {
     public function storeSchedule(StoreScheduleWorkoutRequst $request, CreateScheduleWorkoutAction $action): RedirectResponse
     {

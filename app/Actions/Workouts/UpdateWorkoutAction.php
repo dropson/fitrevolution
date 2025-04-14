@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Workouts;
 
 use App\Enums\WorkoutScheduleStatusEnum;
 use App\Http\Requests\Client\UpdateWorkoutRequst;
 use App\Models\Workouts\Workout;
 
-class UpdateWorkoutAction
+final class UpdateWorkoutAction
 {
     public function handle(UpdateWorkoutRequst $request, Workout $workout): void
     {
