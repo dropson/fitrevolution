@@ -4,11 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Workouts\TemplateWorkout;
-use App\Models\Workouts\WorkoutSchedule;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-use function PHPSTORM_META\map;
 
 class CalendarController extends Controller
 {

@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\Client;
 
-use App\Enums\EquipmentEnum;
-use App\Enums\MuscleGroupEnum;
 use App\Filters\ExerciseFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\UpsertExerciseRequest;
 use App\Models\Exercise;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ExerciseController extends Controller
@@ -40,7 +37,6 @@ class ExerciseController extends Controller
 
     public function store(UpsertExerciseRequest $request)
     {
-        // TODO
         $user = Auth::user();
         $user->exercises()->create($request->validated());
         return to_route('clients.exercises.index')->with('success', 'Exercise was created');

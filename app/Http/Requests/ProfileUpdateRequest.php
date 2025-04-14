@@ -19,7 +19,7 @@ class ProfileUpdateRequest extends FormRequest
         return [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-           'gender' => ['required', 'in:' . implode(',', UserGenderEnum::values())],
+            'gender' => ['required', Rule::enum(UserGenderEnum::class)],
             'email' => [
                 'required',
                 'string',

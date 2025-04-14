@@ -18,7 +18,6 @@ class TemplateWorkoutController extends Controller
 {
     public static function index()
     {   
-        // TODO
         $user = Auth::user();
         $workouts = $user->templateWorkouts->load('exercises');
 
@@ -99,7 +98,6 @@ class TemplateWorkoutController extends Controller
         $template->delete();
         return back()->with('success', 'Exercise was deleted');
     }
-    // Api fetch
     public function getTempateWorkout(TemplateWorkout $templateWorkout)
     {
         $templateWorkout->load('templateWorkoutExercises.exercise', 'templateWorkoutExercises.templateSets');
