@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('workouts', function (Blueprint $table) {
+        Schema::create('workouts', function (Blueprint $table): void {
             $table->id();
-            $table->string('title');;
+            $table->string('title');
             $table->text('instruction')->nullable();
             $table->foreignIdFor(TemplateWorkout::class)->constrained();
             $table->foreignIdFor(User::class)->constrained('users')->onDelete('cascade');

@@ -17,7 +17,7 @@ class TemplateSetResource extends JsonResource
         return [
             'sets_number' => $this->sets_number,
             'repetitions' => $this->repetitions,
-            'weight' => $this->weight
+            'weight' => $this->weight,
         ];
     }
 }

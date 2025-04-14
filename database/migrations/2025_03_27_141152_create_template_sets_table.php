@@ -1,18 +1,18 @@
 <?php
 
-use App\Models\Workouts\TemplateWorkout;
 use App\Models\Workouts\TemplateWorkoutExercise;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('template_sets', function (Blueprint $table) {
+        Schema::create('template_sets', function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(TemplateWorkoutExercise::class)->constrained()->onDelete('cascade');
             $table->unsignedInteger('sets_number')->nullable();

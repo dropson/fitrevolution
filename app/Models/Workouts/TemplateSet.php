@@ -13,5 +13,4 @@ class TemplateSet extends Model
         'weight',
         'order',
     ];
-
 }

@@ -6,16 +6,15 @@ use App\Models\Exercise;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-// TODO Base Workout ?
+
 class TemplateWorkout extends Model
 {
     protected $fillable = [
         'title',
         'instruction',
         'order',
-        'user_id'
+        'user_id',
     ];
-
 
     public function exercises(): BelongsToMany
     {
@@ -31,8 +30,7 @@ class TemplateWorkout extends Model
     public function getMuscleGroupsAttribute()
     {
         $exercises = $this->exercises;
-        return $exercises->pluck('muscle_group')->map(function ($muscleGroup) {
-            return $muscleGroup->value; 
-        })->unique()->values();
+
+        return $exercises->pluck('muscle_group')->map(fn($muscleGroup) => $muscleGroup->value)->unique()->values();
     }
 }

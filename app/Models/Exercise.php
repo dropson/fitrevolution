@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
+
 class Exercise extends Model
 {
     use HasFactory;
@@ -18,7 +19,7 @@ class Exercise extends Model
         'title',
         'muscle_group',
         'equipment',
-        'instruction'
+        'instruction',
     ];
 
     protected $casts = [
@@ -35,6 +36,7 @@ class Exercise extends Model
     {
         return $query->where('user_id', null);
     }
+
     public function scopeForUser(Builder $query, $id): Builder
     {
         return $query->where('user_id', $id);
@@ -47,10 +49,10 @@ class Exercise extends Model
 
     public function getShortInstructionAttribute(): string
     {
-        return  Str::limit($this->instruction, 118, ' ...');
+        return Str::limit($this->instruction, 118, ' ...');
     }
 
-    public function getMuscleGroupIconAttribute()
+    public function getMuscleGroupIconAttribute(): string
     {
         $icons = [
             MuscleGroupEnum::Chest->value => 'images/muscle_groups/chest.png',
@@ -58,8 +60,9 @@ class Exercise extends Model
             MuscleGroupEnum::Biceps->value => 'images/muscle_groups/biceps.png',
             MuscleGroupEnum::Shoulder->value => 'images/muscle_groups/shoulder.png',
             MuscleGroupEnum::Legs->value => 'images/muscle_groups/legs.png',
-            MuscleGroupEnum::Back->value => 'images/muscle_groups/back.png'
+            MuscleGroupEnum::Back->value => 'images/muscle_groups/back.png',
         ];
+
         return $icons[$this->muscle_group->value] ?? 'images/muscle_groups/core.png';
     }
 }

@@ -9,6 +9,7 @@ use App\Models\Workouts\Workout;
 use App\Models\Workouts\WorkoutSchedule;
 use Exception;
 use Illuminate\Support\Facades\DB;
+
 class CreateScheduleWorkoutAction
 {
     private const MAX_WORKOUTS_PER_DAY = 1;
@@ -16,6 +17,7 @@ class CreateScheduleWorkoutAction
     public function handle(StoreScheduleWorkoutRequst $request)
     {
         $data = $request->validated();
+
         return DB::transaction(function () use ($data) {
 
             $templateWorkout = TemplateWorkout::findOrFail($data['template_workout_id']);
@@ -26,7 +28,7 @@ class CreateScheduleWorkoutAction
 
             if ($existingSchedulesCount >= self::MAX_WORKOUTS_PER_DAY) {
                 throw new Exception(
-                    "You have reached the limit of " . self::MAX_WORKOUTS_PER_DAY .
+                    'You have reached the limit of '.self::MAX_WORKOUTS_PER_DAY.
                     " workouts on {$data['scheduled_date']}."
                 );
             }
@@ -38,7 +40,7 @@ class CreateScheduleWorkoutAction
                 'instruction' => $templateWorkout->instruction,
             ]);
             // TODO Exercises and sets
-            
+
             $workoutSchedule = WorkoutSchedule::create([
                 'user_id' => $workout->user_id,
                 'workout_id' => $workout->id,

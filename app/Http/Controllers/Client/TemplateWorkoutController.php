@@ -11,14 +11,12 @@ use App\Http\Requests\Client\UpdateTempaleteWorkoutRequest;
 use App\Http\Resources\TemplateWorkoutReource;
 use App\Models\Exercise;
 use App\Models\Workouts\TemplateWorkout;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TemplateWorkoutController extends Controller
 {
     public static function index()
-    {   
-        // TODO
+    {
         $user = Auth::user();
         $workouts = $user->templateWorkouts->load('exercises');
 
@@ -26,6 +24,7 @@ class TemplateWorkoutController extends Controller
             'workouts' => $workouts,
         ]);
     }
+
     public function createTemplate(ExerciseFilter $filters)
     {
         // TODO
@@ -43,8 +42,9 @@ class TemplateWorkoutController extends Controller
             ->get();
 
         $exercises = $personalExercises->concat($publicExercises);
+
         return view('clients.workout_templates.create', [
-            'exercises' => $exercises
+            'exercises' => $exercises,
         ]);
     }
 
@@ -59,30 +59,31 @@ class TemplateWorkoutController extends Controller
     {
         $this->authorize('view', $template);
         $template = $template->load([
-            'templateWorkoutExercises.exercise' => function ($query) {
+            'templateWorkoutExercises.exercise' => function ($query): void {
                 $query->select('id', 'title', 'muscle_group');
             },
-            'templateWorkoutExercises.templateSets' => function ($query) {
+            'templateWorkoutExercises.templateSets' => function ($query): void {
                 $query->select('template_workout_exercise_id', 'sets_number', 'repetitions', 'weight');
             },
         ]);
         // TODO
         $user = Auth::user();
         $exercises = Exercise::query()
-            ->where(function ($query) use ($user, $filters) {
+            ->where(function ($query) use ($user, $filters): void {
                 $query->forUser($user->id)
                     ->filter($filters);
             })
-            ->orWhere(function ($query) use ($filters) {
+            ->orWhere(function ($query) use ($filters): void {
                 $query->public()
                     ->filter($filters);
             })
             ->distinct()
             ->latest()
             ->get();
+
         return view('clients.workout_templates.edit', [
             'workout' => $template,
-            'exercises' => $exercises
+            'exercises' => $exercises,
         ]);
     }
 
@@ -90,19 +91,23 @@ class TemplateWorkoutController extends Controller
     {
         $this->authorize('update', $template);
         $action->handle($request, $template);
+
         return back()->with('success', 'Workout was updated');
 
     }
+
     public function destroyTemplate(TemplateWorkout $template)
     {
         $this->authorize('delete', $template);
         $template->delete();
+
         return back()->with('success', 'Exercise was deleted');
     }
-    // Api fetch
-    public function getTempateWorkout(TemplateWorkout $templateWorkout)
+
+    public function getTempateWorkout(TemplateWorkout $templateWorkout): \App\Http\Resources\TemplateWorkoutReource
     {
         $templateWorkout->load('templateWorkoutExercises.exercise', 'templateWorkoutExercises.templateSets');
+
         return new TemplateWorkoutReource($templateWorkout);
     }
 }

@@ -11,19 +11,15 @@ use Illuminate\Support\Facades\DB;
 
 class UpdateTemplateWorkoutAction
 {
-
-    protected $exerciseService;
-
-    public function __construct(TemplateWorkoutExerciseService $exerciseService)
+    public function __construct(protected TemplateWorkoutExerciseService $exerciseService)
     {
-        $this->exerciseService = $exerciseService;
     }
 
     public function handle(UpdateTempaleteWorkoutRequest $request, TemplateWorkout $templateWorkout): TemplateWorkout
     {
         $data = $request->validated();
 
-        DB::transaction(function () use ($data, $templateWorkout) {
+        DB::transaction(function () use ($data, $templateWorkout): TemplateWorkout {
 
             $templateWorkout->update([
                 'title' => $data['title'],
@@ -42,13 +38,14 @@ class UpdateTemplateWorkoutAction
     {
         $remainingTemplateWorkoutExerciseIds = [];
 
-        if (!isset($data['exercises'])) {
+        if (! isset($data['exercises'])) {
             return;
         }
 
         foreach ($data['exercises'] as $index => $exerciseData) {
             if ($exerciseData['deleted'] === '1') {
                 $this->deleteExercise($exerciseData);
+
                 continue;
             }
 
@@ -69,7 +66,7 @@ class UpdateTemplateWorkoutAction
 
     private function deleteExercise(array $exerciseData): void
     {
-        if (!isset($exerciseData['template_workout_exercise_id'])) {
+        if (! isset($exerciseData['template_workout_exercise_id'])) {
             return;
         }
         $templateWorkoutExercise = TemplateWorkoutExercise::findOrFail($exerciseData['template_workout_exercise_id']);
@@ -80,13 +77,11 @@ class UpdateTemplateWorkoutAction
     private function getOrCreateTemplateWorkoutExercise(TemplateWorkout $templateWorkout, array $exerciseData, int $index): TemplateWorkoutExercise
     {
         if (isset($exerciseData['template_workout_exercise_id'])) {
-            $templateWorkoutExercise = TemplateWorkoutExercise::findOrFail($exerciseData['template_workout_exercise_id']);
-            return $templateWorkoutExercise;
+            return TemplateWorkoutExercise::findOrFail($exerciseData['template_workout_exercise_id']);
         }
 
         return $this->exerciseService->addExerciseWithSets($templateWorkout, $exerciseData, $index);
     }
-
 
     private function updateOrCreateSets(TemplateWorkoutExercise $templateWorkoutExercise, array $sets): array
     {
@@ -120,5 +115,4 @@ class UpdateTemplateWorkoutAction
 
         return $remainingSetIds;
     }
-
 }

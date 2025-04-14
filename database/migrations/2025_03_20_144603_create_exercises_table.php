@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('exercises', function (Blueprint $table) {
+        Schema::create('exercises', function (Blueprint $table): void {
             $table->id();
             $table->string('title');
             $table->enum('muscle_group', MuscleGroupEnum::values());

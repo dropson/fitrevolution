@@ -7,7 +7,6 @@ use App\Models\Workouts\WorkoutSchedule;
 
 class WorkoutSchedulePolicy
 {
-
     public function create(User $user): bool
     {
         return false;
@@ -18,12 +17,8 @@ class WorkoutSchedulePolicy
         return false;
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
     public function delete(User $user, WorkoutSchedule $workoutSchedule): bool
     {
         return $user->id === $workoutSchedule->user_id;
     }
-
 }

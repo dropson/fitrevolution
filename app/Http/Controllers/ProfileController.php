@@ -19,7 +19,7 @@ class ProfileController extends Controller
     {
         return view('profile.edit', [
             'user' => $request->user(),
-            'genders' => UserGenderEnum::cases()
+            'genders' => UserGenderEnum::cases(),
         ]);
     }
 

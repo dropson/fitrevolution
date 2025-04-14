@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('workout_exercises', function (Blueprint $table) {
+        Schema::create('workout_exercises', function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(Workout::class)->constrained()->onDelete('cascade');
             $table->foreignIdFor(Exercise::class)->constrained()->onDelete('cascade');

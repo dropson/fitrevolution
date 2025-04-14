@@ -18,22 +18,24 @@ class WorkoutController extends Controller
         $this->authorize('view', $workout);
         $user = Auth::user();
         $exercises = Exercise::query()
-            ->where(function ($query) use ($user, $filters) {
+            ->where(function ($query) use ($user, $filters): void {
                 $query->forUser($user->id)
                     ->filter($filters);
             })
-            ->orWhere(function ($query) use ($filters) {
+            ->orWhere(function ($query) use ($filters): void {
                 $query->public()
                     ->filter($filters);
             })
             ->distinct()
             ->latest()
             ->get();
+
         return view('clients.workouts.edit', [
             'workout' => $workout->load('schedule'),
-            'exercises' => $exercises
+            'exercises' => $exercises,
         ]);
     }
+
     public function updateWorkout(UpdateWorkoutRequst $request, Workout $workout, UpdateWorkoutAction $action)
     {
         $this->authorize('update', $workout);

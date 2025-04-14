@@ -14,7 +14,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/home', [HomeController::class, 'index'])->name('home');
 
         Route::prefix('exercises')->name('exercises.')->group(function () {
-            // TODO Resource 
+            // TODO Resource
             Route::get('/', [ExerciseController::class, 'index'])->name('index');
             Route::get('/create', [ExerciseController::class, 'create'])->name('create');
             Route::post('/', [ExerciseController::class, 'store'])->name('store');
@@ -23,7 +23,7 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{exercise}', [ExerciseController::class, 'destroy'])->name('destroy');
         });
 
-        Route::prefix('templates')->name('workout_templates.')->group(function() {
+        Route::prefix('templates')->name('workout_templates.')->group(function () {
             // TODO Resource
             Route::get('/', [TemplateWorkoutController::class, 'index'])->name('index');
             Route::get('/create', [TemplateWorkoutController::class, 'createTemplate'])->name('create');
@@ -31,20 +31,20 @@ Route::middleware('auth')->group(function () {
             Route::get('/{template}', [TemplateWorkoutController::class, 'editTemplate'])->name('edit');
             Route::patch('/{template}', [TemplateWorkoutController::class, 'updateTemplate'])->name('update');
             Route::delete('/{template}', [TemplateWorkoutController::class, 'destroyTemplate'])->name('destroy');
-            Route::get('/{templateWorkout}/preview',[TemplateWorkoutController::class, 'getTempateWorkout']);
+            Route::get('/{templateWorkout}/preview', [TemplateWorkoutController::class, 'getTempateWorkout']);
         });
-        
-        Route::prefix('workouts')->name('workouts.')->group(function() {
+
+        Route::prefix('workouts')->name('workouts.')->group(function () {
             // TODO Resource
             Route::get('/{workout}', [WorkoutController::class, 'editWorkout'])->name('edit');
             Route::patch('/{workout}', [WorkoutController::class, 'updateWorkout'])->name('update');
             // Route::delete('/{workout}', [WorkoutController::class, 'destroyWorkout'])->name('destroy');
-            Route::get('/{workout}/preview',[WorkoutController::class, 'getWorkout']);
+            Route::get('/{workout}/preview', [WorkoutController::class, 'getWorkout']);
         });
 
         Route::prefix('calendar')->name('calendar.')->group(function () {
             Route::get('/', [CalendarController::class, 'index'])->name('index');
-            Route::get('/events', [CalendarController::class, 'getSchedule']); 
+            Route::get('/events', [CalendarController::class, 'getSchedule']);
         });
 
         Route::prefix('schedule')->name('schedule.')->group(function () {
@@ -53,7 +53,6 @@ Route::middleware('auth')->group(function () {
             Route::post('/{schedule}/complete', [ScheduleWorkoutController::class, 'markAsDone'])->name('done');
             Route::post('/{schedule}/skip', [ScheduleWorkoutController::class, 'markAsSkipped'])->name('skipped');
         });
-
 
     });
 });

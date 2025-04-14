@@ -8,7 +8,7 @@ use App\Models\Workouts\Workout;
 
 class UpdateWorkoutAction
 {
-    public function handle(UpdateWorkoutRequst $request, Workout $workout)
+    public function handle(UpdateWorkoutRequst $request, Workout $workout): void
     {
         $now = now()->toDateString();
         $eventDate = $workout->schedule->scheduled_date->toDateString();
