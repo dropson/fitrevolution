@@ -7,7 +7,6 @@ use App\Models\Workouts\WorkoutSchedule;
 
 class WorkoutSchedulePolicy
 {
-
     public function create(User $user): bool
     {
         return false;
@@ -22,5 +21,4 @@ class WorkoutSchedulePolicy
     {
         return $user->id === $workoutSchedule->user_id;
     }
-
 }

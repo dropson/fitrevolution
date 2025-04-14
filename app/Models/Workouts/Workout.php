@@ -9,19 +9,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Workout extends Model
 {
-    
     protected $fillable = [
         'title',
         'instruction',
         'order',
         'user_id',
-        'template_workout_id'
+        'template_workout_id',
     ];
 
     public function schedule()
     {
         return $this->hasOne(WorkoutSchedule::class);
     }
+
     public function exercises(): BelongsToMany
     {
         return $this->belongsToMany(Exercise::class, 'workout_exercises')

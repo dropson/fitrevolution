@@ -18,6 +18,7 @@ class ScheduleWorkoutController extends Controller
     {
         try {
             $action->handle($request);
+
             return to_route('clients.workout_templates.index')
                 ->with('success', 'Workout assigned successfully!');
         } catch (Exception $e) {
@@ -37,10 +38,11 @@ class ScheduleWorkoutController extends Controller
         if ($request->has('home_page')) {
             return to_route('clients.home')->with('success', 'Workout marked as done');
         }
-        
+
         return response()->json(['message' => 'Workout marked as done']);
 
     }
+
     public function markAsSkipped(Request $request, WorkoutSchedule $schedule): JsonResponse|RedirectResponse
     {
         $now = now()->toDateString();
@@ -52,6 +54,7 @@ class ScheduleWorkoutController extends Controller
         if ($request->has('home_page')) {
             return to_route('clients.home')->with('success', 'Workout marked as skipped');
         }
+
         return response()->json(['message' => 'Workout marked as done']);
 
     }
@@ -64,7 +67,7 @@ class ScheduleWorkoutController extends Controller
         if ($request->has('home_page')) {
             return to_route('clients.home')->with('success', 'Workout was deleted from schedule');
         }
+
         return response()->json(['message' => 'Workout was deleted from schedule']);
     }
-
 }

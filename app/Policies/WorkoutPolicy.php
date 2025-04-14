@@ -7,7 +7,6 @@ use App\Models\Workouts\Workout;
 
 class WorkoutPolicy
 {
-
     public function view(User $user, Workout $workout): bool
     {
         return $workout->user_id === $user->id;
@@ -22,5 +21,4 @@ class WorkoutPolicy
     {
         return $workout->user_id === $user->id;
     }
-
 }

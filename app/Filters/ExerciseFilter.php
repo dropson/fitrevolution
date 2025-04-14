@@ -4,15 +4,16 @@ namespace App\Filters;
 
 class ExerciseFilter extends QueryFilter
 {
-
     protected $filterable = [
         'equipment',
         'muscle_group' => 'muscleGroup',
         'title',
     ];
 
-    public function title($value) {
-        $likeStr = '%' . $value . '%';
+    public function title($value)
+    {
+        $likeStr = '%'.$value.'%';
+
         return $this->builder->where('title', 'like', $likeStr);
     }
 
@@ -25,5 +26,4 @@ class ExerciseFilter extends QueryFilter
     {
         return $this->builder->where('equipment', $value);
     }
-
 }

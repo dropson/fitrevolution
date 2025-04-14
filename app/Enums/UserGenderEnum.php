@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum UserGenderEnum : string
+enum UserGenderEnum: string
 {
     case Male = 'male';
     case Female = 'female';
@@ -14,6 +14,7 @@ enum UserGenderEnum : string
             self::Female => 'Female',
         };
     }
+
     public static function values(): array
     {
         return array_column(self::cases(), 'value');

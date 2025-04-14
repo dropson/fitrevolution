@@ -29,11 +29,13 @@ class WorkoutController extends Controller
             ->distinct()
             ->latest()
             ->get();
+
         return view('clients.workouts.edit', [
             'workout' => $workout->load('schedule'),
-            'exercises' => $exercises
+            'exercises' => $exercises,
         ]);
     }
+
     public function updateWorkout(UpdateWorkoutRequst $request, Workout $workout, UpdateWorkoutAction $action)
     {
         $this->authorize('update', $workout);

@@ -24,21 +24,22 @@ class ExerciseController extends Controller
             ->latest()
             ->get();
 
-        return view("clients.exercises.index", [
+        return view('clients.exercises.index', [
             'publicExercises' => $publicExercises,
-            'personalExercises' => $personalExercises
+            'personalExercises' => $personalExercises,
         ]);
     }
 
     public function create()
     {
-        return view("clients.exercises.create");
+        return view('clients.exercises.create');
     }
 
     public function store(UpsertExerciseRequest $request)
     {
         $user = Auth::user();
         $user->exercises()->create($request->validated());
+
         return to_route('clients.exercises.index')->with('success', 'Exercise was created');
 
     }
@@ -46,8 +47,9 @@ class ExerciseController extends Controller
     public function edit(Exercise $exercise)
     {
         $this->authorize('update', $exercise);
+
         return view('clients.exercises.edit', [
-            'exercise' => $exercise
+            'exercise' => $exercise,
         ]);
     }
 
@@ -55,6 +57,7 @@ class ExerciseController extends Controller
     {
         $this->authorize('update', $exercise);
         $exercise->update($request->validated());
+
         return to_route('clients.exercises.edit', $exercise)->with('success', 'Exercise was updated');
     }
 
@@ -62,6 +65,7 @@ class ExerciseController extends Controller
     {
         $this->authorize('delete', $exercise);
         $exercise->delete();
+
         return to_route('clients.exercises.index')->with('success', 'Exercise was deleted');
     }
 }

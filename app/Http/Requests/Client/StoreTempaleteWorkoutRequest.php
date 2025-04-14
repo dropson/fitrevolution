@@ -16,7 +16,7 @@ class StoreTempaleteWorkoutRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'min:5', 'max:70'],
             'instruction' => ['nullable', 'string'],
-            'exercises' => ['required','array'],
+            'exercises' => ['required', 'array'],
             'exercises.*.id' => ['integer', 'exists:exercises,id'],
             'exercises.*.sets.*.sets_number' => ['integer', 'min:1'],
             'exercises.*.sets.*.repetitions' => ['integer', 'min:1'],
@@ -24,9 +24,10 @@ class StoreTempaleteWorkoutRequest extends FormRequest
         ];
     }
 
-    public function messages() {
+    public function messages()
+    {
         return [
-            'exercises' => 'The exercises is required. '
+            'exercises' => 'The exercises is required. ',
         ];
     }
 }

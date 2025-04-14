@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\DB;
 
 class UpdateTemplateWorkoutAction
 {
-
     protected $exerciseService;
 
     public function __construct(TemplateWorkoutExerciseService $exerciseService)
@@ -42,13 +41,14 @@ class UpdateTemplateWorkoutAction
     {
         $remainingTemplateWorkoutExerciseIds = [];
 
-        if (!isset($data['exercises'])) {
+        if (! isset($data['exercises'])) {
             return;
         }
 
         foreach ($data['exercises'] as $index => $exerciseData) {
             if ($exerciseData['deleted'] === '1') {
                 $this->deleteExercise($exerciseData);
+
                 continue;
             }
 
@@ -69,7 +69,7 @@ class UpdateTemplateWorkoutAction
 
     private function deleteExercise(array $exerciseData): void
     {
-        if (!isset($exerciseData['template_workout_exercise_id'])) {
+        if (! isset($exerciseData['template_workout_exercise_id'])) {
             return;
         }
         $templateWorkoutExercise = TemplateWorkoutExercise::findOrFail($exerciseData['template_workout_exercise_id']);
@@ -81,12 +81,12 @@ class UpdateTemplateWorkoutAction
     {
         if (isset($exerciseData['template_workout_exercise_id'])) {
             $templateWorkoutExercise = TemplateWorkoutExercise::findOrFail($exerciseData['template_workout_exercise_id']);
+
             return $templateWorkoutExercise;
         }
 
         return $this->exerciseService->addExerciseWithSets($templateWorkout, $exerciseData, $index);
     }
-
 
     private function updateOrCreateSets(TemplateWorkoutExercise $templateWorkoutExercise, array $sets): array
     {
@@ -120,5 +120,4 @@ class UpdateTemplateWorkoutAction
 
         return $remainingSetIds;
     }
-
 }

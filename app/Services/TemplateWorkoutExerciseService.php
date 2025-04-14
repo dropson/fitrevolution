@@ -8,7 +8,6 @@ use App\Models\Workouts\TemplateWorkoutExercise;
 
 class TemplateWorkoutExerciseService
 {
-
     public function addExerciseWithSets(TemplateWorkout $templateWorkout, array $exerciseData, int $index): TemplateWorkoutExercise
     {
 
@@ -19,14 +18,15 @@ class TemplateWorkoutExerciseService
             ->orderBy('id', 'desc')
             ->first();
 
-        if (!$templateWorkoutExercise) {
-            throw new \Exception('Failed to create TemplateWorkoutExercise for exercise ID: ' . $exerciseData['id']);
+        if (! $templateWorkoutExercise) {
+            throw new \Exception('Failed to create TemplateWorkoutExercise for exercise ID: '.$exerciseData['id']);
         }
 
         $this->createSets($templateWorkoutExercise, $exerciseData['sets'] ?? []);
 
         return $templateWorkoutExercise;
     }
+
     private function createSets(TemplateWorkoutExercise $templateWorkoutExercise, array $sets): void
     {
         foreach ($sets as $setIndex => $setData) {

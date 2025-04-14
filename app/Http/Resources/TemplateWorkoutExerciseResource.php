@@ -17,7 +17,7 @@ class TemplateWorkoutExerciseResource extends JsonResource
         return [
             'title' => $this->exercise->title,
             'muscle_group' => $this->exercise->muscle_group->value,
-            'sets' => TemplateSetResource::collection($this->templateSets)
+            'sets' => TemplateSetResource::collection($this->templateSets),
         ];
     }
 }

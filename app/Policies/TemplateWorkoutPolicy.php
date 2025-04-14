@@ -4,11 +4,9 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Models\Workouts\TemplateWorkout;
-use Illuminate\Auth\Access\Response;
 
 class TemplateWorkoutPolicy
 {
-
     public function view(User $user, TemplateWorkout $templateWorkout): bool
     {
         return $user->id === $templateWorkout->user_id;
@@ -23,5 +21,4 @@ class TemplateWorkoutPolicy
     {
         return $user->id === $templateWorkout->user_id;
     }
-
 }

@@ -14,12 +14,14 @@ class WorkoutSchedule extends Model
         'workout_id',
         'scheduled_date',
         'status',
-        'complated_at'
+        'complated_at',
     ];
+
     protected $casts = [
         'scheduled_date' => 'date',
-        'status' => WorkoutScheduleStatusEnum::class
+        'status' => WorkoutScheduleStatusEnum::class,
     ];
+
     public function scopeForDate($query, Carbon $date)
     {
         return $query->whereDate('scheduled_date', $date);
@@ -39,11 +41,13 @@ class WorkoutSchedule extends Model
     {
         return $query->forDate(Carbon::tomorrow());
     }
+
     public function getFormattedScheduledDateAttribute()
     {
         return $this->scheduled_date ? $this->scheduled_date->format('Y-m-d') : null;
     }
-    public function workout():BelongsTo
+
+    public function workout(): BelongsTo
     {
         return $this->belongsTo(Workout::class);
     }

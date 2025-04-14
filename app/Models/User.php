@@ -13,9 +13,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, HasRoles, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -68,10 +69,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(TemplateWorkout::class)->latest();
     }
+
     public function workoutSchedules(): HasMany
     {
         return $this->hasMany(WorkoutSchedule::class);
-    }   
+    }
+
     public static function withWorkoutCounts()
     {
         return static::withCount([
@@ -80,7 +83,8 @@ class User extends Authenticatable
                 $query->where('status', WorkoutScheduleStatusEnum::Done->value);
             },
         ]);
-    } 
+    }
+
     public function getWorkoutCompletedCountAttribute()
     {
         return $this->attributes['workout_completed_count'] ?? $this->workoutSchedules()

@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class CalendarController extends Controller
 {
-
     public function index()
     {
         return view('clients.calendar.index');
@@ -19,7 +18,7 @@ class CalendarController extends Controller
         $user = Auth::user();
         $schedules = $user->workoutSchedules->load('workout');
 
-        $events = $schedules->map(function($schedule) {
+        $events = $schedules->map(function ($schedule) {
             return [
                 'id' => $schedule->id,
                 'title' => $schedule->workout->title,
@@ -30,12 +29,14 @@ class CalendarController extends Controller
                 ],
             ];
         });
+
         return response()->json($events);
     }
 
     public function getWorkouts()
     {
         $workouts = TemplateWorkout::all();
+
         return response()->json($workouts);
     }
 }

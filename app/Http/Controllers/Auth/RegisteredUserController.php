@@ -9,10 +9,8 @@ use App\Http\Requests\Auth\RegistrationClientRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
@@ -24,6 +22,7 @@ class RegisteredUserController extends Controller
     {
 
         $genders = UserGenderEnum::cases();
+
         return view('auth.register', compact('genders'));
     }
 
@@ -43,6 +42,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('clients.home', absolute: false))->with('success','Registration Successful');
+        return redirect(route('clients.home', absolute: false))->with('success', 'Registration Successful');
     }
 }

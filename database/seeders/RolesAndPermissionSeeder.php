@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Enums\UserRoleEnum;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 
@@ -16,12 +15,12 @@ class RolesAndPermissionSeeder extends Seeder
     {
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        $admin = Role::firstOrCreate(["name"=> UserRoleEnum::Admin->value]);
+        $admin = Role::firstOrCreate(['name' => UserRoleEnum::Admin->value]);
 
-        $moderator = Role::firstOrCreate(["name"=> UserRoleEnum::Moderator->value]);
+        $moderator = Role::firstOrCreate(['name' => UserRoleEnum::Moderator->value]);
 
-        $coach = Role::firstOrCreate(["name"=> UserRoleEnum::Coach->value]);
+        $coach = Role::firstOrCreate(['name' => UserRoleEnum::Coach->value]);
 
-        $client = Role::firstOrCreate(["name"=> UserRoleEnum::Client->value]);
+        $client = Role::firstOrCreate(['name' => UserRoleEnum::Client->value]);
     }
 }

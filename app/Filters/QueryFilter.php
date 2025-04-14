@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 class QueryFilter
 {
     protected $builder;
+
     protected $request;
+
     protected $filterable = [];
 
     public function __construct(Request $request)
@@ -20,13 +22,14 @@ class QueryFilter
     {
         $this->builder = $builder;
         foreach ($this->request->all() as $key => $value) {
-            if ($this->isFilterable($key) && !empty($value)) {
+            if ($this->isFilterable($key) && ! empty($value)) {
                 $method = $this->getFilterMethod($key);
                 if (method_exists($this, $method)) {
                     $this->$method($value);
                 }
             }
         }
+
         return $builder;
     }
 
@@ -40,7 +43,7 @@ class QueryFilter
         if (array_key_exists($key, $this->filterable) && is_string($this->filterable[$key])) {
             return $this->filterable[$key];
         }
+
         return $key;
     }
-
 }

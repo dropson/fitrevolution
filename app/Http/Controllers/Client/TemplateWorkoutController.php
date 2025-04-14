@@ -11,13 +11,12 @@ use App\Http\Requests\Client\UpdateTempaleteWorkoutRequest;
 use App\Http\Resources\TemplateWorkoutReource;
 use App\Models\Exercise;
 use App\Models\Workouts\TemplateWorkout;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TemplateWorkoutController extends Controller
 {
     public static function index()
-    {   
+    {
         $user = Auth::user();
         $workouts = $user->templateWorkouts->load('exercises');
 
@@ -25,6 +24,7 @@ class TemplateWorkoutController extends Controller
             'workouts' => $workouts,
         ]);
     }
+
     public function createTemplate(ExerciseFilter $filters)
     {
         // TODO
@@ -42,8 +42,9 @@ class TemplateWorkoutController extends Controller
             ->get();
 
         $exercises = $personalExercises->concat($publicExercises);
+
         return view('clients.workout_templates.create', [
-            'exercises' => $exercises
+            'exercises' => $exercises,
         ]);
     }
 
@@ -79,9 +80,10 @@ class TemplateWorkoutController extends Controller
             ->distinct()
             ->latest()
             ->get();
+
         return view('clients.workout_templates.edit', [
             'workout' => $template,
-            'exercises' => $exercises
+            'exercises' => $exercises,
         ]);
     }
 
@@ -89,18 +91,23 @@ class TemplateWorkoutController extends Controller
     {
         $this->authorize('update', $template);
         $action->handle($request, $template);
+
         return back()->with('success', 'Workout was updated');
 
     }
+
     public function destroyTemplate(TemplateWorkout $template)
     {
         $this->authorize('delete', $template);
         $template->delete();
+
         return back()->with('success', 'Exercise was deleted');
     }
+
     public function getTempateWorkout(TemplateWorkout $templateWorkout)
     {
         $templateWorkout->load('templateWorkoutExercises.exercise', 'templateWorkoutExercises.templateSets');
+
         return new TemplateWorkoutReource($templateWorkout);
     }
 }

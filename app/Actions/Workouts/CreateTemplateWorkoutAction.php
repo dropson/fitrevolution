@@ -3,12 +3,10 @@
 namespace App\Actions\Workouts;
 
 use App\Http\Requests\Client\StoreTempaleteWorkoutRequest;
-use App\Models\Workouts\TemplateSet;
 use App\Models\Workouts\TemplateWorkout;
 use App\Services\TemplateWorkoutExerciseService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class CreateTemplateWorkoutAction
 {
@@ -37,7 +35,7 @@ class CreateTemplateWorkoutAction
 
     private function processExercises(TemplateWorkout $templateWorkout, array $data): void
     {
-        if (!isset($data['exercises'])) {
+        if (! isset($data['exercises'])) {
             return;
         }
 
