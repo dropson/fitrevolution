@@ -9,16 +9,13 @@ class QueryFilter
 {
     protected $builder;
 
-    protected $request;
-
     protected $filterable = [];
 
-    public function __construct(Request $request)
+    public function __construct(protected Request $request)
     {
-        $this->request = $request;
     }
 
-    public function apply(Builder $builder)
+    public function apply(Builder $builder): Builder
     {
         $this->builder = $builder;
         foreach ($this->request->all() as $key => $value) {

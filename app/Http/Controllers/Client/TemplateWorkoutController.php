@@ -59,21 +59,21 @@ class TemplateWorkoutController extends Controller
     {
         $this->authorize('view', $template);
         $template = $template->load([
-            'templateWorkoutExercises.exercise' => function ($query) {
+            'templateWorkoutExercises.exercise' => function ($query): void {
                 $query->select('id', 'title', 'muscle_group');
             },
-            'templateWorkoutExercises.templateSets' => function ($query) {
+            'templateWorkoutExercises.templateSets' => function ($query): void {
                 $query->select('template_workout_exercise_id', 'sets_number', 'repetitions', 'weight');
             },
         ]);
         // TODO
         $user = Auth::user();
         $exercises = Exercise::query()
-            ->where(function ($query) use ($user, $filters) {
+            ->where(function ($query) use ($user, $filters): void {
                 $query->forUser($user->id)
                     ->filter($filters);
             })
-            ->orWhere(function ($query) use ($filters) {
+            ->orWhere(function ($query) use ($filters): void {
                 $query->public()
                     ->filter($filters);
             })
@@ -104,7 +104,7 @@ class TemplateWorkoutController extends Controller
         return back()->with('success', 'Exercise was deleted');
     }
 
-    public function getTempateWorkout(TemplateWorkout $templateWorkout)
+    public function getTempateWorkout(TemplateWorkout $templateWorkout): \App\Http\Resources\TemplateWorkoutReource
     {
         $templateWorkout->load('templateWorkoutExercises.exercise', 'templateWorkoutExercises.templateSets');
 

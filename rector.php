@@ -13,7 +13,7 @@ return RectorConfig::configure()
         __DIR__.'/public',
     ])
     ->withSkip([
-        AddOverrideAttributeToOverriddenMethodsRector::class,
+        // AddOverrideAttributeToOverriddenMethodsRector::class,
     ])
     ->withPreparedSets(
         deadCode: true,

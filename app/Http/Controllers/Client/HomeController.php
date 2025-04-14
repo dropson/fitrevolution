@@ -20,6 +20,6 @@ class HomeController extends Controller
             ->forTomorrow()
             ->first();
 
-        return view('clients.home', compact('todayEvent', 'tomorrowEvent', 'user'));
+        return view('clients.home', ['todayEvent' => $todayEvent, 'tomorrowEvent' => $tomorrowEvent, 'user' => $user]);
     }
 }

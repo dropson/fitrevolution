@@ -11,18 +11,15 @@ use Illuminate\Support\Facades\DB;
 
 class UpdateTemplateWorkoutAction
 {
-    protected $exerciseService;
-
-    public function __construct(TemplateWorkoutExerciseService $exerciseService)
+    public function __construct(protected TemplateWorkoutExerciseService $exerciseService)
     {
-        $this->exerciseService = $exerciseService;
     }
 
     public function handle(UpdateTempaleteWorkoutRequest $request, TemplateWorkout $templateWorkout): TemplateWorkout
     {
         $data = $request->validated();
 
-        DB::transaction(function () use ($data, $templateWorkout) {
+        DB::transaction(function () use ($data, $templateWorkout): TemplateWorkout {
 
             $templateWorkout->update([
                 'title' => $data['title'],
@@ -80,9 +77,7 @@ class UpdateTemplateWorkoutAction
     private function getOrCreateTemplateWorkoutExercise(TemplateWorkout $templateWorkout, array $exerciseData, int $index): TemplateWorkoutExercise
     {
         if (isset($exerciseData['template_workout_exercise_id'])) {
-            $templateWorkoutExercise = TemplateWorkoutExercise::findOrFail($exerciseData['template_workout_exercise_id']);
-
-            return $templateWorkoutExercise;
+            return TemplateWorkoutExercise::findOrFail($exerciseData['template_workout_exercise_id']);
         }
 
         return $this->exerciseService->addExerciseWithSets($templateWorkout, $exerciseData, $index);

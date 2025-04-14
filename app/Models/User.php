@@ -79,7 +79,7 @@ class User extends Authenticatable
     {
         return static::withCount([
             'workoutSchedules as workout_total_count',
-            'workoutSchedules as workout_completed_count' => function ($query) {
+            'workoutSchedules as workout_completed_count' => function ($query): void {
                 $query->where('status', WorkoutScheduleStatusEnum::Done->value);
             },
         ]);

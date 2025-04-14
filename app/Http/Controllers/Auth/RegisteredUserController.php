@@ -23,7 +23,7 @@ class RegisteredUserController extends Controller
 
         $genders = UserGenderEnum::cases();
 
-        return view('auth.register', compact('genders'));
+        return view('auth.register', ['genders' => $genders]);
     }
 
     public function registerClient(RegistrationClientRequest $request): RedirectResponse

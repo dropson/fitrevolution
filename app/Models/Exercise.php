@@ -52,7 +52,7 @@ class Exercise extends Model
         return Str::limit($this->instruction, 118, ' ...');
     }
 
-    public function getMuscleGroupIconAttribute()
+    public function getMuscleGroupIconAttribute(): string
     {
         $icons = [
             MuscleGroupEnum::Chest->value => 'images/muscle_groups/chest.png',

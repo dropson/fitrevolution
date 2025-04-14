@@ -31,8 +31,6 @@ class TemplateWorkout extends Model
     {
         $exercises = $this->exercises;
 
-        return $exercises->pluck('muscle_group')->map(function ($muscleGroup) {
-            return $muscleGroup->value;
-        })->unique()->values();
+        return $exercises->pluck('muscle_group')->map(fn($muscleGroup) => $muscleGroup->value)->unique()->values();
     }
 }

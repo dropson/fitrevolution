@@ -10,7 +10,7 @@ class ExerciseFilter extends QueryFilter
         'title',
     ];
 
-    public function title($value)
+    public function title(string $value)
     {
         $likeStr = '%'.$value.'%';
 

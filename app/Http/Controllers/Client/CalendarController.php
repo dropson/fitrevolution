@@ -18,17 +18,15 @@ class CalendarController extends Controller
         $user = Auth::user();
         $schedules = $user->workoutSchedules->load('workout');
 
-        $events = $schedules->map(function ($schedule) {
-            return [
-                'id' => $schedule->id,
-                'title' => $schedule->workout->title,
-                'start' => $schedule->scheduled_date,
-                'extendedProps' => [
-                    'status' => $schedule->status->value,
-                    'workout_id' => $schedule->workout_id,
-                ],
-            ];
-        });
+        $events = $schedules->map(fn($schedule): array => [
+            'id' => $schedule->id,
+            'title' => $schedule->workout->title,
+            'start' => $schedule->scheduled_date,
+            'extendedProps' => [
+                'status' => $schedule->status->value,
+                'workout_id' => $schedule->workout_id,
+            ],
+        ]);
 
         return response()->json($events);
     }
