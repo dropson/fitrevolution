@@ -12,6 +12,7 @@ use App\Models\Workouts\Workout;
 use App\Models\Workouts\WorkoutSchedule;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -51,6 +52,16 @@ final class User extends Authenticatable
                 $query->where('status', WorkoutScheduleStatusEnum::Done->value);
             },
         ]);
+    }
+
+    public function clientProfile(): HasOne
+    {
+        return $this->hasOne(Client::class);
+    }
+
+    public function coachProfile(): HasOne
+    {
+        return $this->hasOne(Coach::class);
     }
 
     public function exercises(): HasMany
