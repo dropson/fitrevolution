@@ -10,9 +10,9 @@ use App\Services\TemplateWorkoutExerciseService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-final class CreateTemplateWorkoutAction
+final readonly class CreateTemplateWorkoutAction
 {
-    public function __construct(protected TemplateWorkoutExerciseService $exerciseService) {}
+    public function __construct(private TemplateWorkoutExerciseService $exerciseService) {}
 
     public function handle(StoreTempaleteWorkoutRequest $request): TemplateWorkout
     {

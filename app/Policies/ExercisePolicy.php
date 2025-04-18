@@ -11,11 +11,11 @@ final class ExercisePolicy
 {
     public function update(User $user, Exercise $exercise): bool
     {
-        return $exercise->user_id === $user->id;
+        return $exercise->creator->id === $user->id;
     }
 
     public function delete(User $user, Exercise $exercise): bool
     {
-        return $exercise->user_id === $user->id;
+        return $exercise->creator->id === $user->id;
     }
 }

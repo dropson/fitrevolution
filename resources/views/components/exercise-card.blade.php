@@ -6,7 +6,7 @@
         <div class="flex w-full items-center justify-between mb-3">
 
             <img src="{{ asset($exercise->muscle_group_icon) }}" class="w-12" alt="muscle icon">
-            @if ($exercise->user_id)
+            @if ($exercise->creator)
                 <div class="flex">
                     <div class="dropdown relative inline-flex rtl:[--placement:bottom-end]">
                         <button id="dropdown-menu-icon" type="button"

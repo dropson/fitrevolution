@@ -3,7 +3,7 @@
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
         <div class="flex items-center justify-between">
             <a href="{{ route('clients.exercises.index') }}" class="btn btn-warning">Back</a>
-            <h3 class="font-bold text-black text-lg">Create Custom Exercise</h3>
+            <h3 class="font-bold text-black text-lg">Update Your Exercise</h3>
         </div>
 
 
@@ -59,7 +59,7 @@
 
 
                         <div class="flex w-full items-center justify-center gap-3 mb-5 flex-wrap sm:flex-nowrap">
-                            <button type="submit" class="btn btn-primary btn-lg ">Create exercise</button>
+                            <button type="submit" class="btn btn-primary btn-lg ">Update exercise</button>
                         </div>
                     </form>
                 </div>

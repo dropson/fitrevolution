@@ -8,7 +8,7 @@
     <div class="grow">
         <h4 class="font-bold text-black"> {{ $exercise->title }}</h4>
         <span>{{ $exercise->muscle_group }}
-            @if ($exercise->user_id)
+            @if ($exercise->creator)
                 <span
                     class="border border-indigo-700 text-indigo-700 rounded-md text-xs p-0.5">Your
                     exercise</span>

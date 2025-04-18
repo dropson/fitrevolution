@@ -14,15 +14,14 @@ final class ExerciseController extends Controller
 {
     public function index(ExerciseFilter $filters)
     {
-        // TODO
         $user = Auth::user();
         $publicExercises = Exercise::query()
-            ->public()
+            ->general()
             ->filter($filters)
             ->latest()
             ->get();
         $personalExercises = Exercise::query()
-            ->forUser($user->id)
+            ->forClient($user->id)
             ->latest()
             ->get();
 
@@ -60,7 +59,7 @@ final class ExerciseController extends Controller
         $this->authorize('update', $exercise);
         $exercise->update($request->validated());
 
-        return to_route('clients.exercises.edit', $exercise)->with('success', 'Exercise was updated');
+        return to_route('clients.exercises.index')->with('success', 'Exercise was updated');
     }
 
     public function destroy(Exercise $exercise)

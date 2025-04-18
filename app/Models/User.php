@@ -55,7 +55,7 @@ final class User extends Authenticatable
 
     public function exercises(): HasMany
     {
-        return $this->hasMany(Exercise::class);
+        return $this->hasMany(Exercise::class, 'created_by');
     }
 
     public function workouts(): HasMany

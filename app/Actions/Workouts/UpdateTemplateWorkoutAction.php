@@ -11,9 +11,9 @@ use App\Models\Workouts\TemplateWorkoutExercise;
 use App\Services\TemplateWorkoutExerciseService;
 use Illuminate\Support\Facades\DB;
 
-final class UpdateTemplateWorkoutAction
+final readonly class UpdateTemplateWorkoutAction
 {
-    public function __construct(protected TemplateWorkoutExerciseService $exerciseService) {}
+    public function __construct(private TemplateWorkoutExerciseService $exerciseService) {}
 
     public function handle(UpdateTempaleteWorkoutRequest $request, TemplateWorkout $templateWorkout): TemplateWorkout
     {
