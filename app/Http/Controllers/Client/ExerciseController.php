@@ -26,8 +26,8 @@ final class ExerciseController extends Controller
             ->get();
 
         return view('clients.exercises.index', [
-            'publicExercises' => $publicExercises,
-            'personalExercises' => $personalExercises,
+            'publicExercises' => $publicExercises->load('creator'),
+            'personalExercises' => $personalExercises->load('creator'),
         ]);
     }
 

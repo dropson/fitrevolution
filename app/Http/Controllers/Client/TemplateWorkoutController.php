@@ -39,7 +39,7 @@ final class TemplateWorkoutController extends Controller
             ->get();
 
         return view('clients.workout_templates.create', [
-            'exercises' => $exercises,
+            'exercises' => $exercises->load('creator'),
         ]);
     }
 
@@ -74,7 +74,7 @@ final class TemplateWorkoutController extends Controller
 
         return view('clients.workout_templates.edit', [
             'workout' => $template,
-            'exercises' => $exercises,
+            'exercises' => $exercises->load('creator'),
         ]);
     }
 
