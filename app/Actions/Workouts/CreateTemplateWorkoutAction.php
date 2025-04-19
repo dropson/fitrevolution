@@ -17,7 +17,7 @@ final readonly class CreateTemplateWorkoutAction
     public function handle(StoreTempaleteWorkoutRequest $request): TemplateWorkout
     {
         $data = $request->validated();
-        $data['user_id'] = Auth::id();
+        $data['client_id'] = Auth::id();
 
         return DB::transaction(function () use ($data) {
             $templateWorkout = TemplateWorkout::create($data);

@@ -47,8 +47,8 @@ final class User extends Authenticatable
     public static function withWorkoutCounts()
     {
         return self::withCount([
-            'workoutSchedules as workout_total_count',
-            'workoutSchedules as workout_completed_count' => function ($query): void {
+            'workoutSchedulesAsClient as workout_total_count',
+            'workoutSchedulesAsClient as workout_completed_count' => function ($query): void {
                 $query->where('status', WorkoutScheduleStatusEnum::Done->value);
             },
         ]);
@@ -69,19 +69,24 @@ final class User extends Authenticatable
         return $this->hasMany(Exercise::class, 'created_by');
     }
 
-    public function workouts(): HasMany
+    public function workoutsAsClient(): HasMany
     {
-        return $this->hasMany(Workout::class)->latest();
+        return $this->hasMany(Workout::class, 'client_id')->latest();
     }
 
-    public function templateWorkouts(): HasMany
+    public function workoutTemplatesAsClient()
     {
-        return $this->hasMany(TemplateWorkout::class)->latest();
+        return $this->hasMany(TemplateWorkout::class, 'client_id')->latest();
     }
 
-    public function workoutSchedules(): HasMany
+    public function workoutTemplatesAsCoach()
     {
-        return $this->hasMany(WorkoutSchedule::class);
+        return $this->hasMany(TemplateWorkout::class, 'coach_id')->latest();
+    }
+
+    public function workoutSchedulesAsClient(): HasMany
+    {
+        return $this->hasMany(WorkoutSchedule::class, 'client_id');
     }
 
     public function getWorkoutCompletedCountAttribute()

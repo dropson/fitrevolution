@@ -19,7 +19,7 @@ final class TemplateWorkoutController extends Controller
     public static function index()
     {
         $user = Auth::user();
-        $workouts = $user->templateWorkouts->load('exercises');
+        $workouts = $user->workoutTemplatesAsClient->load('exercises');
 
         return view('clients.workout_templates.index', [
             'workouts' => $workouts,
@@ -53,6 +53,7 @@ final class TemplateWorkoutController extends Controller
     public function editTemplate(TemplateWorkout $template)
     {
         $this->authorize('view', $template);
+
         $template = $template->load([
             'templateWorkoutExercises.exercise' => function ($query): void {
                 $query->select('id', 'title', 'muscle_group');

@@ -24,7 +24,7 @@ final class CreateScheduleWorkoutAction
 
             $templateWorkout = TemplateWorkout::findOrFail($data['template_workout_id']);
 
-            $existingSchedulesCount = WorkoutSchedule::where('user_id', $templateWorkout->user_id)
+            $existingSchedulesCount = WorkoutSchedule::where('client_id', $templateWorkout->user_id)
                 ->where('scheduled_date', $data['scheduled_date'])
                 ->count();
 
@@ -36,7 +36,7 @@ final class CreateScheduleWorkoutAction
             }
 
             $workout = Workout::create([
-                'user_id' => $templateWorkout->user_id,
+                'client_id' => $templateWorkout->client_id,
                 'template_workout_id' => $templateWorkout->id,
                 'title' => $templateWorkout->title,
                 'instruction' => $templateWorkout->instruction,
@@ -44,7 +44,7 @@ final class CreateScheduleWorkoutAction
             // TODO Exercises and sets
 
             $workoutSchedule = WorkoutSchedule::create([
-                'user_id' => $workout->user_id,
+                'client_id' => $workout->client_id,
                 'workout_id' => $workout->id,
                 'scheduled_date' => $data['scheduled_date'],
                 'status' => WorkoutScheduleStatusEnum::Pending->value,

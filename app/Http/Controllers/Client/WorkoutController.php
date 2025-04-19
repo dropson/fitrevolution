@@ -20,21 +20,17 @@ final class WorkoutController extends Controller
         $this->authorize('view', $workout);
         $user = Auth::user();
         $exercises = Exercise::query()
-            ->where(function ($query) use ($user, $filters): void {
-                $query->forUser($user->id)
-                    ->filter($filters);
+            ->where(function ($query) use ($user): void {
+                $query->whereNull('created_by')
+                    ->orWhere('created_by', $user->id);
             })
-            ->orWhere(function ($query) use ($filters): void {
-                $query->public()
-                    ->filter($filters);
-            })
-            ->distinct()
+            ->orderedForClient($user->id)
             ->latest()
             ->get();
 
         return view('clients.workouts.edit', [
             'workout' => $workout->load('schedule'),
-            'exercises' => $exercises,
+            'exercises' => $exercises->load('creator'),
         ]);
     }
 

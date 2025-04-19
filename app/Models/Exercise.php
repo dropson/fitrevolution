@@ -55,7 +55,6 @@ final class Exercise extends Model
         return $query
             ->select('exercises.*')
             ->orderByRaw('CASE WHEN created_by = ? THEN 0 ELSE 1 END', [$clientId]);
-        // ->orderBy('title');
     }
 
     public function scopeFilter(Builder $builder, QueryFilter $filters): Builder

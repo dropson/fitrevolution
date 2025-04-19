@@ -15,7 +15,7 @@ final class Workout extends Model
         'title',
         'instruction',
         'order',
-        'user_id',
+        'client_id',
         'template_workout_id',
     ];
 
