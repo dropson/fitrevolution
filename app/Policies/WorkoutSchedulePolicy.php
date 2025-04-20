@@ -11,6 +11,6 @@ final class WorkoutSchedulePolicy
 {
     public function delete(User $user, WorkoutSchedule $workoutSchedule): bool
     {
-        return $user->id === $workoutSchedule->user_id;
+        return $user->id === $workoutSchedule->client_id;
     }
 }

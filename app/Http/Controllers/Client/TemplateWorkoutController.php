@@ -7,8 +7,8 @@ namespace App\Http\Controllers\Client;
 use App\Actions\Workouts\CreateTemplateWorkoutAction;
 use App\Actions\Workouts\UpdateTemplateWorkoutAction;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Client\StoreTempaleteWorkoutRequest;
-use App\Http\Requests\Client\UpdateTempaleteWorkoutRequest;
+use App\Http\Requests\Workouts\StoreTemplateWorkoutRequest;
+use App\Http\Requests\Workouts\UpdateTemplateWorkoutRequest;
 use App\Http\Resources\TemplateWorkoutReource;
 use App\Models\Exercise;
 use App\Models\Workouts\TemplateWorkout;
@@ -43,7 +43,7 @@ final class TemplateWorkoutController extends Controller
         ]);
     }
 
-    public function storeTemplate(StoreTempaleteWorkoutRequest $request, CreateTemplateWorkoutAction $action)
+    public function storeTemplate(StoreTemplateWorkoutRequest $request, CreateTemplateWorkoutAction $action)
     {
         $action->handle($request);
 
@@ -79,7 +79,7 @@ final class TemplateWorkoutController extends Controller
         ]);
     }
 
-    public function updateTemplate(UpdateTempaleteWorkoutRequest $request, TemplateWorkout $template, UpdateTemplateWorkoutAction $action)
+    public function updateTemplate(UpdateTemplateWorkoutRequest $request, TemplateWorkout $template, UpdateTemplateWorkoutAction $action)
     {
         $this->authorize('update', $template);
         $action->handle($request, $template);

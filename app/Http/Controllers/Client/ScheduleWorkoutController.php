@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Client;
 use App\Actions\Schedule\CreateScheduleWorkoutAction;
 use App\Enums\WorkoutScheduleStatusEnum;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Client\StoreScheduleWorkoutRequst;
+use App\Http\Requests\Client\StoreScheduleWorkoutRequest;
 use App\Models\Workouts\WorkoutSchedule;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 
 final class ScheduleWorkoutController extends Controller
 {
-    public function storeSchedule(StoreScheduleWorkoutRequst $request, CreateScheduleWorkoutAction $action): RedirectResponse
+    public function storeSchedule(StoreScheduleWorkoutRequest $request, CreateScheduleWorkoutAction $action): RedirectResponse
     {
         try {
             $action->handle($request);

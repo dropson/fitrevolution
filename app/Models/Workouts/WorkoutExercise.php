@@ -26,7 +26,7 @@ final class WorkoutExercise extends Model
         return $this->belongsTo(Exercise::class);
     }
 
-    public function templateSets()
+    public function sets()
     {
         return $this->hasMany(WorkoutSet::class);
     }
