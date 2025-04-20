@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Enums\CurrencyEnum;
 use App\Enums\UserGenderEnum;
 use App\Enums\UserRoleEnum;
 use App\Models\User;
@@ -24,13 +25,31 @@ final class DatabaseSeeder extends Seeder
             ExerciseSeeder::class,
         ]);
 
-        $user = User::factory()->create([
-            'first_name' => 'Paul',
-            'last_name' => 'Jillinhal',
-            'gender' => UserGenderEnum::Male->value,
-            'email' => 'test@example.com',
+        $client = User::factory()->create([
+            'first_name' => 'Gina',
+            'last_name' => 'Linetti',
+            'gender' => UserGenderEnum::Female->value,
+            'email' => 'client@example.com',
         ]);
-
-        $user->assignRole(UserRoleEnum::Client->value);
+        $client->clientProfile()->create([
+            'weight' => 160,
+            'height' => 48,
+        ]);
+        $client->assignRole(UserRoleEnum::Client->value);
+        $client->workoutTemplatesAsClient()->create([
+            'title' => 'Chest day',
+            'instruction' => 'Lorem, ipsum dolor sit amet consectetur adipisicing.',
+        ]);
+        $coach = User::factory()->create([
+            'first_name' => 'Terry',
+            'last_name' => 'Jeffords',
+            'gender' => UserGenderEnum::Male->value,
+            'email' => 'coach@example.com',
+        ]);
+        $coach->coachProfile()->create([
+            'price' => 900,
+            'currency' => CurrencyEnum::EUR->value,
+        ]);
+        $coach->assignRole(UserRoleEnum::Coach->value);
     }
 }

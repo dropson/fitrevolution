@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace App\Actions\Workouts;
 
-use App\Http\Requests\Client\UpdateTempaleteWorkoutRequest;
+use App\Http\Requests\Workouts\UpdateTemplateWorkoutRequest;
 use App\Models\Workouts\TemplateSet;
 use App\Models\Workouts\TemplateWorkout;
 use App\Models\Workouts\TemplateWorkoutExercise;
 use App\Services\TemplateWorkoutExerciseService;
 use Illuminate\Support\Facades\DB;
 
-final class UpdateTemplateWorkoutAction
+final readonly class UpdateTemplateWorkoutAction
 {
-    public function __construct(protected TemplateWorkoutExerciseService $exerciseService) {}
+    public function __construct(private TemplateWorkoutExerciseService $exerciseService) {}
 
-    public function handle(UpdateTempaleteWorkoutRequest $request, TemplateWorkout $templateWorkout): TemplateWorkout
+    public function handle(UpdateTemplateWorkoutRequest $request, TemplateWorkout $templateWorkout): TemplateWorkout
     {
         $data = $request->validated();
-
         DB::transaction(function () use ($data, $templateWorkout): TemplateWorkout {
 
             $templateWorkout->update([

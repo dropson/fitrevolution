@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\View\Composers\ExerciseViewComposer;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -23,6 +24,8 @@ final class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Model::preventLazyLoading();
+
         View::composer('clients.exercises.*', ExerciseViewComposer::class);
         View::composer('clients.workout_templates.create', ExerciseViewComposer::class);
         View::composer('clients.workout_templates.edit', ExerciseViewComposer::class);

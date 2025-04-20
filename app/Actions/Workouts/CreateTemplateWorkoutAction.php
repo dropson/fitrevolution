@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Actions\Workouts;
 
-use App\Http\Requests\Client\StoreTempaleteWorkoutRequest;
+use App\Http\Requests\Workouts\StoreTemplateWorkoutRequest;
 use App\Models\Workouts\TemplateWorkout;
 use App\Services\TemplateWorkoutExerciseService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-final class CreateTemplateWorkoutAction
+final readonly class CreateTemplateWorkoutAction
 {
-    public function __construct(protected TemplateWorkoutExerciseService $exerciseService) {}
+    public function __construct(private TemplateWorkoutExerciseService $exerciseService) {}
 
-    public function handle(StoreTempaleteWorkoutRequest $request): TemplateWorkout
+    public function handle(StoreTemplateWorkoutRequest $request): TemplateWorkout
     {
         $data = $request->validated();
-        $data['user_id'] = Auth::id();
+        $data['client_id'] = Auth::id();
 
         return DB::transaction(function () use ($data) {
             $templateWorkout = TemplateWorkout::create($data);

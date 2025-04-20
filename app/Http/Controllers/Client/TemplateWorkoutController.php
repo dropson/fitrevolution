@@ -6,10 +6,9 @@ namespace App\Http\Controllers\Client;
 
 use App\Actions\Workouts\CreateTemplateWorkoutAction;
 use App\Actions\Workouts\UpdateTemplateWorkoutAction;
-use App\Filters\ExerciseFilter;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Client\StoreTempaleteWorkoutRequest;
-use App\Http\Requests\Client\UpdateTempaleteWorkoutRequest;
+use App\Http\Requests\Workouts\StoreTemplateWorkoutRequest;
+use App\Http\Requests\Workouts\UpdateTemplateWorkoutRequest;
 use App\Http\Resources\TemplateWorkoutReource;
 use App\Models\Exercise;
 use App\Models\Workouts\TemplateWorkout;
@@ -20,46 +19,41 @@ final class TemplateWorkoutController extends Controller
     public static function index()
     {
         $user = Auth::user();
-        $workouts = $user->templateWorkouts->load('exercises');
+        $workouts = $user->workoutTemplatesAsClient->load('exercises');
 
         return view('clients.workout_templates.index', [
             'workouts' => $workouts,
         ]);
     }
 
-    public function createTemplate(ExerciseFilter $filters)
+    public function createTemplate()
     {
-        // TODO
         $user = Auth::user();
-        $personalExercises = Exercise::query()
-            ->forUser($user->id)
-            ->filter($filters)
+        $exercises = Exercise::query()
+            ->where(function ($query) use ($user): void {
+                $query->whereNull('created_by')
+                    ->orWhere('created_by', $user->id);
+            })
+            ->orderedForClient($user->id)
             ->latest()
             ->get();
-
-        $publicExercises = Exercise::query()
-            ->public()
-            ->filter($filters)
-            ->latest()
-            ->get();
-
-        $exercises = $personalExercises->concat($publicExercises);
 
         return view('clients.workout_templates.create', [
-            'exercises' => $exercises,
+            'exercises' => $exercises->load('creator'),
         ]);
     }
 
-    public function storeTemplate(StoreTempaleteWorkoutRequest $request, CreateTemplateWorkoutAction $action)
+    public function storeTemplate(StoreTemplateWorkoutRequest $request, CreateTemplateWorkoutAction $action)
     {
         $action->handle($request);
 
         return to_route('clients.workout_templates.index')->with('success', 'Workout was created');
     }
 
-    public function editTemplate(TemplateWorkout $template, ExerciseFilter $filters)
+    public function editTemplate(TemplateWorkout $template)
     {
         $this->authorize('view', $template);
+
         $template = $template->load([
             'templateWorkoutExercises.exercise' => function ($query): void {
                 $query->select('id', 'title', 'muscle_group');
@@ -68,28 +62,24 @@ final class TemplateWorkoutController extends Controller
                 $query->select('template_workout_exercise_id', 'sets_number', 'repetitions', 'weight');
             },
         ]);
-        // TODO
+
         $user = Auth::user();
         $exercises = Exercise::query()
-            ->where(function ($query) use ($user, $filters): void {
-                $query->forUser($user->id)
-                    ->filter($filters);
+            ->where(function ($query) use ($user): void {
+                $query->whereNull('created_by')
+                    ->orWhere('created_by', $user->id);
             })
-            ->orWhere(function ($query) use ($filters): void {
-                $query->public()
-                    ->filter($filters);
-            })
-            ->distinct()
+            ->orderedForClient($user->id)
             ->latest()
             ->get();
 
         return view('clients.workout_templates.edit', [
             'workout' => $template,
-            'exercises' => $exercises,
+            'exercises' => $exercises->load('creator'),
         ]);
     }
 
-    public function updateTemplate(UpdateTempaleteWorkoutRequest $request, TemplateWorkout $template, UpdateTemplateWorkoutAction $action)
+    public function updateTemplate(UpdateTemplateWorkoutRequest $request, TemplateWorkout $template, UpdateTemplateWorkoutAction $action)
     {
         $this->authorize('update', $template);
         $action->handle($request, $template);

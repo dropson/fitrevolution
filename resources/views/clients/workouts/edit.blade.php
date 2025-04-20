@@ -44,11 +44,11 @@
                                 </div>
                             </div>
 
-                            {{-- <div class="exercise-list">
+                            <div class="exercise-list">
                                 @error('exercises')
                                     <span class="text-red-500">{{ $message }}</span>
                                 @enderror
-                                @forelse ($workout->templateWorkoutExercises as $exerciseIndex =>  $templateExercise)
+                                @forelse ($workout->workoutExercises as $exerciseIndex =>  $exercise)
                                     <div class="card mb-4">
                                         <div class="card-body p-3">
                                             <div class="flex gap-3">
@@ -56,24 +56,24 @@
                                                 <div class="flex flex-col flex-grow">
                                                     <div class="flex justify-between items-center mb-3">
                                                         <input type="hidden" name="exercises[{{ $exerciseIndex }}][id]"
-                                                            value="{{ $templateExercise->exercise_id }}">
+                                                            value="{{ $exercise->exercise_id }}">
                                                         <input type="hidden"
                                                             name="exercises[{{ $exerciseIndex }}][template_workout_exercise_id]"
-                                                            value="{{ $templateExercise->id }}">
+                                                            value="{{ $exercise->id }}">
                                                         <input type="hidden"
                                                             name="exercises[{{ $exerciseIndex }}][deleted]"
                                                             value="0" class="exercise-deleted">
                                                         <h5 class="card-title text-base flex items-center">
-                                                            {{ $templateExercise->exercise->title }}
+                                                            {{ $exercise->exercise->title }}
                                                             <span
-                                                                class="badge badge-outline badge-info badge-sm ml-3 text-xs">{{ $templateExercise->exercise->muscle_group }}</span>
+                                                                class="badge badge-outline badge-info badge-sm ml-3 text-xs">{{ $exercise->exercise->muscle_group }}</span>
                                                         </h5>
                                                         <button type="button" class="remove-exercise">
                                                             <span class="icon-[tabler--trash] size-4"></span>
                                                         </button>
                                                     </div>
                                                     <div class="reps-list">
-                                                        @forelse ($templateExercise->templateSets as $set)
+                                                        @forelse ($exercise->sets as $set)
                                                             <div class="flex gap-5 justify-end me-10">
                                                                 <div class="flex items-center">
                                                                     <span class="font-bold text-sm mr-2">Sets</span>
@@ -111,7 +111,7 @@
                                 @empty
                                     empty
                                 @endforelse
-                            </div> --}}
+                            </div>
 
                             <div
                                 class="flex w-full items-center justify-center gap-3 mb-5 mt-10 flex-wrap sm:flex-nowrap">

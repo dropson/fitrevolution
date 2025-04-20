@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('instruction')->nullable();
-            $table->foreignIdFor(User::class)->constrained('users')->onDelete('cascade');
+            $table->foreignId('client_id')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('coach_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->unsignedBigInteger('order')->default(0);
             $table->timestamps();
         });

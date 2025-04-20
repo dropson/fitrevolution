@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 final class WorkoutSchedule extends Model
 {
     protected $fillable = [
-        'user_id',
+        'client_id',
         'workout_id',
         'scheduled_date',
         'status',
@@ -31,7 +31,7 @@ final class WorkoutSchedule extends Model
 
     public function scopeForUser($query, $userId)
     {
-        return $query->where('user_id', $userId);
+        return $query->where('client_id', $userId);
     }
 
     public function scopeForToday($query)

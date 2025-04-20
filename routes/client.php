@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Client\CalendarController;
+use App\Http\Controllers\Client\ClientProfileController;
 use App\Http\Controllers\Client\ExerciseController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ScheduleWorkoutController;
@@ -57,4 +58,7 @@ Route::middleware('auth')->group(function () {
         });
 
     });
+
+    Route::patch('/client-profile', [ClientProfileController::class, 'updateInformation'])->name('client_profile.update');
+
 });

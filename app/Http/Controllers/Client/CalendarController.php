@@ -18,7 +18,7 @@ final class CalendarController extends Controller
     public function getSchedule()
     {
         $user = Auth::user();
-        $schedules = $user->workoutSchedules->load('workout');
+        $schedules = $user->workoutSchedulesAsClient->load('workout');
 
         $events = $schedules->map(fn ($schedule): array => [
             'id' => $schedule->id,
