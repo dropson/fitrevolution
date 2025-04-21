@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Models\Workouts\TemplateWorkout;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('instruction')->nullable();
-            $table->foreignIdFor(TemplateWorkout::class)->constrained();
+            $table->foreignId('template_workout_id')->nullable()->constrained('template_workouts')->onDelete('set null');
             $table->foreignId('client_id')->constrained('users')->onDelete('cascade');
             $table->unsignedBigInteger('order')->default(0);
             $table->timestamps();

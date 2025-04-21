@@ -6,16 +6,17 @@ namespace App\Http\Requests\Workouts;
 
 final class StoreTemplateWorkoutRequest extends BaseWorkoutRequest
 {
-    public function rules()
+    public function rules(): array
     {
         $rules = parent::rules();
-        unset($rules['exercises.*.exercise_id']);
+
+        $rules['exercises.*.exercise_id'] = ['required', 'integer', 'exists:exercises,id'];
 
         return $rules;
     }
 
     protected function getExerciseIdKey(): string
     {
-        return 'template_workout_exercise_id';
+        return 'id';
     }
 }

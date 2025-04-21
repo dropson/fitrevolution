@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Client;
 
-use App\Actions\Schedule\CreateScheduleWorkoutAction;
+use App\Actions\Workouts\CreateScheduleWorkoutAction;
 use App\Enums\WorkoutScheduleStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\StoreScheduleWorkoutRequest;
