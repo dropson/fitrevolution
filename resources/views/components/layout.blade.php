@@ -14,12 +14,17 @@
 
 </head>
 
-<body class="font-sans text-gray-900 bg-gray-100 antialiased" data-success="{{ session('success') }}" data-error="{{ session('error') }}">
+<body class="font-sans text-gray-900 bg-gray-100 antialiased" data-success="{{ session('success') }}"
+    data-error="{{ session('error') }}">
 
     <div class="flex flex-col min-h-screen">
         <x-auth-session-status class="mb-4" :status="session('status')" />
-        @include('layouts.partials.header')
 
+        @role(App\Enums\UserRoleEnum::Coach->value)
+            @include('layouts.partials.header-coach')
+        @else
+            @include('layouts.partials.header-client')
+        @endrole
         <main class="flex-grow p-12 ">
             {{ $slot }}
         </main>

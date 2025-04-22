@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('workouts', function (Blueprint $table): void {
+        Schema::create('coach_clients', function (Blueprint $table): void {
             $table->id();
-            $table->string('title');
-            $table->text('instruction')->nullable();
-            $table->foreignId('template_workout_id')->nullable()->constrained('template_workouts')->onDelete('set null');
+            $table->foreignId('coach_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('client_id')->constrained('users')->onDelete('cascade');
-            $table->unsignedBigInteger('order')->default(0);
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('workouts');
+        Schema::dropIfExists('coach_clients');
     }
 };

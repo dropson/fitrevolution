@@ -11,6 +11,7 @@ use App\Models\Workouts\TemplateWorkout;
 use App\Models\Workouts\Workout;
 use App\Models\Workouts\WorkoutSchedule;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -64,6 +65,12 @@ final class User extends Authenticatable
         return $this->hasOne(Coach::class);
     }
 
+    public function clientsAsCoach(): BelongsToMany
+    {
+        return $this->belongsToMany(self::class, 'coach_clients', 'coach_id', 'client_id')
+            ->withTimestamps();
+    }
+
     public function exercises(): HasMany
     {
         return $this->hasMany(Exercise::class, 'created_by');
@@ -101,11 +108,6 @@ final class User extends Authenticatable
         return $this->attributes['workout_total_count'] ?? $this->workoutSchedules()->count();
     }
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [

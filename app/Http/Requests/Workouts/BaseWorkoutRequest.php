@@ -18,6 +18,7 @@ abstract class BaseWorkoutRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $data = $this->all();
+
         if (isset($data['exercises'])) {
             foreach ($data['exercises'] as &$exercise) {
                 $exerciseIdKey = $this->getExerciseIdKey();
@@ -30,14 +31,12 @@ abstract class BaseWorkoutRequest extends FormRequest
         }
     }
 
-    protected function rules()
+    protected function rules(): array
     {
         return [
             'title' => ['required', 'string', 'min:5', 'max:70'],
             'instruction' => ['nullable', 'string'],
             'exercises' => ['required', 'array'],
-            'exercises.*.id' => ['integer', 'exists:exercises,id'],
-            'exercises.*.exercise_id' => ['nullable', 'integer'],
             'exercises.*.deleted' => ['sometimes', 'in:0,1'],
             'exercises.*.sets' => ['nullable', 'array'],
             'exercises.*.sets.*.id' => ['nullable', 'integer'],

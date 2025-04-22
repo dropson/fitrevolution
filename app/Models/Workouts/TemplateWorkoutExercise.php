@@ -30,4 +30,9 @@ final class TemplateWorkoutExercise extends Model
     {
         return $this->hasMany(TemplateSet::class);
     }
+
+    public function sets()
+    {
+        return $this->hasMany(TemplateSet::class);
+    }
 }

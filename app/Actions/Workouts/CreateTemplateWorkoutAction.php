@@ -4,39 +4,41 @@ declare(strict_types=1);
 
 namespace App\Actions\Workouts;
 
-use App\Http\Requests\Workouts\StoreTemplateWorkoutRequest;
+use App\Models\Workouts\TemplateSet;
 use App\Models\Workouts\TemplateWorkout;
-use App\Services\TemplateWorkoutExerciseService;
+use App\Models\Workouts\TemplateWorkoutExercise;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-final readonly class CreateTemplateWorkoutAction
+final class CreateTemplateWorkoutAction extends BaseWorkoutAction
 {
-    public function __construct(private TemplateWorkoutExerciseService $exerciseService) {}
-
-    public function handle(StoreTemplateWorkoutRequest $request): TemplateWorkout
+    public function handle(FormRequest $request, ?Model $model = null): Model
     {
         $data = $request->validated();
         $data['client_id'] = Auth::id();
 
         return DB::transaction(function () use ($data) {
             $templateWorkout = TemplateWorkout::create($data);
-
             $this->processExercises($templateWorkout, $data);
 
             return $templateWorkout;
         });
     }
 
-    private function processExercises(TemplateWorkout $templateWorkout, array $data): void
+    protected function getWorkoutExerciseModel(): string
     {
-        if (! isset($data['exercises'])) {
-            return;
-        }
+        return TemplateWorkoutExercise::class;
+    }
 
-        foreach ($data['exercises'] as $index => $exerciseData) {
-            $this->exerciseService->addExerciseWithSets($templateWorkout, $exerciseData, $index);
-        }
+    protected function getSetModel(): string
+    {
+        return TemplateSet::class;
+    }
 
+    protected function getWorkoutModel(): string
+    {
+        return TemplateWorkout::class;
     }
 }
