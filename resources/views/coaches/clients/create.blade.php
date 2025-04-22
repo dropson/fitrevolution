@@ -12,7 +12,7 @@
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
 
                 <div class="max-w-xl">
-                    <form method="POST" class="max-w-2xl" action="">
+                    <form method="POST" class="max-w-2xl" action="{{ route('coaches.clients.store') }}">
 
                         @csrf
 

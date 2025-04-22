@@ -10,9 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 
 abstract class BaseWorkoutAction
 {
-    public function __construct(protected ExerciseService $exerciseService)
-    {
-    }
+    public function __construct(protected ExerciseService $exerciseService) {}
 
     abstract protected function getWorkoutExerciseModel(): string;
 

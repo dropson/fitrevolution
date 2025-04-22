@@ -105,7 +105,7 @@ final readonly class ExerciseService
                 'exercise_id' => $templateExercise->exercise_id,
             ], $index);
 
-            $sets = $templateExercise->templateSets->map(fn($set): array => [
+            $sets = $templateExercise->templateSets->map(fn ($set): array => [
                 'sets_number' => $set->sets_number,
                 'repetitions' => $set->repetitions,
                 'weight' => $set->weight,

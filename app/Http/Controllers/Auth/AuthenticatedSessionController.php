@@ -33,9 +33,11 @@ final class AuthenticatedSessionController extends Controller
         $user = $request->user();
         if ($user->hasRole(UserRoleEnum::Client->value)) {
             return redirect()->intended(route('clients.home', absolute: false));
-        } elseif ($user->hasRole(UserRoleEnum::Coach->value)) {
+        }
+        if ($user->hasRole(UserRoleEnum::Coach->value)) {
             return redirect()->intended(route('coaches.home', absolute: false));
         }
+
         return redirect()->intended(route('clients.home', absolute: false));
     }
 
