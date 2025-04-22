@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
-namespace App\Http\Requests\Client;
+namespace App\Http\Requests\Workouts;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-final class StoreScheduleWorkoutRequest extends FormRequest
+class StoreScheduleWorkoutWorkoutRequest extends FormRequest
 {
     public function authorize(): bool
     {

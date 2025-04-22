@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
 
-    Route::prefix('fit')->name('clients.')->group(function () {
+    Route::prefix('fit')->name('clients.')->namespace('App\Http\Controllers\Client')->middleware(['role:client'])->group(function () {
         Route::get('/home', [HomeController::class, 'index'])->name('home');
 
         Route::prefix('exercises')->name('exercises.')->group(function () {

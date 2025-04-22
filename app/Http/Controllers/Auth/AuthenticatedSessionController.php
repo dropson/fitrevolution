@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\UserRoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
@@ -28,8 +29,13 @@ final class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
-        $request->session()->regenerate();
-
+        $user = $request->session()->regenerate();
+        $user = $request->user();
+        if ($user->hasRole(UserRoleEnum::Client->value)) {
+            return redirect()->intended(route('clients.home', absolute: false));
+        } elseif ($user->hasRole(UserRoleEnum::Coach->value)) {
+            return redirect()->intended(route('coaches.home', absolute: false));
+        }
         return redirect()->intended(route('clients.home', absolute: false));
     }
 
