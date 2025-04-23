@@ -68,7 +68,7 @@ final class User extends Authenticatable
     public function clientsAsCoach(): BelongsToMany
     {
         return $this->belongsToMany(self::class, 'coach_clients', 'coach_id', 'client_id')
-            ->withTimestamps();
+            ->latest();
     }
 
     public function exercises(): HasMany

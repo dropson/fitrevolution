@@ -31,9 +31,26 @@ final class Client extends Model
 
     public function generateInvitationToken(): string
     {
-        $this->invitation_token = Str::random(32);
+        $this->invitation_token = Str::random(9);
         $this->save();
 
         return $this->invitation_token;
+    }
+
+    public function generateInvitationLink()
+    {
+        // Перевіряємо, чи належить клієнт тренеру
+        // if (!auth()->user()->clients->contains($client)) {
+        //     abort(403, 'Немає доступу.');
+        // }
+
+        // // Переконуємося, що токен існує
+        // if (!$client->client->invitation_token) {
+        //     $client->client->generateInvitationToken();
+        // }
+
+        $invitationLink = url('join/'.$this->invitation_token);
+
+        return $invitationLink;
     }
 }

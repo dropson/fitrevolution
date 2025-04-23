@@ -2,10 +2,12 @@
 
 
     <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Client Information
-        </h2>
+        <div class="flex items-center justify-between mb-4">
+            <a href="{{ route('coaches.home') }}" class="btn btn-warning">Back</a>
+            <h3 class="font-bold text-black text-lg">Client Information</h3>
+        </div>
     </div>
+    
 
     <div class="py-5">
         <div class="max-w-2xl mx-auto sm:px-6 lg:px-8 space-y-6">
