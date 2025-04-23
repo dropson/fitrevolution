@@ -7,6 +7,8 @@ import './workout/previewAssignDate'
 import './workout/ScheduledDatePicker'
 import './workout/addExercise'
 import './workout/calendar'
+import './client/inviteClientModal'
+import './client/clipboard'
 // import Alpine from 'alpinejs';
 // window.Alpine = Alpine;
 

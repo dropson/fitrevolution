@@ -41,9 +41,12 @@
                                     <div>
                                         <div class="font-bold">{{ $client->first_name }}
                                             {{ Str::substr($client->last_name, 0, 1) }}</div>
-                                        <div class="text-">
-                                            @if (true)
-                                                <button class="text-indigo-900 hover:underline">Invite clinet</button>
+                                        <div class="text-sm">
+                                            @if ($client->clientProfile->invitation_token)
+                                                <button class=" font-semibold h text-blue-700 over:underline preview-invite-client"
+                                                    data-client-id="{{ $client->id }}"
+                                                    data-invite="{{ $client->clientProfile->generateInvitationLink() }}"
+                                                    data-name="{{ $client->first_name }}">Invite clinet</button>
                                             @else
                                                 Online 2 days ago
                                             @endif
@@ -87,7 +90,7 @@
                                     </span>
                                 </div>
 
-                                <div class="dropdown relative inline-flex rtl:[--placement:bottom-end]">
+                                <div class="dropdown relative inline-flex [--placement:bottom-start] sm:[--placement:right-start]">
                                     <button id="dropdown-menu-icon" type="button"
                                         class="btn btn-circle btn-text btn-sm" aria-haspopup="menu"
                                         aria-expanded="false" aria-label="Dropdown">
@@ -95,8 +98,6 @@
                                     </button>
                                     <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-40 text-sm"
                                         role="menu" aria-orientation="vertical" aria-labelledby="dropdown-menu-icon">
-                                        <li><a class="dropdown-item" href="">Invite client</a>
-                                        </li>
                                         <li><a class="dropdown-item" href="">Profile and settings</a>
                                         </li>
                                         <li><a class="dropdown-item" href="">Jump to workouts</a>

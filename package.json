@@ -24,6 +24,7 @@
         "@fullcalendar/timegrid": "^6.1.17",
         "@tailwindcss/postcss": "^4.0.14",
         "@tailwindcss/vite": "^4.0.14",
+        "clipboard": "^2.0.11",
         "flatpickr": "^4.6.13",
         "flyonui": "^1.3.1",
         "fullcalendar": "^6.1.17",

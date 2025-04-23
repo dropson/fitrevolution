@@ -17,6 +17,8 @@ Route::middleware('auth')->group(function () {
             Route::post('/', [ClientController::class, 'storeClient'])->name('store');
         });
     });
+    // Invite cliend by email
+    Route::post('/invite', [ClientController::class, 'sendInvitation'])->name('send_invitation');
 
     Route::patch('/coach-profile', [CoachProfileController::class, 'updateInformation'])->name('coach_profile.update');
 

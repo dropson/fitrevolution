@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Додаємо обробник для видалення вправ через делегування подій
     const exerciseList = document.querySelector(".exercise-list");
+    if(!exerciseList) return;
     exerciseList.addEventListener("click", (event) => {
         if (event.target.closest(".remove-exercise")) {
             const exerciseCard = event.target.closest(".card.mb-4");
