@@ -2,7 +2,7 @@
     @php
         $menuItems = [
             ['route' => 'coaches.home', 'label' => 'Home'],
-            ['route' => '', 'label' => 'Workouts'],
+            ['route' => 'coaches.workout_templates.index', 'label' => 'My workouts'],
             ['route' => '', 'label' => 'Calendar'],
         ];
     @endphp
@@ -19,7 +19,7 @@
 @endrole
 
 
-<ul class="menu menu-horizontal gap-2 p-0 text-base rtl:ml-20">
+<ul class="menu menu-horizontal gap-2 p-0 text-base rtl:ml-20 ">
     @foreach ($menuItems as $item)
         @if (empty($item['route']))
             @continue

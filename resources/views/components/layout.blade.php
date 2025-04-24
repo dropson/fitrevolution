@@ -32,9 +32,9 @@
         @role(App\Enums\UserRoleEnum::Coach->value)
             @include('layouts.modals.client-invite-modal')
         @else
-            @include('layouts.modals.workout-preview')
             @include('layouts.modals.assign-date-preview')
         @endrole
+        @include('layouts.modals.workout-preview')
     </div>
 </body>
 

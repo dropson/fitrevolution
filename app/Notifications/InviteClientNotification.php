@@ -12,9 +12,7 @@ final class InviteClientNotification extends Notification
 {
     use Queueable;
 
-    public function __construct(private $client)
-    {
-    }
+    public function __construct(private $client) {}
 
     /**
      * Get the notification's delivery channels.
