@@ -1,10 +1,9 @@
-@props(['workout'])
+@props(['workout', 'routePrefix'])
 
 <div class="card w-full h-48">
     <div class="card-body flex p-0">
         <div class="p-3 h-full relative rounded-md bg-indigo-600 text-white transition hover:bg-indigo-700">
             <div>
-                {{-- {{ dd($workout->muscle_groups) }} --}}
                 <h3 class="font-black text-xl">{{ $workout->title }}</h3>
                 <div class="text-xs">
                     60 min ·
@@ -28,7 +27,7 @@
                     </div>
 
                     <div class="tooltip mr-2">
-                        <a href="{{ route('clients.workout_templates.edit', $workout) }}" class="tooltip-toggle flex" aria-label="Tooltip">
+                        <a href="{{ route($routePrefix.'.workout_templates.edit', $workout) }}" class="tooltip-toggle flex" aria-label="Tooltip">
                             <span class="icon-[tabler--pencil-minus] size-7"></span>
                         </a>
                         <span class="tooltip-content tooltip-shown:opacity-100 tooltip-shown:visible" role="tooltip">
@@ -49,7 +48,7 @@
 
                 <div class="absolute right-3 bottom-1">
                     <div class="tooltip mr-2">
-                        <form method="POST" action="{{ route('clients.workout_templates.destroy', $workout) }}">
+                        <form method="POST" action="{{ route($routePrefix.'.workout_templates.destroy', $workout) }}">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="tooltip-toggle flex" aria-label="Tooltip" onclick="return confirm('Are you sure?')">

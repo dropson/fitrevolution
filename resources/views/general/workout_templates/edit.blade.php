@@ -1,7 +1,7 @@
 <x-layout>
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
         <div class="flex items-center justify-between">
-            <a href="{{ route('clients.workout_templates.index') }}" class="btn btn-warning">Back</a>
+            <a href="{{ route($routePrefix.'.workout_templates.index') }}" class="btn btn-warning">Back</a>
             <h3 class="font-bold text-black text-lg">Edit Your Workout</h3>
         </div>
 
@@ -10,7 +10,7 @@
                 <div class="card min-h-screen">
                     <div class="card-body flex">
 
-                        <form method="POST" action="{{ route('clients.workout_templates.update', $workout) }}">
+                        <form method="POST" action="{{ route($routePrefix.'.workout_templates.update', $workout) }}">
                             @method('PATCH')
                             @csrf
                             <div class="flex w-full items-start gap-3 mb-5 flex-wrap sm:flex-nowrap">

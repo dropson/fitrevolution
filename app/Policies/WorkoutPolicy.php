@@ -16,11 +16,11 @@ final class WorkoutPolicy
 
     public function update(User $user, Workout $workout): bool
     {
-        return $workout->client_id === $user->id;
+        return $this->view($user, $workout);
     }
 
     public function delete(User $user, Workout $workout): bool
     {
-        return $workout->client_id === $user->id;
+        return $this->view($user, $workout);
     }
 }

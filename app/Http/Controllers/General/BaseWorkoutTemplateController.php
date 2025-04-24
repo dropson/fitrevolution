@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers\General;
 
 use App\Actions\Workouts\CreateTemplateWorkoutAction;
 use App\Actions\Workouts\UpdateTemplateWorkoutAction;
@@ -14,17 +14,13 @@ use App\Models\Exercise;
 use App\Models\Workouts\TemplateWorkout;
 use Illuminate\Support\Facades\Auth;
 
-final class TemplateWorkoutController extends Controller
+abstract class BaseWorkoutTemplateController extends Controller
 {
-    public static function index()
-    {
-        $user = Auth::user();
-        $workouts = $user->workoutTemplatesAsClient->load('exercises');
+    protected $role;
 
-        return view('clients.workout_templates.index', [
-            'workouts' => $workouts,
-        ]);
-    }
+    public function __construct(protected string $routePrefix) {}
+
+    abstract protected function index();
 
     public function createTemplate()
     {
@@ -38,8 +34,9 @@ final class TemplateWorkoutController extends Controller
             ->latest()
             ->get();
 
-        return view('clients.workout_templates.create', [
+        return view('general.workout_templates.create', [
             'exercises' => $exercises->load('creator'),
+            'routePrefix' => $this->routePrefix,
         ]);
     }
 
@@ -47,11 +44,12 @@ final class TemplateWorkoutController extends Controller
     {
         $action->handle($request);
 
-        return to_route('clients.workout_templates.index')->with('success', 'Workout was created');
+        return to_route("{$this->routePrefix}.workout_templates.index")->with('success', 'Workout was created');
     }
 
     public function editTemplate(TemplateWorkout $template)
     {
+
         $this->authorize('view', $template);
 
         $template = $template->load([
@@ -73,9 +71,10 @@ final class TemplateWorkoutController extends Controller
             ->latest()
             ->get();
 
-        return view('clients.workout_templates.edit', [
+        return view('general.workout_templates.edit', [
             'workout' => $template,
             'exercises' => $exercises->load('creator'),
+            'routePrefix' => $this->routePrefix,
         ]);
     }
 
@@ -93,7 +92,7 @@ final class TemplateWorkoutController extends Controller
         $this->authorize('delete', $template);
         $template->delete();
 
-        return back()->with('success', 'Exercise was deleted');
+        return back()->with('success', 'Workout was deleted');
     }
 
     public function getTempateWorkout(TemplateWorkout $templateWorkout): TemplateWorkoutReource

@@ -7,6 +7,7 @@ namespace App\Actions\Workouts;
 use App\Services\ExerciseService;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 abstract class BaseWorkoutAction
 {
@@ -20,8 +21,24 @@ abstract class BaseWorkoutAction
 
     protected function checkOwnership(Model $model, int $userId): void
     {
-        if ($model->client_id !== $userId) {
-            throw new Exception('Ви не є власником цього об’єкта.');
+        $user = Auth::user();
+        // Перевіряємо, чи користувач має роль тренера
+        if ($user->hasRole('coach')) {
+            // Для тренера перевіряємо coach_id
+            if ($model->coach_id !== $userId) {
+                throw new Exception('Ви не є власником цього об’єкта.');
+            }
+        }
+        // Перевіряємо, чи користувач має роль клієнта
+        elseif ($user->hasRole('client')) {
+            // Для клієнта перевіряємо client_id
+            if ($model->client_id !== $userId) {
+                throw new Exception('Ви не є власником цього об’єкта.');
+            }
+        }
+        // Якщо користувач не має жодної з ролей, кидаємо виняток
+        else {
+            throw new Exception('У вас немає прав для доступу до цього об’єкта.');
         }
     }
 

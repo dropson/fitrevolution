@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Workouts;
 
+use App\Enums\UserRoleEnum;
 use App\Models\Workouts\TemplateSet;
 use App\Models\Workouts\TemplateWorkout;
 use App\Models\Workouts\TemplateWorkoutExercise;
@@ -17,7 +18,12 @@ final class CreateTemplateWorkoutAction extends BaseWorkoutAction
     public function handle(FormRequest $request, ?Model $model = null): Model
     {
         $data = $request->validated();
-        $data['client_id'] = Auth::id();
+        $user = Auth::user();
+        if ($user->hasRole(UserRoleEnum::Client->value)) {
+            $data['client_id'] = $user->id;
+        } else {
+            $data['coach_id'] = $user->id;
+        }
 
         return DB::transaction(function () use ($data) {
             $templateWorkout = TemplateWorkout::create($data);

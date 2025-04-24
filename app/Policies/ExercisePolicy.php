@@ -9,13 +9,19 @@ use App\Models\User;
 
 final class ExercisePolicy
 {
-    public function update(User $user, Exercise $exercise): bool
+    public function view(User $user, Exercise $exercise): bool
     {
         return $exercise->creator->id === $user->id;
+
+    }
+
+    public function update(User $user, Exercise $exercise): bool
+    {
+        return $this->view($user, $exercise);
     }
 
     public function delete(User $user, Exercise $exercise): bool
     {
-        return $exercise->creator->id === $user->id;
+        return $this->view($user, $exercise);
     }
 }

@@ -1,6 +1,6 @@
-<header class="sticky top-0  text-white p-4 z-10 md:h-15">
+<header class="sticky top-0  text-white p-4 z-10 md:h-15 ">
 
-    <nav class="navbar shadow absolute bg-accent/70 start-0 top-0 z-[1]">
+    <nav class="navbar shadow absolute start-0 top-0 z-[1] bg-accent">
 
         <div class="navbar-start">
             <a class="link text-base-content link-neutral text-xl font-semibold no-underline" href="#">
@@ -8,7 +8,7 @@
             </a>
         </div>
 
-        <div class="navbar-center max-md:hidden ">
+        <div class="navbar-center max-md:hidden">
             
             @include('layouts.partials.navigation')
         </div>
