@@ -43,6 +43,13 @@ final class ClientController extends Controller
         return to_route('coaches.home')->with('success', ' Client was crated');
     }
 
+    public function showClient(User $client)
+    {
+        return view('coaches.clients.index', [
+            'client' => $client,
+        ]);
+    }
+
     public function showJoinForm($token)
     {
         $client = Client::where('invitation_token', $token)->firstOrFail();

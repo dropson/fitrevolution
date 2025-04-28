@@ -1,4 +1,4 @@
-@props(['workout', 'routePrefix'])
+@props(['workout', 'routePrefix', 'client' => null])
 
 <div class="card w-full h-48">
     <div class="card-body flex p-0">
@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="tooltip mr-2">
-                        <a href="{{ route($routePrefix.'.workout_templates.edit', $workout) }}" class="tooltip-toggle flex" aria-label="Tooltip">
+                        <a href="{{ route($routePrefix.'.workout_templates.edit', $client ? [$client, $workout] : $workout) }}" class="tooltip-toggle flex" aria-label="Tooltip">
                             <span class="icon-[tabler--pencil-minus] size-7"></span>
                         </a>
                         <span class="tooltip-content tooltip-shown:opacity-100 tooltip-shown:visible" role="tooltip">
@@ -48,7 +48,7 @@
 
                 <div class="absolute right-3 bottom-1">
                     <div class="tooltip mr-2">
-                        <form method="POST" action="{{ route($routePrefix.'.workout_templates.destroy', $workout) }}">
+                        <form method="POST" action="{{ route($routePrefix.'.workout_templates.destroy', $client ? [$client, $workout] : $workout) }}">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="tooltip-toggle flex" aria-label="Tooltip" onclick="return confirm('Are you sure?')">

@@ -2,28 +2,35 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\General;
+namespace App\Http\Controllers\Coach;
 
 use App\Actions\Workouts\CreateTemplateWorkoutAction;
 use App\Actions\Workouts\UpdateTemplateWorkoutAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Workouts\StoreTemplateWorkoutRequest;
 use App\Http\Requests\Workouts\UpdateTemplateWorkoutRequest;
-use App\Http\Resources\TemplateWorkoutReource;
 use App\Models\Exercise;
+use App\Models\User;
 use App\Models\Workouts\TemplateWorkout;
 use Illuminate\Support\Facades\Auth;
 
-abstract class BaseWorkoutTemplateController extends Controller
+final class ClientWorkoutTemplatesController extends Controller
 {
-    protected $role;
-
-    public function __construct(protected string $routePrefix) {}
-
-    abstract protected function index();
-
-    public function createTemplate()
+    public function index(User $client)
     {
+        $workouts = $client->workoutTemplatesAsClient->load('exercises');
+
+        return view('coaches.clients.workout_templates.index', [
+            'workouts' => $workouts,
+            'client' => $client,
+            'routePrefix' => 'coaches.clients',
+            'routeParams' => ['client' => $client],
+        ]);
+    }
+
+    public function createTemplate(User $client)
+    {
+
         $user = Auth::user();
         $exercises = Exercise::query()
             ->where(function ($query) use ($user): void {
@@ -34,24 +41,22 @@ abstract class BaseWorkoutTemplateController extends Controller
             ->latest()
             ->get();
 
-        return view('general.workout_templates.create', [
+        return view('coaches.clients.workout_templates.create', [
             'exercises' => $exercises->load('creator'),
-            'routePrefix' => $this->routePrefix,
+            'routePrefix' => 'coaches.clients',
+            'client' => $client,
         ]);
     }
 
-    public function storeTemplate(StoreTemplateWorkoutRequest $request, CreateTemplateWorkoutAction $action)
+    public function storeTemplate(StoreTemplateWorkoutRequest $request, User $client, CreateTemplateWorkoutAction $action)
     {
-        $action->handle($request);
+        $action->handle($request, null, $client);
 
-        return to_route("{$this->routePrefix}.workout_templates.index")->with('success', 'Workout was created');
+        return to_route('coaches.clients.workout_templates.index', $client)->with('success', 'Workout was created');
     }
 
-    public function editTemplate(TemplateWorkout $template)
+    public function editTemplate(User $client, TemplateWorkout $template)
     {
-
-        $this->authorize('view', $template);
-
         $template = $template->load([
             'templateWorkoutExercises.exercise' => function ($query): void {
                 $query->select('id', 'title', 'muscle_group');
@@ -60,7 +65,6 @@ abstract class BaseWorkoutTemplateController extends Controller
                 $query->select('template_workout_exercise_id', 'sets_number', 'repetitions', 'weight');
             },
         ]);
-
         $user = Auth::user();
         $exercises = Exercise::query()
             ->where(function ($query) use ($user): void {
@@ -71,34 +75,28 @@ abstract class BaseWorkoutTemplateController extends Controller
             ->latest()
             ->get();
 
-        return view('general.workout_templates.edit', [
+        return view('coaches.clients.workout_templates.edit', [
             'workout' => $template,
+            'routePrefix' => 'coaches.clients',
             'exercises' => $exercises->load('creator'),
-            'routePrefix' => $this->routePrefix,
+            'client' => $client,
         ]);
     }
 
-    public function updateTemplate(UpdateTemplateWorkoutRequest $request, TemplateWorkout $template, UpdateTemplateWorkoutAction $action)
+    public function updateTemplate(UpdateTemplateWorkoutRequest $request, User $client, TemplateWorkout $template, UpdateTemplateWorkoutAction $action)
     {
         $this->authorize('update', $template);
         $action->handle($request, $template);
 
-        return back()->with('success', 'Workout was updated');
+        return back()->with('success', 'Workout Tempate was updated');
 
     }
 
-    public function destroyTemplate(TemplateWorkout $template)
+    public function destroyTemplate(User $client, TemplateWorkout $template)
     {
         $this->authorize('delete', $template);
         $template->delete();
 
         return back()->with('success', 'Workout was deleted');
-    }
-
-    public function getTempateWorkout(TemplateWorkout $templateWorkout): TemplateWorkoutReource
-    {
-        $templateWorkout->load('templateWorkoutExercises.exercise', 'templateWorkoutExercises.templateSets');
-
-        return new TemplateWorkoutReource($templateWorkout);
     }
 }
