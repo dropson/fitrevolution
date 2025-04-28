@@ -46,8 +46,8 @@ final class AppServiceProvider extends ServiceProvider
         Model::preventLazyLoading();
 
         View::composer('clients.exercises.*', ExerciseViewComposer::class);
-        View::composer('general.workout_templates.create', ExerciseViewComposer::class);
-        View::composer('general.workout_templates.edit', ExerciseViewComposer::class);
+        View::composer('components.workouts.create-form', ExerciseViewComposer::class);
+        View::composer('components.workouts.edit-form', ExerciseViewComposer::class);
         View::composer('clients.workouts.edit', ExerciseViewComposer::class);
     }
 }

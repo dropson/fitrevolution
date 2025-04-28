@@ -1,13 +1,11 @@
 <x-layout>
 
-
     <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
         <div class="flex items-center justify-between mb-4">
             <a href="{{ route('coaches.home') }}" class="btn btn-warning">Back</a>
             <h3 class="font-bold text-black text-lg">Client Information</h3>
         </div>
     </div>
-    
 
     <div class="py-5">
         <div class="max-w-2xl mx-auto sm:px-6 lg:px-8 space-y-6">
@@ -20,11 +18,11 @@
 
                         <div class="flex w-full items-start gap-3 mb-5 flex-wrap sm:flex-nowrap">
                             {{-- First Name --}}
-                            <x-forms.input-group label="First Name" name="first_name"
-                                value="{{ old('first_name') }}" :errors="$errors" />
+                            <x-forms.input-group label="First Name" name="first_name" value="{{ old('first_name') }}"
+                                :errors="$errors" />
                             {{-- Last Name --}}
-                            <x-forms.input-group label="Last Name" name="last_name"
-                                value="{{ old('last_name') }}" :errors="$errors" />
+                            <x-forms.input-group label="Last Name" name="last_name" value="{{ old('last_name') }}"
+                                :errors="$errors" />
                             {{-- Gender --}}
                         </div>
 

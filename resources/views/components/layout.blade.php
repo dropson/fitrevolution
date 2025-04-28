@@ -22,6 +22,7 @@
 
         @role(App\Enums\UserRoleEnum::Coach->value)
             @include('layouts.partials.header-coach')
+            @yield('subheader')
         @else
             @include('layouts.partials.header-client')
         @endrole

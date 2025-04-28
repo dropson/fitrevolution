@@ -27,7 +27,7 @@
                             class="row-hover border-gray-100 border-2 bg-white transition-all scale-100 hover:scale-[1.02]">
                             <td class="p-4">
                                 <div class="flex gap-3">
-                                    <div class="avatar placeholder">
+                                    <a href="" class="avatar placeholder">
                                         <div
                                             class="@if ($client->gender->value === App\Enums\UserGenderEnum::Male->value) bg-accent/70
                                         @else
@@ -37,13 +37,13 @@
                                                     class="font-bold">{{ Str::substr($client->first_name, 0, 1) }}</span>
                                                 {{ Str::substr($client->last_name, 0, 1) }}</span>
                                         </div>
-                                    </div>
+                                    </a>
                                     <div>
-                                        <div class="font-bold">{{ $client->first_name }}
-                                            {{ Str::substr($client->last_name, 0, 1) }}</div>
-                                        <div class="text-sm">
+                                        <a href="{{ route('coaches.clients.show', $client) }}" class="font-bold text-xl hover:text-primary transition-all">{{ $client->first_name }}
+                                            {{ Str::substr($client->last_name, 0, 1) }}</a>
+                                        <div class="text-xs">
                                             @if ($client->clientProfile->invitation_token)
-                                                <button class=" font-semibold h text-blue-700 over:underline preview-invite-client"
+                                                <button class=" font-semibold h text-blue-700 over:underline preview-invite-client hover:underline"
                                                     data-client-id="{{ $client->id }}"
                                                     data-invite="{{ $client->clientProfile->generateInvitationLink() }}"
                                                     data-name="{{ $client->first_name }}">Invite clinet</button>

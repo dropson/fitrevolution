@@ -42,7 +42,12 @@ final class ClientController extends Controller
 
         return to_route('coaches.home')->with('success', ' Client was crated');
     }
-
+    public function showClient(User $client)
+    {
+        return view('coaches.clients.index', [
+            'client' => $client
+        ]);
+    }
     public function showJoinForm($token)
     {
         $client = Client::where('invitation_token', $token)->firstOrFail();
@@ -56,7 +61,7 @@ final class ClientController extends Controller
         $user = $client->user;
 
         $request->validate([
-            'email' => ['required', 'email', 'unique:users,email,'.$user->id],
+            'email' => ['required', 'email', 'unique:users,email,' . $user->id],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
@@ -73,7 +78,7 @@ final class ClientController extends Controller
     public function sendInvitation(Request $request)
     {
         $client = User::where('id', $request->client_id)->firstOrFail();
-        if (! auth()->user()->clientsAsCoach->contains($client->id)) {
+        if (!auth()->user()->clientsAsCoach->contains($client->id)) {
             abort(403, 'No poermission');
         }
 
