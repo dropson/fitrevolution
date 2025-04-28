@@ -7,18 +7,15 @@ namespace App\Http\Controllers\Coach;
 use App\Actions\Workouts\CreateTemplateWorkoutAction;
 use App\Actions\Workouts\UpdateTemplateWorkoutAction;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\General\BaseWorkoutTemplateController;
 use App\Http\Requests\Workouts\StoreTemplateWorkoutRequest;
 use App\Http\Requests\Workouts\UpdateTemplateWorkoutRequest;
 use App\Http\Resources\TemplateWorkoutReource;
 use App\Models\Exercise;
-use App\Models\User;
 use App\Models\Workouts\TemplateWorkout;
 use Illuminate\Support\Facades\Auth;
 
 final class WorkoutTemplateController extends Controller
 {
-
     public function index()
     {
         $user = Auth::user();
@@ -30,6 +27,7 @@ final class WorkoutTemplateController extends Controller
             'routePrefix' => 'coaches',
         ]);
     }
+
     public function createTemplate()
     {
         $user = Auth::user();
@@ -47,12 +45,14 @@ final class WorkoutTemplateController extends Controller
             'routePrefix' => 'coaches',
         ]);
     }
+
     public function storeTemplate(StoreTemplateWorkoutRequest $request, CreateTemplateWorkoutAction $action)
     {
         $action->handle($request);
 
-        return to_route("coaches.workout_templates.index")->with('success', 'Workout Tempate  was created');
+        return to_route('coaches.workout_templates.index')->with('success', 'Workout Tempate  was created');
     }
+
     public function editTemplate(TemplateWorkout $template)
     {
         $template = $template->load([
@@ -80,6 +80,7 @@ final class WorkoutTemplateController extends Controller
             'routePrefix' => 'coaches',
         ]);
     }
+
     public function updateTemplate(UpdateTemplateWorkoutRequest $request, TemplateWorkout $template, UpdateTemplateWorkoutAction $action)
     {
         $this->authorize('update', $template);

@@ -1,34 +1,33 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Coach;
 
 use App\Actions\Workouts\CreateTemplateWorkoutAction;
 use App\Actions\Workouts\UpdateTemplateWorkoutAction;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\General\BaseWorkoutTemplateController;
 use App\Http\Requests\Workouts\StoreTemplateWorkoutRequest;
 use App\Http\Requests\Workouts\UpdateTemplateWorkoutRequest;
 use App\Models\Exercise;
 use App\Models\User;
 use App\Models\Workouts\TemplateWorkout;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ClientWorkoutTemplatesController extends Controller
+final class ClientWorkoutTemplatesController extends Controller
 {
-
     public function index(User $client)
     {
-        $user = Auth::user();
-        $workouts = TemplateWorkout::where([['client_id', $client->id], ['coach_id', $user->id]])->latest()->get();
-        $workouts->load('exercises');
+        $workouts = $client->workoutTemplatesAsClient->load('exercises');
+
         return view('coaches.clients.workout_templates.index', [
             'workouts' => $workouts,
             'client' => $client,
             'routePrefix' => 'coaches.clients',
-            'routeParams' => ['client' => $client]
+            'routeParams' => ['client' => $client],
         ]);
     }
+
     public function createTemplate(User $client)
     {
 
@@ -45,15 +44,17 @@ class ClientWorkoutTemplatesController extends Controller
         return view('coaches.clients.workout_templates.create', [
             'exercises' => $exercises->load('creator'),
             'routePrefix' => 'coaches.clients',
-            'client' => $client
+            'client' => $client,
         ]);
     }
+
     public function storeTemplate(StoreTemplateWorkoutRequest $request, User $client, CreateTemplateWorkoutAction $action)
     {
         $action->handle($request, null, $client);
 
-        return to_route("coaches.clients.workout_templates.index", $client)->with('success', 'Workout was created');
+        return to_route('coaches.clients.workout_templates.index', $client)->with('success', 'Workout was created');
     }
+
     public function editTemplate(User $client, TemplateWorkout $template)
     {
         $template = $template->load([
@@ -78,10 +79,11 @@ class ClientWorkoutTemplatesController extends Controller
             'workout' => $template,
             'routePrefix' => 'coaches.clients',
             'exercises' => $exercises->load('creator'),
-            'client' => $client
+            'client' => $client,
         ]);
     }
-    public function updateTemplate(UpdateTemplateWorkoutRequest $request,User $client, TemplateWorkout $template, UpdateTemplateWorkoutAction $action)
+
+    public function updateTemplate(UpdateTemplateWorkoutRequest $request, User $client, TemplateWorkout $template, UpdateTemplateWorkoutAction $action)
     {
         $this->authorize('update', $template);
         $action->handle($request, $template);
