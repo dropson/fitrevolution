@@ -57,13 +57,30 @@ final class ClientController extends Controller
         return view('auth.join', ['client' => $client]);
     }
 
+    public function destroyClient(Request $request, User $client)
+    {
+        $user = Auth::user();
+        if (!$user->clientsAsCoach()->where('client_id', $client->id)->exists()) {
+            abort(403, 'This client is not assigned to you.');
+        }
+        $deletePermanently = $request->has('delete_permanently');
+        if ($deletePermanently) {
+            $client->delete();
+
+            return redirect()->route('coaches.home')->with('success', 'Client permanently deleted.');
+        }
+        $user->clientsAsCoach()->detach($client->id);
+
+        return redirect()->route('coaches.home')->with('success', 'Client removed from your list.');
+
+    }
     public function storeClinetByToken(Request $request, $token)
     {
         $client = Client::where('invitation_token', $token)->firstOrFail();
         $user = $client->user;
 
         $request->validate([
-            'email' => ['required', 'email', 'unique:users,email,'.$user->id],
+            'email' => ['required', 'email', 'unique:users,email,' . $user->id],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
@@ -80,7 +97,7 @@ final class ClientController extends Controller
     public function sendInvitation(Request $request)
     {
         $client = User::where('id', $request->client_id)->firstOrFail();
-        if (! auth()->user()->clientsAsCoach->contains($client->id)) {
+        if (!auth()->user()->clientsAsCoach->contains($client->id)) {
             abort(403, 'No poermission');
         }
 

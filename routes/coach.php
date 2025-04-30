@@ -19,6 +19,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/create', [ClientController::class, 'createClient'])->name('create');
             Route::post('/', [ClientController::class, 'storeClient'])->name('store');
             Route::get('/{client}/home', [ClientController::class, 'showClient'])->name('show');
+            Route::delete('/{client}', [ClientController::class, 'destroyClient'])->name('destroy');
 
             // Template Workouts
             Route::prefix('{client}')->group(function () {

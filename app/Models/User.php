@@ -22,11 +22,6 @@ final class User extends Authenticatable
 {
     use HasFactory, HasRoles, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
         'first_name',
         'last_name',
@@ -35,15 +30,38 @@ final class User extends Authenticatable
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
+
+    protected static function booted()
+    {
+        static::deleting(function ($user) {
+            if ($user->clientProfile) {
+                $user->clientProfile->delete();
+            }
+
+            if ($user->coachProfile) {
+                $user->coachProfile->delete();
+            }
+
+            $user->coaches()->detach();
+            $user->clientsAsCoach()->detach();
+
+            $user->exercises()->delete();
+
+            $user->workoutsAsClient()->each(function ($workout) {
+                $workout->schedules()->delete();
+                $workout->delete();
+            });
+
+            $user->workoutTemplatesForClient()->delete();
+
+            TemplateWorkout::where('author_id', $user->id)->delete();
+            $user->workoutSchedulesAsClient()->delete();
+        });
+    }
 
     public static function withWorkoutCounts()
     {
@@ -67,10 +85,12 @@ final class User extends Authenticatable
 
     public function clientsAsCoach(): BelongsToMany
     {
-        return $this->belongsToMany(self::class, 'coach_clients', 'coach_id', 'client_id')
-            ->latest();
+        return $this->belongsToMany(self::class, 'coach_clients', 'coach_id', 'client_id');
     }
-
+    public function coaches(): BelongsToMany
+    {
+        return $this->belongsToMany(self::class, 'coach_clients', 'client_id', 'coach_id');
+    }
     public function exercises(): HasMany
     {
         return $this->hasMany(Exercise::class, 'created_by');
@@ -79,11 +99,6 @@ final class User extends Authenticatable
     public function workoutsAsClient(): HasMany
     {
         return $this->hasMany(Workout::class, 'client_id')->latest();
-    }
-
-    public function workoutTemplatesAsClient()
-    {
-        return $this->hasMany(TemplateWorkout::class, 'client_id')->where('is_visible_to_client', true)->latest();
     }
 
     public function workoutTemplatesForClient()

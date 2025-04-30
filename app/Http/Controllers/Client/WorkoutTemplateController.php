@@ -20,7 +20,7 @@ final class WorkoutTemplateController extends Controller
     {
         $user = Auth::user();
 
-        $workouts = $user->workoutTemplatesAsClient->load('exercises');
+        $workouts = $user->workoutTemplatesForClient()->where('is_visible_to_client', true)->get()->load('exercises');
 
         return view('clients.workout_templates.index', [
             'workouts' => $workouts,

@@ -36,7 +36,7 @@ final class DatabaseSeeder extends Seeder
             'height' => 48,
         ]);
         $client->assignRole(UserRoleEnum::Client->value);
-        $client->workoutTemplatesAsClient()->create([
+        $client->workoutTemplatesForClient()->create([
             'title' => 'Chest day',
             'instruction' => 'Lorem, ipsum dolor sit amet consectetur adipisicing.',
         ]);
