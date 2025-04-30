@@ -17,8 +17,10 @@ final class TemplateWorkout extends Model
         'title',
         'instruction',
         'order',
+        'author_id',
         'client_id',
-        'coach_id',
+        "is_visible_to_client",
+        "is_editable_by_client"
     ];
 
     public function client(): BelongsTo
@@ -28,7 +30,7 @@ final class TemplateWorkout extends Model
 
     public function coach(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'coach_id');
+        return $this->belongsTo(User::class, 'author_id');
     }
 
     public function exercises(): BelongsToMany
@@ -46,6 +48,10 @@ final class TemplateWorkout extends Model
     {
         $exercises = $this->exercises;
 
-        return $exercises->pluck('muscle_group')->map(fn ($muscleGroup) => $muscleGroup->value)->unique()->values();
+        return $exercises->pluck('muscle_group')->map(fn($muscleGroup) => $muscleGroup->value)->unique()->values();
     }
+    protected $casts = [
+        "is_visible_to_client" => 'boolean',
+        "is_editable_by_client" => 'boolean'
+    ];
 }

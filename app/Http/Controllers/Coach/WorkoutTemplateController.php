@@ -20,7 +20,7 @@ final class WorkoutTemplateController extends Controller
     {
         $user = Auth::user();
 
-        $workouts = $user->workoutTemplatesAsCoach->load('exercises');
+        $workouts = $user->workoutTemplatesAsBase->load('exercises');
 
         return view('coaches.workout_templates.index', [
             'workouts' => $workouts,

@@ -11,7 +11,11 @@ final class StoreTemplateWorkoutRequest extends BaseWorkoutRequest
         $rules = parent::rules();
 
         $rules['exercises.*.exercise_id'] = ['required', 'integer', 'exists:exercises,id'];
-
+        $isClientTemplateWorkoutController = $this->routeIs('coaches.clients.workout_templates.store');
+        if($isClientTemplateWorkoutController ){
+            $rules['is_visible_to_client'] = ['required', 'boolean'];
+            $rules['is_editable_by_client'] = ['required', 'boolean'];
+        }
         return $rules;
     }
 

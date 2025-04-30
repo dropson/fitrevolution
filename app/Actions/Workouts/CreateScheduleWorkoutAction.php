@@ -30,9 +30,6 @@ final class CreateScheduleWorkoutAction extends BaseWorkoutAction
             $templateWorkout = TemplateWorkout::with('templateWorkoutExercises.exercise', 'templateWorkoutExercises.templateSets')
                 ->findOrFail($data['template_workout_id']);
 
-            // Перевіряємо, чи належить шаблон користувачу
-            $this->checkOwnership($templateWorkout, $user->id);
-
             // Перевіряємо ліміт тренувань на день
             if (WorkoutSchedule::where('client_id', $templateWorkout->client_id)
                 ->where('scheduled_date', $data['scheduled_date'])

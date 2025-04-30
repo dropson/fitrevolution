@@ -13,11 +13,13 @@ final class TemplateWorkoutPolicy
     public function view(User $user, TemplateWorkout $templateWorkout): bool
     {
         if ($user->hasRole(UserRoleEnum::Coach->value)) {
-            return $templateWorkout->coach_id === $user->id;
+            return ($templateWorkout->author_id === $user->id) ||
+                in_array($templateWorkout->client_id, $user->clientsAsCoach->pluck('id')->toArray());
         }
 
         if ($user->hasRole(UserRoleEnum::Client->value)) {
-            return $templateWorkout->client_id === $user->id;
+            return ($templateWorkout->author_id === $user->id) ||
+                ($templateWorkout->client_id === $user->id && $templateWorkout->is_visible_to_client);
         }
 
         return false;
@@ -25,11 +27,21 @@ final class TemplateWorkoutPolicy
 
     public function update(User $user, TemplateWorkout $templateWorkout): bool
     {
-        return $this->view($user, $templateWorkout);
+        if ($user->hasRole(UserRoleEnum::Coach->value)) {
+            return ($templateWorkout->author_id === $user->id) ||
+                in_array($templateWorkout->client_id, $user->clientsAsCoach->pluck('id')->toArray());
+        }
+
+        if ($user->hasRole(UserRoleEnum::Client->value)) {
+            return ($templateWorkout->author_id === $user->id) ||
+                ($templateWorkout->client_id === $user->id && $templateWorkout->is_editable_by_client);
+        }
+
+        return false;
     }
 
     public function delete(User $user, TemplateWorkout $templateWorkout): bool
     {
-        return $this->view($user, $templateWorkout);
+        return $this->update($user, $templateWorkout);
     }
 }

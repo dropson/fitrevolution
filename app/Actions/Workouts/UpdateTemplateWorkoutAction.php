@@ -17,12 +17,12 @@ final class UpdateTemplateWorkoutAction extends BaseWorkoutAction
     public function handle(FormRequest $request, ?Model $model = null): Model
     {
         $data = $request->validated();
-        $this->checkOwnership($model, Auth::id());
-
         return DB::transaction(function () use ($model, $data): ?Model {
             $model->update([
                 'title' => $data['title'],
                 'instruction' => $data['instruction'] ?? null,
+                "is_visible_to_client" => $data['is_visible_to_client'],
+                "is_editable_by_client" => $data['is_editable_by_client']
             ]);
             $this->processExercises($model, $data);
 
