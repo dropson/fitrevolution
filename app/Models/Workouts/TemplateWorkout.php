@@ -19,8 +19,13 @@ final class TemplateWorkout extends Model
         'order',
         'author_id',
         'client_id',
-        "is_visible_to_client",
-        "is_editable_by_client"
+        'is_visible_to_client',
+        'is_editable_by_client',
+    ];
+
+    protected $casts = [
+        'is_visible_to_client' => 'boolean',
+        'is_editable_by_client' => 'boolean',
     ];
 
     public function client(): BelongsTo
@@ -48,10 +53,6 @@ final class TemplateWorkout extends Model
     {
         $exercises = $this->exercises;
 
-        return $exercises->pluck('muscle_group')->map(fn($muscleGroup) => $muscleGroup->value)->unique()->values();
+        return $exercises->pluck('muscle_group')->map(fn ($muscleGroup) => $muscleGroup->value)->unique()->values();
     }
-    protected $casts = [
-        "is_visible_to_client" => 'boolean',
-        "is_editable_by_client" => 'boolean'
-    ];
 }

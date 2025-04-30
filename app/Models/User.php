@@ -35,34 +35,6 @@ final class User extends Authenticatable
         'remember_token',
     ];
 
-    protected static function booted()
-    {
-        static::deleting(function ($user) {
-            if ($user->clientProfile) {
-                $user->clientProfile->delete();
-            }
-
-            if ($user->coachProfile) {
-                $user->coachProfile->delete();
-            }
-
-            $user->coaches()->detach();
-            $user->clientsAsCoach()->detach();
-
-            $user->exercises()->delete();
-
-            $user->workoutsAsClient()->each(function ($workout) {
-                $workout->schedules()->delete();
-                $workout->delete();
-            });
-
-            $user->workoutTemplatesForClient()->delete();
-
-            TemplateWorkout::where('author_id', $user->id)->delete();
-            $user->workoutSchedulesAsClient()->delete();
-        });
-    }
-
     public static function withWorkoutCounts()
     {
         return self::withCount([
@@ -87,10 +59,12 @@ final class User extends Authenticatable
     {
         return $this->belongsToMany(self::class, 'coach_clients', 'coach_id', 'client_id');
     }
+
     public function coaches(): BelongsToMany
     {
         return $this->belongsToMany(self::class, 'coach_clients', 'client_id', 'coach_id');
     }
+
     public function exercises(): HasMany
     {
         return $this->hasMany(Exercise::class, 'created_by');
@@ -128,6 +102,34 @@ final class User extends Authenticatable
     public function getWorkoutTotalCountAttribute()
     {
         return $this->attributes['workout_total_count'] ?? $this->workoutSchedules()->count();
+    }
+
+    protected static function booted(): void
+    {
+        self::deleting(function ($user): void {
+            if ($user->clientProfile) {
+                $user->clientProfile->delete();
+            }
+
+            if ($user->coachProfile) {
+                $user->coachProfile->delete();
+            }
+
+            $user->coaches()->detach();
+            $user->clientsAsCoach()->detach();
+
+            $user->exercises()->delete();
+
+            $user->workoutsAsClient()->each(function ($workout): void {
+                $workout->schedules()->delete();
+                $workout->delete();
+            });
+
+            $user->workoutTemplatesForClient()->delete();
+
+            TemplateWorkout::where('author_id', $user->id)->delete();
+            $user->workoutSchedulesAsClient()->delete();
+        });
     }
 
     protected function casts(): array

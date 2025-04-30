@@ -39,8 +39,6 @@ final class Client extends Model
 
     public function generateInvitationLink()
     {
-        $invitationLink = url('join/'.$this->invitation_token);
-
-        return $invitationLink;
+        return url('join/'.$this->invitation_token);
     }
 }

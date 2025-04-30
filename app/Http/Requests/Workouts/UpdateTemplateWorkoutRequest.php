@@ -24,16 +24,17 @@ final class UpdateTemplateWorkoutRequest extends BaseWorkoutRequest
 
                 // Якщо це не ID із template_workout_exercises, перевіряємо, чи це ID із exercises (нова вправа)
                 $existsInExercises = \App\Models\Exercise::where('id', $value)->exists();
-                if (!$existsInExercises) {
+                if (! $existsInExercises) {
                     $fail('ID вправи має існувати в таблиці вправ або в таблиці проміжних вправ шаблону.');
                 }
-            }
+            },
         ];
         $isClientTemplateWorkoutController = $this->routeIs('coaches.clients.workout_templates.update');
         if ($isClientTemplateWorkoutController) {
             $rules['is_visible_to_client'] = ['required', 'boolean'];
             $rules['is_editable_by_client'] = ['required', 'boolean'];
         }
+
         return $rules;
     }
 
