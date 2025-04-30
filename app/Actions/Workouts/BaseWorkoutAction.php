@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Actions\Workouts;
 
 use App\Services\ExerciseService;
-use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 
 abstract class BaseWorkoutAction
 {

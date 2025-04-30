@@ -88,12 +88,22 @@
                         <li><a class="dropdown-item" href="">Pause client</a>
                         </li>
                         <li>
-                            <form method="POST" action="">
+                            <form method="POST" action="{{ route('coaches.clients.destroy', $client) }}">
                                 @method('DELETE')
                                 @csrf
-                                <button type="submit" class="dropdown-item" onclick="return confirm('Are you sure?')"
-                                    href="">Delete
-                                    client</button>
+                                <button type="submit" class="dropdown-item"
+                                    onclick="return confirm('Are you sure?')" href="">Delete
+                                    client for you</button>
+                            </form>
+                        </li>
+                        <li>
+                            <form method="POST" action="{{ route('coaches.clients.destroy', $client) }}">
+                                @method('DELETE')
+                                @csrf
+                                <input type="hidden" name="delete_permanently" value="1">
+                                <button type="submit" class="dropdown-item text-red-700"
+                                    onclick="return confirm('Are you sure?')" href="">Delete
+                                    permanently</button>
                             </form>
                         </li>
                     </ul>

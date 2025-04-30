@@ -57,6 +57,24 @@ final class ClientController extends Controller
         return view('auth.join', ['client' => $client]);
     }
 
+    public function destroyClient(Request $request, User $client)
+    {
+        $user = Auth::user();
+        if (! $user->clientsAsCoach()->where('client_id', $client->id)->exists()) {
+            abort(403, 'This client is not assigned to you.');
+        }
+        $deletePermanently = $request->has('delete_permanently');
+        if ($deletePermanently) {
+            $client->delete();
+
+            return redirect()->route('coaches.home')->with('success', 'Client permanently deleted.');
+        }
+        $user->clientsAsCoach()->detach($client->id);
+
+        return redirect()->route('coaches.home')->with('success', 'Client removed from your list.');
+
+    }
+
     public function storeClinetByToken(Request $request, $token)
     {
         $client = Client::where('invitation_token', $token)->firstOrFail();

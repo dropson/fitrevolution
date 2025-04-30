@@ -22,10 +22,10 @@ final class CreateScheduleWorkoutAction extends BaseWorkoutAction
 
     public function handle(FormRequest $request, ?Model $model = null): Model
     {
-        $user = Auth::user();
+        Auth::user();
         $data = $request->validated();
 
-        return DB::transaction(function () use ($data, $user) {
+        return DB::transaction(function () use ($data) {
             // Завантажуємо шаблон із пов’язаними вправами та підходами
             $templateWorkout = TemplateWorkout::with('templateWorkoutExercises.exercise', 'templateWorkoutExercises.templateSets')
                 ->findOrFail($data['template_workout_id']);

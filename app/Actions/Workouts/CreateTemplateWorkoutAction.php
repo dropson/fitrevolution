@@ -23,7 +23,7 @@ final class CreateTemplateWorkoutAction extends BaseWorkoutAction
         $user = Auth::user();
 
         $data['author_id'] = $user->id;
-        if ($client) {
+        if ($client instanceof \App\Models\User) {
             $data['client_id'] = $client->id;
         } elseif ($user->hasRole(UserRoleEnum::Client->value)) {
             $data['client_id'] = $user->id;

@@ -39,18 +39,6 @@ final class Client extends Model
 
     public function generateInvitationLink()
     {
-        // Перевіряємо, чи належить клієнт тренеру
-        // if (!auth()->user()->clients->contains($client)) {
-        //     abort(403, 'Немає доступу.');
-        // }
-
-        // // Переконуємося, що токен існує
-        // if (!$client->client->invitation_token) {
-        //     $client->client->generateInvitationToken();
-        // }
-
-        $invitationLink = url('join/'.$this->invitation_token);
-
-        return $invitationLink;
+        return url('join/'.$this->invitation_token);
     }
 }
