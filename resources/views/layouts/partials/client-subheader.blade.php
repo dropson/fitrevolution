@@ -2,7 +2,7 @@
 
     $menuItems = [
         ['route' => 'coaches.clients.show','label' => 'Home'],
-        ['route' => 'coaches.clients.workout_templates.index', 'label' => 'My workouts'],
+        ['route' => 'coaches.clients.workout_templates.index', 'label' => 'Workouts'],
     ];
 @endphp
 

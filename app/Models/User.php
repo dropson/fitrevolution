@@ -83,12 +83,19 @@ final class User extends Authenticatable
 
     public function workoutTemplatesAsClient()
     {
+        return $this->hasMany(TemplateWorkout::class, 'client_id')->where('is_visible_to_client', true)->latest();
+    }
+
+    public function workoutTemplatesForClient()
+    {
         return $this->hasMany(TemplateWorkout::class, 'client_id')->latest();
     }
 
-    public function workoutTemplatesAsCoach()
+    public function workoutTemplatesAsBase()
     {
-        return $this->hasMany(TemplateWorkout::class, 'coach_id')->latest();
+        return $this->hasMany(TemplateWorkout::class, 'author_id')
+            ->whereNull('client_id')
+            ->latest();
     }
 
     public function workoutSchedulesAsClient(): HasMany

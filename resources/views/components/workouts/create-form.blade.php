@@ -1,13 +1,13 @@
-
 @props([
     'routePrefix' => '',
     'routeParams' => [],
-    'exercises'
-    
+    'exercises',
+    'isEditableByClient' => true,
+    'isVisibleToClient' => true,
 ])
 <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
     <div class="flex items-center justify-between">
-        <a href="{{ route($routePrefix .'.workout_templates.index', $routeParams) }}" class="btn btn-warning">Back</a>
+        <a href="{{ route($routePrefix . '.workout_templates.index', $routeParams) }}" class="btn btn-warning">Back</a>
         <h3 class="font-bold text-black text-lg">Create Workout</h3>
     </div>
     <div class="flex gap-5 mt-5">
@@ -15,8 +15,34 @@
             <div class="card min-h-screen">
                 <div class="card-body flex">
 
-                    <form method="POST" action="{{ route($routePrefix .'.workout_templates.store', $routeParams) }}">
+                    <form method="POST" action="{{ route($routePrefix . '.workout_templates.store', $routeParams) }}">
                         @csrf
+                        {{-- Checkbox if user can edit workout template  --}}
+                        @if (auth()->user()->hasRole(\App\Enums\UserRoleEnum::Coach->value) && Route::currentRouteName() === 'coaches.clients.workout_templates.create')
+                            <ul
+                                class="border-base-content/25 divide-base-content/25 rounded-box flex w-full flex-col border *:w-full *:cursor-pointer max-sm:divide-y sm:flex-row sm:divide-x mb-4">
+                                <li class="w-full">
+                                    <label class="flex items-center gap-3 p-3">
+                                        <input type="hidden" name="is_editable_by_client" value="0">
+                                        <input type="checkbox" class="checkbox checkbox-primary"
+                                            name="is_editable_by_client" id="is_editable_by_client" value="1"
+                                            {{ old('is_editable_by_client', $isEditableByClient) ? 'checked' : '' }}
+                                            class="checkbox" />
+                                        <span class="label-text text-base"> Allow client to edit tempate </span>
+                                    </label>
+                                </li>
+                                <li class="w-full">
+                                    <label class="flex items-center gap-3 p-3">
+                                        <input type="hidden" name="is_visible_to_client" value="0">
+                                        <input type="checkbox" class="checkbox checkbox-primary"
+                                            name="is_visible_to_client" id="is_visible_to_client" value="1"
+                                            {{ old('is_visible_to_client', $isVisibleToClient) ? 'checked' : '' }}
+                                            class="checkbox" />
+                                        <span class="label-text text-base"> Make visible for client </span>
+                                    </label>
+                                </li>
+                            </ul>
+                        @endif
                         <div class="flex w-full items-start gap-3 mb-5 flex-wrap sm:flex-nowrap">
                             {{-- First Name --}}
                             <x-forms.input-group label="Title" class="w-full" name="title"
@@ -42,8 +68,7 @@
                             @enderror
                         </div>
 
-                        <div
-                            class="flex w-full items-center justify-center gap-3 mb-5 mt-10 flex-wrap sm:flex-nowrap">
+                        <div class="flex w-full items-center justify-center gap-3 mb-5 mt-10 flex-wrap sm:flex-nowrap">
                             <button type="submit" class="btn btn-primary btn-lg ">Create workout</button>
                         </div>
                     </form>

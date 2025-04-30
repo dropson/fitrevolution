@@ -13,20 +13,27 @@ final class UpdateTemplateWorkoutRequest extends BaseWorkoutRequest
         $rules = parent::rules();
 
         // Додаємо правило для exercise_id
-        $rules['exercises.*.exercise_id'] = ['required', function ($attribute, $value, $fail): void {
-            // Перевіряємо, чи це ID із template_workout_exercises (існуюча вправа)
-            $existsInTemplateWorkoutExercises = TemplateWorkoutExercise::where('id', $value)->exists();
-            if ($existsInTemplateWorkoutExercises) {
-                return;
-            }
+        $rules['exercises.*.exercise_id'] = [
+            'required',
+            function ($attribute, $value, $fail): void {
+                // Перевіряємо, чи це ID із template_workout_exercises (існуюча вправа)
+                $existsInTemplateWorkoutExercises = TemplateWorkoutExercise::where('id', $value)->exists();
+                if ($existsInTemplateWorkoutExercises) {
+                    return;
+                }
 
-            // Якщо це не ID із template_workout_exercises, перевіряємо, чи це ID із exercises (нова вправа)
-            $existsInExercises = \App\Models\Exercise::where('id', $value)->exists();
-            if (! $existsInExercises) {
-                $fail('ID вправи має існувати в таблиці вправ або в таблиці проміжних вправ шаблону.');
+                // Якщо це не ID із template_workout_exercises, перевіряємо, чи це ID із exercises (нова вправа)
+                $existsInExercises = \App\Models\Exercise::where('id', $value)->exists();
+                if (!$existsInExercises) {
+                    $fail('ID вправи має існувати в таблиці вправ або в таблиці проміжних вправ шаблону.');
+                }
             }
-        }];
-
+        ];
+        $isClientTemplateWorkoutController = $this->routeIs('coaches.clients.workout_templates.update');
+        if ($isClientTemplateWorkoutController) {
+            $rules['is_visible_to_client'] = ['required', 'boolean'];
+            $rules['is_editable_by_client'] = ['required', 'boolean'];
+        }
         return $rules;
     }
 

@@ -18,25 +18,30 @@
                 <div class="absolute left-3 bottom-1 font-semibold">
 
                     <div class="tooltip mr-2">
-                        <button type="button" data-workout="{{ $workout->id }}" class="tooltip-toggle flex preview-template" aria-label="Tooltip">
+                        <button type="button" data-workout="{{ $workout->id }}"
+                            class="tooltip-toggle flex preview-template" aria-label="Tooltip">
                             <span class="icon-[tabler--eye] size-7"></span>
-                        </и>
-                        <span class="tooltip-content tooltip-shown:opacity-100 tooltip-shown:visible" role="tooltip">
-                            <span class="tooltip-body">Preview</span>
-                        </span>
+                            </и>
+                            <span class="tooltip-content tooltip-shown:opacity-100 tooltip-shown:visible"
+                                role="tooltip">
+                                <span class="tooltip-body">Preview</span>
+                            </span>
                     </div>
 
+                    @can('update', $workout)
                     <div class="tooltip mr-2">
-                        <a href="{{ route($routePrefix.'.workout_templates.edit', $client ? [$client, $workout] : $workout) }}" class="tooltip-toggle flex" aria-label="Tooltip">
+                        <a href="{{ route($routePrefix . '.workout_templates.edit', $client ? [$client, $workout] : $workout) }}"
+                            class="tooltip-toggle flex" aria-label="Tooltip">
                             <span class="icon-[tabler--pencil-minus] size-7"></span>
                         </a>
                         <span class="tooltip-content tooltip-shown:opacity-100 tooltip-shown:visible" role="tooltip">
                             <span class="tooltip-body">Edit</span>
                         </span>
                     </div>
-
+                    @endcan
                     <div class="tooltip mr-2">
-                        <button type="button"  data-id="{{ $workout->id }}" data-title="{{ $workout->title }}" class="tooltip-toggle flex preview-assign-date" aria-label="Tooltip">
+                        <button type="button" data-id="{{ $workout->id }}" data-title="{{ $workout->title }}"
+                            class="tooltip-toggle flex preview-assign-date" aria-label="Tooltip">
 
                             <span class="icon-[tabler--square-rounded-plus-2] size-7"></span>
                         </button>
@@ -45,13 +50,15 @@
                         </span>
                     </div>
                 </div>
-
+                @can('delete', $workout)
                 <div class="absolute right-3 bottom-1">
                     <div class="tooltip mr-2">
-                        <form method="POST" action="{{ route($routePrefix.'.workout_templates.destroy', $client ? [$client, $workout] : $workout) }}">
+                        <form method="POST"
+                            action="{{ route($routePrefix . '.workout_templates.destroy', $client ? [$client, $workout] : $workout) }}">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="tooltip-toggle flex" aria-label="Tooltip" onclick="return confirm('Are you sure?')">
+                            <button type="submit" class="tooltip-toggle flex" aria-label="Tooltip"
+                                onclick="return confirm('Are you sure?')">
                                 <span class="icon-[tabler--trash] size-7"></span>
                             </button>
                             <span class="tooltip-content tooltip-shown:opacity-100 tooltip-shown:visible"
@@ -61,6 +68,7 @@
                         </form>
                     </div>
                 </div>
+                @endcan
             </div>
         </div>
     </div>

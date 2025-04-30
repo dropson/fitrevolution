@@ -17,8 +17,9 @@ use Illuminate\Support\Facades\Auth;
 final class ClientWorkoutTemplatesController extends Controller
 {
     public function index(User $client)
-    {
-        $workouts = $client->workoutTemplatesAsClient->load('exercises');
+    {   
+
+        $workouts =  $client->workoutTemplatesForClient->load('exercises');
 
         return view('coaches.clients.workout_templates.index', [
             'workouts' => $workouts,

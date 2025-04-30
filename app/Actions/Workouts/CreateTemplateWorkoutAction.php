@@ -18,15 +18,15 @@ final class CreateTemplateWorkoutAction extends BaseWorkoutAction
 {
     public function handle(FormRequest $request, ?Model $model = null, ?User $client = null): Model
     {
+
         $data = $request->validated();
         $user = Auth::user();
 
-        if ($client instanceof \App\Models\User) {
+        $data['author_id'] = $user->id;
+        if ($client) {
             $data['client_id'] = $client->id;
         } elseif ($user->hasRole(UserRoleEnum::Client->value)) {
             $data['client_id'] = $user->id;
-        } elseif ($user->hasRole(UserRoleEnum::Coach->value)) {
-            $data['coach_id'] = $user->id;
         }
 
         return DB::transaction(function () use ($data) {
