@@ -19,6 +19,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/create', [ClientController::class, 'createClient'])->name('create');
             Route::post('/', [ClientController::class, 'storeClient'])->name('store');
             Route::get('/{client}/home', [ClientController::class, 'showClient'])->name('show');
+            Route::patch('{client}/status', [ClientController::class, 'updateStatus'])->name('update-status');
             Route::delete('/{client}', [ClientController::class, 'destroyClient'])->name('destroy');
 
             // Template Workouts

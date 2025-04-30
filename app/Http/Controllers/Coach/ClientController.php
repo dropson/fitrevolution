@@ -75,6 +75,25 @@ final class ClientController extends Controller
 
     }
 
+    public function updateStatus(Request $request, User $client)
+    {
+        $user = Auth::user();
+
+        if (! $user->clientsAsCoach()->where('client_id', $client->id)->exists()) {
+            abort(403, 'This client is not assigned to you.');
+        }
+
+        $validated = $request->validate([
+            'status' => ['required', Rule::enum(ClientStatusEnum::class)],
+        ]);
+
+        $client->clientProfile()->update([
+            'status' => $validated['status'],
+        ]);
+
+        return redirect()->back()->with('success', 'Status updated successfully.');
+    }
+
     public function storeClinetByToken(Request $request, $token)
     {
         $client = Client::where('invitation_token', $token)->firstOrFail();

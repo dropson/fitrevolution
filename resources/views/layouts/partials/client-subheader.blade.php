@@ -1,7 +1,7 @@
 @php
 
     $menuItems = [
-        ['route' => 'coaches.clients.show','label' => 'Home'],
+        ['route' => 'coaches.clients.show', 'label' => 'Home'],
         ['route' => 'coaches.clients.workout_templates.index', 'label' => 'Workouts'],
     ];
 @endphp
@@ -85,14 +85,27 @@
                         </li>
                         <li><a class="dropdown-item" href="">Jump to workouts</a>
                         </li>
-                        <li><a class="dropdown-item" href="">Pause client</a>
+                        <li><a class="dropdown-item">
+                                <form action="{{ route('coaches.clients.update-status', $client) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+
+                                    <input type="hidden" name="status"
+                                        value="{{ $client->clientProfile->status->value === 'Active' ? 'Paused' : 'Active' }}">
+
+                                    <button type="submit">
+                                        {{ $client->clientProfile->status->value === 'Active' ? 'Paused' : 'Activate' }}
+                                    </button>
+                                </form>
+                            </a>
+                        </li>
                         </li>
                         <li>
                             <form method="POST" action="{{ route('coaches.clients.destroy', $client) }}">
                                 @method('DELETE')
                                 @csrf
-                                <button type="submit" class="dropdown-item"
-                                    onclick="return confirm('Are you sure?')" href="">Delete
+                                <button type="submit" class="dropdown-item" onclick="return confirm('Are you sure?')"
+                                    href="">Delete
                                     client for you</button>
                             </form>
                         </li>

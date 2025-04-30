@@ -12,7 +12,12 @@ final class HomeController extends Controller
     public function index()
     {
         $coach = Auth::user();
-        $coach->load('clientsAsCoach.clientProfile');
+        $coach->load([
+            'clientsAsCoach' => function ($query): void {
+                $query->latest('users.created_at');
+            },
+            'clientsAsCoach.clientProfile',
+        ]);
 
         return view('coaches.home', ['coach' => $coach]);
     }

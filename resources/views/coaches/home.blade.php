@@ -23,6 +23,11 @@
                 <tbody>
 
                     @forelse ($coach->clientsAsCoach as $client)
+                        @php
+                            $clientStatus =
+                                $client->clientProfile->status->value === App\Enums\ClientStatusEnum::Paused->value;
+                            $statusStyle = $clientStatus ? 'opacity-40' : '';
+                        @endphp
                         <tr
                             class="row-hover border-gray-100 border-2 bg-white transition-all scale-100 hover:scale-[1.02]">
                             <td class="p-4">
@@ -31,7 +36,7 @@
                                         <div
                                             class="@if ($client->gender->value === App\Enums\UserGenderEnum::Male->value) bg-accent/70
                                         @else
-                                            bg-error/70 @endif 
+                                            bg-error/70 @endif  {{ $statusStyle }}
                                             text-secondary-content w-15 rounded-3xl">
                                             <span class="text-2xl uppercase"><span
                                                     class="font-bold">{{ Str::substr($client->first_name, 0, 1) }}</span>
@@ -39,16 +44,31 @@
                                         </div>
                                     </a>
                                     <div>
-                                        <a href="{{ route('coaches.clients.show', $client) }}" class="font-bold text-xl hover:text-primary transition-all">{{ $client->first_name }}
+                                        <a href="{{ route('coaches.clients.show', $client) }}"
+                                            class="font-bold text-xl hover:text-primary transition-all {{ $statusStyle }}">{{ $client->first_name }}
                                             {{ Str::substr($client->last_name, 0, 1) }}</a>
                                         <div class="text-xs">
-                                            @if ($client->clientProfile->invitation_token)
-                                                <button class=" font-semibold h text-blue-700 over:underline preview-invite-client hover:underline"
-                                                    data-client-id="{{ $client->id }}"
-                                                    data-invite="{{ $client->clientProfile->generateInvitationLink() }}"
-                                                    data-name="{{ $client->first_name }}">Invite clinet</button>
+                                            @if ($clientStatus)
+                                                <form action="{{ route('coaches.clients.update-status', $client) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <input type="hidden" name="status"
+                                                        value="{{ $client->clientProfile->status->value === 'Active' ? 'Paused' : 'Active' }}">
+                                                    <button type="submit" class="flex font-bold">
+                                                        {{ $client->clientProfile->status->value === 'Active' ? 'Paused' : 'Activate' }}
+                                                    </button>
+                                                </form>
                                             @else
-                                                Online 2 days ago
+                                                @if ($client->clientProfile->invitation_token)
+                                                    <button
+                                                        class=" font-semibold h text-blue-700 over:underline preview-invite-client hover:underline"
+                                                        data-client-id="{{ $client->id }}"
+                                                        data-invite="{{ $client->clientProfile->generateInvitationLink() }}"
+                                                        data-name="{{ $client->first_name }}">Invite clinet</button>
+                                                @else
+                                                    Online 2 days ago
+                                                @endif
                                             @endif
                                         </div>
                                     </div>
@@ -57,19 +77,19 @@
                             {{-- Workouts done --}}
                             <td class="p-4 text-center">
                                 <span
-                                    class="badge @if (false) badge-success @else badge-warning @endif p-3 rounded-2xl py-4 font-bold">
+                                    class="badge @if (false) badge-success @else badge-warning @endif {{ $statusStyle }} p-3 rounded-2xl py-4 font-bold">
                                     3 / 7
                                 </span>
                             </td>
                             {{-- Workouts scheduled --}}
                             <td class="p-4 text-center">
                                 <span
-                                    class="badge @if (true) badge-success @else badge-error @endif p-3 rounded-2xl py-4 font-bold">
+                                    class="badge @if (true) badge-success @else badge-error @endif {{ $statusStyle }} p-3 rounded-2xl py-4 font-bold">
                                     3
                                 </span>
                             </td>
                             {{-- Workout Name --}}
-                            <td class="p-4 text-center">
+                            <td class="p-4 text-center {{ $statusStyle }}">
                                 @if (true)
                                     <a href=""
                                         class=" font-bold text-accent/80 transition-all hover:text-accent">Workout
@@ -90,7 +110,8 @@
                                     </span>
                                 </div>
 
-                                <div class="dropdown relative inline-flex [--placement:bottom-start] sm:[--placement:right-start]">
+                                <div
+                                    class="dropdown relative inline-flex [--placement:bottom-start] sm:[--placement:right-start]">
                                     <button id="dropdown-menu-icon" type="button"
                                         class="btn btn-circle btn-text btn-sm" aria-haspopup="menu"
                                         aria-expanded="false" aria-label="Dropdown">
@@ -102,10 +123,24 @@
                                         </li>
                                         <li><a class="dropdown-item" href="">Jump to workouts</a>
                                         </li>
-                                        <li><a class="dropdown-item" href="">Pause client</a>
+                                        <li><a class="dropdown-item">
+                                                <form action="{{ route('coaches.clients.update-status', $client) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+
+                                                    <input type="hidden" name="status"
+                                                        value="{{ $client->clientProfile->status->value === 'Active' ? 'Paused' : 'Active' }}">
+
+                                                    <button type="submit">
+                                                        {{ $client->clientProfile->status->value === 'Active' ? 'Paused' : 'Activate' }}
+                                                    </button>
+                                                </form>
+                                            </a>
                                         </li>
                                         <li>
-                                            <form method="POST" action="{{ route('coaches.clients.destroy', $client) }}">
+                                            <form method="POST"
+                                                action="{{ route('coaches.clients.destroy', $client) }}">
                                                 @method('DELETE')
                                                 @csrf
                                                 <button type="submit" class="dropdown-item"
@@ -114,7 +149,8 @@
                                             </form>
                                         </li>
                                         <li>
-                                            <form method="POST" action="{{ route('coaches.clients.destroy', $client) }}">
+                                            <form method="POST"
+                                                action="{{ route('coaches.clients.destroy', $client) }}">
                                                 @method('DELETE')
                                                 @csrf
                                                 <input type="hidden" name="delete_permanently" value="1">
